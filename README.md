@@ -1,1 +1,0 @@
-Freenlance cross-platform project 
