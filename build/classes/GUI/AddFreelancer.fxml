@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="GUI.AddFreelancerController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AddFreelancerController">
    <children>
       <VBox layoutX="79.0" layoutY="68.0" prefHeight="445.0" prefWidth="102.0" spacing="30.0">
          <children>
@@ -31,5 +30,7 @@
       </VBox>
       <Button fx:id="Button_inscrire" layoutX="261.0" layoutY="407.0" mnemonicParsing="false" onAction="#ON_inscrire_clicked" prefHeight="31.0" prefWidth="151.0" text="S'inscrire" />
       <Button fx:id="button_annuler" layoutX="445.0" layoutY="407.0" mnemonicParsing="false" onAction="#on_annuler_clicked" prefHeight="31.0" prefWidth="151.0" text="Annuler" />
+      <Button fx:id="Add_image_button" layoutX="626.0" layoutY="171.0" mnemonicParsing="false" onAction="#add_image_action" text="AJouter Photo" />
+      <Label fx:id="imageLabel" layoutX="666.0" layoutY="226.0" text="Label" />
    </children>
 </AnchorPane>

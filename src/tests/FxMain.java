@@ -32,6 +32,7 @@ public class FxMain extends Application {
             
             // Set up the scene and the stage
             Scene scene = new Scene(root);
+            scene.getStylesheets().add("/GUI/style.css");
             primaryStage.setScene(scene);
             primaryStage.setTitle("Your Window Title"); // Set the title of the window
             primaryStage.show(); // Show the window

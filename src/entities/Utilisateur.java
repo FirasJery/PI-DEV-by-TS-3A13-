@@ -10,28 +10,31 @@ package entities;
  * @author Firas
  */
 public abstract class Utilisateur {
-        protected int id;
-        protected String name;
-        protected String email;
-        protected String password;
-        protected String role;
 
-        public Utilisateur(int id, String name, String email, String password, String role) {
+    protected int id;
+    protected String name;
+    protected String email;
+    protected String password;
+    protected String role;
+    protected String ImagePath;
+
+    public Utilisateur(int id, String name, String email, String password, String role, String ImagePath) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.ImagePath = ImagePath;
     }
 
-    public Utilisateur(String name, String email, String password, String role) {
+    public Utilisateur(String name, String email, String password, String role, String ImagePath) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.ImagePath = ImagePath;
+
     }
-        
-        
 
     public int getId() {
         return id;
@@ -73,6 +76,15 @@ public abstract class Utilisateur {
         this.role = role;
     }
 
+    public String getImagePath() {
+        return ImagePath;
+    }
+
+    public void setImagePath(String ImagePath) {
+        this.ImagePath = ImagePath;
+    }
+    
+    
     @Override
     public String toString() {
         return "";
@@ -80,6 +92,5 @@ public abstract class Utilisateur {
 
     public Utilisateur() {
     }
-    
-    
+
 }

@@ -5,6 +5,7 @@
  */
 package entities;
 
+
 /**
  *
  * @author Firas
@@ -18,22 +19,23 @@ public class Freelancer  extends Utilisateur{
     public Freelancer() {
     }
 
-    public Freelancer(String bio, String experience, String education, int total_jobs, int id, String name, String email, String password, String role) {
-        super(id, name, email, password, role);
+    public Freelancer(String bio, String experience, String education, int total_jobs, int id, String name, String email, String password, String role, String ImagePath) {
+        super(id, name, email, password, role, ImagePath);
         this.bio = bio;
         this.experience = experience;
         this.education = education;
         this.total_jobs = total_jobs;
     }
 
-    public Freelancer(String bio, String experience, String education, int total_jobs, String name, String email, String password, String role) {
-        super(name, email, password, role);
+    public Freelancer(String bio, String experience, String education, int total_jobs, String name, String email, String password, String role, String ImagePath) {
+        super(name, email, password, role, ImagePath);
         this.bio = bio;
         this.experience = experience;
         this.education = education;
         this.total_jobs = total_jobs;
     }
 
+   
     public String getBio() {
         return bio;
     }
@@ -68,8 +70,9 @@ public class Freelancer  extends Utilisateur{
 
     @Override
     public String toString() {
-        return "Freelancer{ name=" + name + ", email=" + email + ", password=" + password + ", bio=" + bio + ", experience=" + experience + ", education=" + education + ", total_jobs=" + total_jobs +  "} \n";
+        return "Freelancer{" + "bio=" + bio + ", experience=" + experience + ", education=" + education + ", total_jobs=" + total_jobs + '}';
     }
+
     
     
     

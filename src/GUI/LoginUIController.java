@@ -57,7 +57,8 @@ public class LoginUIController implements Initializable {
     }
 
     @FXML
-    private void ON_seconnecter_clicked(ActionEvent event) {
+    private void ON_seconnecter_clicked(ActionEvent event) throws IOException {
+       String page = ""; 
         String email = TF_Email_login.getText();
         String password = TF_Paswword_login.getText();
         int id = -1;
@@ -85,18 +86,21 @@ public class LoginUIController implements Initializable {
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("Entreprise connecté");
                 alert.show();
+                
                 break;
             case "Freelancer":
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("Freemlancer connecté");
                 alert.show();
+                page = "/GUI/FreelancerProfileUI.fxml" ;
+            
+          
+           
                 break;
         }
-        }
+             try {
 
-         try {
-
-            Parent page1 = FXMLLoader.load(getClass().getResource("/GUI/MyapplicationUI.fxml"));
+            Parent page1 = FXMLLoader.load(getClass().getResource(page));
 
             Scene scene = new Scene(page1);
 
@@ -111,6 +115,9 @@ public class LoginUIController implements Initializable {
            System.out.println(ex.getMessage());
 
         }
+        }
+
+        
     }
 
     @FXML

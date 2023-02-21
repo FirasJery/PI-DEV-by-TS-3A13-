@@ -5,22 +5,27 @@
  */
 package entities;
 
+
 /**
  *
  * @author Firas
  */
 public class Admin extends Utilisateur{
     
-    public Admin(int id, String name, String email, String password, String role) {
-        super(id, name, email, password, role);
-    }
-
-    public Admin(String name, String email, String password, String role) {
-        super(name, email, password, role);
-    }
+   
 
     public Admin() {
     }
+
+    public Admin(int id, String name, String email, String password, String role, String ImagePath) {
+        super(id, name, email, password, role, ImagePath);
+    }
+
+    public Admin(String name, String email, String password, String role, String ImagePath) {
+        super(name, email, password, role, ImagePath);
+    }
+    
+    
 
     @Override
     public String toString() {

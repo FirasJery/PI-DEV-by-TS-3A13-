@@ -25,26 +25,5 @@ public class MainClass {
 
         ServiceUser sa = new ServiceUser();
         
-        Admin a = new Admin("3ezzdin", "moudir", "password", "Admin");
-        Entreprise e = new Entreprise("e","e","e", 1, "e", "e", "e", "Entreprise");
-        Freelancer f = new Freelancer("f", "f", "f", 15, "f", "f", "f", "Freelancer");
-        
-        Admin am = new Admin(1,"3ezzdinmodiif", "moudir", "password", "Admin");
-        Entreprise em = new Entreprise("modddif","e","e", 1,2, "e", "e", "e", "Entreprise");
-        Freelancer fm = new Freelancer("modiif", "f", "f", 15, 3,"f", "f", "f", "Freelancer");
-      
-        
-        List <Utilisateur> lu = sa.getAll();
-         lu.stream().forEach(System.out::println);
-         
-
-        
-        
-        
-        
-        
-        
-        
-     
      }
 }

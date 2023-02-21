@@ -5,6 +5,8 @@
  */
 package entities;
 
+
+
 /**
  *
  * @author Firas
@@ -19,21 +21,23 @@ public class Entreprise extends Utilisateur{
     public Entreprise() {
     }
 
-    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, int id, String name, String email, String password, String role) {
-        super(id, name, email, password, role);
+    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, int id, String name, String email, String password, String role, String StringPath) {
+        super(id, name, email, password, role, StringPath);
         this.Domaine = Domaine;
         this.Info = Info;
         this.location = location;
         this.numberOfEmployees = numberOfEmployees;
     }
 
-    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, String name, String email, String password, String role) {
-        super(name, email, password, role);
+    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, String name, String email, String password, String role, String StringPath) {
+        super(name, email, password, role, StringPath);
         this.Domaine = Domaine;
         this.Info = Info;
         this.location = location;
         this.numberOfEmployees = numberOfEmployees;
     }
+
+   
 
     public String getDomaine() {
         return Domaine;
