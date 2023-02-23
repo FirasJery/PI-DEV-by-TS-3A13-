@@ -94,7 +94,7 @@ public class Test {
 
     @Override
     public String toString() {
-        return "Test{" + "nom=" + nom + ", description=" + description +  "} \n";
+        return "un "  + nom + "\n" + description +  " ";
     }
     
     

@@ -86,7 +86,7 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question{" + "question=" + question + '}';
+        return "" + "question: " + question + '\n'+"réponse: "+reponse+"\n note: "+note+"";
     }
     
     

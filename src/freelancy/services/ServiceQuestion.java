@@ -6,6 +6,7 @@
 package freelancy.services;
 
 import freelancy.entities.Question;
+import freelancy.entities.Test;
 import freelancy.utils.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -127,6 +128,21 @@ public class ServiceQuestion implements Iservice<Question> {
         }
 
         return p;
+    }
+    
+    public  long getLastId(Test p) {
+    long lastId = 0;
+    try {
+            String req = "SELECT test.idTest FROM test ORDER BY idTest DESC LIMIT 1";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                lastId = rs.getLong("idTest");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    return lastId;
     }
     
 }

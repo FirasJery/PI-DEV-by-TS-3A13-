@@ -19,7 +19,7 @@ public class DataSource {
     
     private final String USER = "root";
     private final String PWD = "";
-    private final String URL = "jdbc:mysql://localhost:3306/pidev";
+    private final String URL = "jdbc:mysql://localhost:3306/devpi";
     
     private DataSource() {
         try {

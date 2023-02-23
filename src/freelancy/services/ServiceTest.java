@@ -84,7 +84,7 @@ public class ServiceTest implements Iservice<Test> {
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                Test p = new Test( rs.getString(2), rs.getString(3));
+                Test p = new Test( rs.getLong(1),rs.getString(2), rs.getString(3));
                  list.add(p);
                 
             }
@@ -115,20 +115,7 @@ public class ServiceTest implements Iservice<Test> {
         return p;
     }
     
-    public  long getLastId(Test p) {
-    long lastId = 0;
-    try {
-            String req = "SELECT test.idTest FROM test ORDER BY idTest DESC LIMIT 1";
-            Statement st = cnx.createStatement();
-            ResultSet rs = st.executeQuery(req);
-            while (rs.next()) {
-                lastId = rs.getLong("idTest");
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    return lastId;
-    }
+    
         
     
 }

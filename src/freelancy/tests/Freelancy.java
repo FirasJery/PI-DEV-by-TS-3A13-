@@ -36,8 +36,8 @@ public class Freelancy {
         ServiceTest st = new ServiceTest();
         ServiceCategorie sg = new ServiceCategorie();
         ServiceFreelancer sf = new ServiceFreelancer();
-        long s= st.getLastId(p1);
-        Question p3 = new Question("le ciel est-il vert?", "non", 2 ,s);
+        //long s= st.getLastId(p1);
+        //Question p3 = new Question("le ciel est-il vert?", "non", 2 ,s);
         ServiceQuestion sq = new ServiceQuestion();
         ServiceCertification sc = new ServiceCertification();
         Test t=st.getOneById(11);
