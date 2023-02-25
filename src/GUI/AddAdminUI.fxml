@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AddAdminUIController">
+   <children>
+      <Label layoutX="130.0" layoutY="30.0" text="Nom" />
+      <Label layoutX="123.0" layoutY="97.0" prefHeight="21.0" prefWidth="62.0" text="Email" />
+      <TextField id="TF_nom" fx:id="TF_NOM" layoutX="207.0" layoutY="25.0" />
+      <TextField id="TF_prenom" fx:id="TF_Email" layoutX="207.0" layoutY="92.0" />
+      <Button fx:id="AddUser" layoutX="272.0" layoutY="227.0" mnemonicParsing="false" onAction="#On_AddUser_clicked" text="Ajouter" />
+      <Button fx:id="button_anuuler" layoutX="394.0" layoutY="227.0" mnemonicParsing="false" onAction="#On_anuuler_clicked" text="Annuler" />
+      <TextField id="TF_prenom" fx:id="TF_Password" layoutX="207.0" layoutY="161.0" />
+      <Label layoutX="100.0" layoutY="166.0" text="Mot de passe " />
+   </children>
+</AnchorPane>
