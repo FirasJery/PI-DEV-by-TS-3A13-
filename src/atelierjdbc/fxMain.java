@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +46,17 @@ public class fxMain extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Gestion messagerie");
+        primaryStage.setOnCloseRequest(event -> {
+                System.out.println("closed");
+                for (Thread t : Thread.getAllStackTraces().keySet()) {
+                    if (t.getName().equals("606")) {
+                        t.interrupt();
+                        t.stop();
+                    }
+                }
+                //primaryStage.close();
+                Platform.exit();
+            });
         primaryStage.show();
         s = primaryStage;
         parent_node = root;

@@ -9,17 +9,12 @@ import Entities.Conversation;
 import Entities.Personne;
 import Services.ServiceMessagerie;
 import Services.ServicePersonne;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -29,13 +24,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -184,6 +175,7 @@ public class MessagerieInterfaceController implements Initializable {
         }
         //users.getItems().add("SERVER");
         users.getItems().stream().forEach(u -> aux.getItems().add(u));
+        
 
     }
 
@@ -357,38 +349,38 @@ class db_buffer extends Thread {
 
     @Override
     public void run() {       
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                for (int i = 0; i < last_m.size(); i++) {
-                    if (last_m.get(i).compareTo("") != 0) {
-                        
-                        System.out.println("Current convo " + current_convo);
-                        if (last_m.get(i).compareTo(sm.getLastMessage(sm.findConvo(current_id, users.get(i)).getId_convo())) != 0) {
-                            last_m.set(i, sm.getLastMessage(sm.findConvo(current_id, users.get(i)).getId_convo()));
-                            if (i == current_convo) {
-                                c.getItems().add(last_m.get(i));
-                                m.getItems().add(sm.getLastSource(sm.findConvo(current_id, users.get(i)).getId_convo()));
-                            }
-                            if (i != current_convo) {
-                                System.out.println("different index" + i);
-                                
-                                viewn.setId("n" + i);
+        while (!isInterrupted()) {
+            for (int i = 0; i < last_m.size(); i++) {
+                if (last_m.get(i).compareTo("") != 0) {
 
-                                viewn.setTranslateX(220);
-                                viewn.setTranslateY(anchor_window.getChildren().get(0).getLayoutY() + (i * 30));
-                                viewn.setPreserveRatio(true);
-                                viewn.setFitHeight(15);
-                                Platform.runLater(() -> anchor_window.getChildren().add(viewn));
-                                //anchor_window.getChildren().remove(anchor_window.lookup("#n2"));
-                            }
-
+                    System.out.println("Current convo " + current_convo);
+                    if (last_m.get(i).compareTo(sm.getLastMessage(sm.findConvo(current_id, users.get(i)).getId_convo())) != 0) {
+                        last_m.set(i, sm.getLastMessage(sm.findConvo(current_id, users.get(i)).getId_convo()));
+                        if (i == current_convo) {
+                            c.getItems().add(last_m.get(i));
+                            m.getItems().add(sm.getLastSource(sm.findConvo(current_id, users.get(i)).getId_convo()));
                         }
+                        if (i != current_convo) {
+                            System.out.println("different index" + i);
+
+                            viewn.setId("n" + i);
+                            viewn.setTranslateX(220);
+                            viewn.setTranslateY(anchor_window.getChildren().get(0).getLayoutY() + (i * 30));
+                            viewn.setPreserveRatio(true);
+                            viewn.setFitHeight(15);
+                            Platform.runLater(() -> anchor_window.getChildren().add(viewn));
+                            //anchor_window.getChildren().remove(anchor_window.lookup("#n2"));
+                        }
+
                     }
                 }
             }
-
-        }, 5000, 5000);
+            System.out.println("memes");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 }
