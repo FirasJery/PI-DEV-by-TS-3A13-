@@ -15,26 +15,30 @@ public class Freelancer  extends Utilisateur{
         private String experience ; 
         private String education ; 
         private int total_jobs ; 
+        private float rating ; 
+
+    public Freelancer(String bio, String experience, String education, int total_jobs, float rating, int id, String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
+        super(id, name, LastName, UserName, email, password, role, ImagePath);
+        this.bio = bio;
+        this.experience = experience;
+        this.education = education;
+        this.total_jobs = total_jobs;
+        this.rating = rating;
+    }
+
+    public Freelancer(String bio, String experience, String education, int total_jobs, float rating, String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
+        super(name, LastName, UserName, email, password, role, ImagePath);
+        this.bio = bio;
+        this.experience = experience;
+        this.education = education;
+        this.total_jobs = total_jobs;
+        this.rating = rating;
+    }
 
     public Freelancer() {
     }
 
-    public Freelancer(String bio, String experience, String education, int total_jobs, int id, String name, String email, String password, String role, String ImagePath) {
-        super(id, name, email, password, role, ImagePath);
-        this.bio = bio;
-        this.experience = experience;
-        this.education = education;
-        this.total_jobs = total_jobs;
-    }
-
-    public Freelancer(String bio, String experience, String education, int total_jobs, String name, String email, String password, String role, String ImagePath) {
-        super(name, email, password, role, ImagePath);
-        this.bio = bio;
-        this.experience = experience;
-        this.education = education;
-        this.total_jobs = total_jobs;
-    }
-
+ 
    
     public String getBio() {
         return bio;
@@ -68,10 +72,21 @@ public class Freelancer  extends Utilisateur{
         this.total_jobs = total_jobs;
     }
 
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
     @Override
     public String toString() {
-        return "Freelancer{" + "bio=" + bio + ", experience=" + experience + ", education=" + education + ", total_jobs=" + total_jobs + '}';
+        return "Freelancer{" + "bio=" + bio + ", experience=" + experience + ", education=" + education + ", total_jobs=" + total_jobs + ", rating=" + rating + '}';
     }
+
+    
+   
 
     
     

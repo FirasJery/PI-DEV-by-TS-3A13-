@@ -31,13 +31,15 @@ public class ServiceUser implements IService<Utilisateur> {
         if (p instanceof Admin) {
 
             try {
-                String req = "INSERT INTO `Utilisateur` (`name`, `email`, `password`, `role`, `ImagePAth` ) VALUES (?,?,?,?,?)";
+                String req = "INSERT INTO `Utilisateur` (`name`,`LastName`,`UserName`, `email`, `password`, `role`, `ImagePAth` ) VALUES (?,?,?,?,?,?,?)";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, p.getName());
-                ps.setString(2, p.getEmail());
-                ps.setString(3, p.getPassword());
-                ps.setString(4, "Admin");
-                ps.setString(5, p.getImagePath());
+                ps.setString(2, p.getLastName());
+                ps.setString(3, p.getUserName());
+                ps.setString(4, p.getEmail());
+                ps.setString(5, p.getPassword());
+                ps.setString(6, "Admin");
+                ps.setString(7, p.getImagePath());
 
                 ps.executeUpdate();
                 System.out.println("Admin created !");
@@ -49,17 +51,19 @@ public class ServiceUser implements IService<Utilisateur> {
 
             try {
                 Entreprise e = (Entreprise) p;
-                String req = "INSERT INTO `Utilisateur` (`name`, `email`, `password`, `role`, `ImagePath` ,`domaine`,`info`,`location`,`nbe`) VALUES (?,?,?,?,?,?,?,?,?)";
+                String req = "INSERT INTO `Utilisateur` (`name`,`LastName`,`UserName`, `email`, `password`, `role`, `ImagePath` ,`domaine`,`info`,`location`,`nbe`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, e.getName());
-                ps.setString(2, e.getEmail());
-                ps.setString(3, e.getPassword());
-                ps.setString(4, "Entreprise");
-                ps.setString(5, e.getImagePath());
-                ps.setString(6, e.getDomaine());
-                ps.setString(7, e.getInfo());
-                ps.setString(8, e.getLocation());
-                ps.setInt(9, e.getNumberOfEmployees());
+                ps.setString(2, e.getLastName());
+                ps.setString(3, e.getUserName());
+                ps.setString(4, e.getEmail());
+                ps.setString(5, e.getPassword());
+                ps.setString(6, "Entreprise");
+                ps.setString(7, e.getImagePath());
+                ps.setString(8, e.getDomaine());
+                ps.setString(9, e.getInfo());
+                ps.setString(10, e.getLocation());
+                ps.setInt(11, e.getNumberOfEmployees());
 
                 ps.executeUpdate();
                 System.out.println("Entreprise created !");
@@ -71,17 +75,20 @@ public class ServiceUser implements IService<Utilisateur> {
 
             try {
                 Freelancer e = (Freelancer) p;
-                String req = "INSERT INTO `Utilisateur` (`name`, `email`, `password`, `role`, `ImagePath` ,`bio`, `experience`, `education`, `total_jobs`) VALUES (?,?,?,?,?,?,?,?,?)";
+                String req = "INSERT INTO `Utilisateur` (`name`,`LastName`,`UserName`, `email`, `password`, `role`, `ImagePath` ,`bio`, `experience`, `education`, `total_jobs`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, e.getName());
-                ps.setString(2, e.getEmail());
-                ps.setString(3, e.getPassword());
-                ps.setString(4, "Freelancer");
-                ps.setString(5, e.getImagePath());
-                ps.setString(6, e.getBio());
-                ps.setString(7, e.getExperience());
-                ps.setString(8, e.getEducation());
-                ps.setInt(9, e.getTotal_jobs());
+                ps.setString(2, e.getLastName());
+                ps.setString(3, e.getUserName());
+                ps.setString(4, e.getEmail());
+                ps.setString(5, e.getPassword());
+                ps.setString(6, "Freelancer");
+                ps.setString(7, e.getImagePath());
+                ps.setString(8, e.getBio());
+                ps.setString(9, e.getExperience());
+                ps.setString(10, e.getEducation());
+                ps.setInt(11, e.getTotal_jobs());
+                ps.setFloat(12, e.getRating());
 
                 ps.executeUpdate();
 
@@ -112,16 +119,19 @@ public class ServiceUser implements IService<Utilisateur> {
         if (p instanceof Admin) {
             try {
 
-               String req = "UPDATE Utilisateur SET name = ?, email = ?, password = ?, role = ?, ImagePath = ? WHERE id = ?";
+                String req = "UPDATE Utilisateur SET name = ?, LastName = ? ,UserName = ? , email = ?, password = ?, role = ?, ImagePath = ? WHERE id = ?";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, p.getName());
-                ps.setString(2, p.getEmail());
-                ps.setString(3, p.getPassword());
-                ps.setString(4, p.getRole());
-                ps.setString(5, p.getImagePath());
-                
-                 ps.executeUpdate();
-                 System.out.println("Admin updated !");
+                ps.setString(2, p.getName());
+                ps.setString(3, p.getName());
+                ps.setString(4, p.getEmail());
+                ps.setString(5, p.getPassword());
+                ps.setString(6, p.getRole());
+                ps.setString(7, p.getImagePath());
+                ps.setInt(8, p.getId());
+
+                ps.executeUpdate();
+                System.out.println("Admin updated !");
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -129,17 +139,21 @@ public class ServiceUser implements IService<Utilisateur> {
 
             try {
                 Freelancer e = (Freelancer) p;
-                String req = "UPDATE Utilisateur SET name = ?, email = ?, password = ?, role = ?, ImagePath = ? , bio = ?, experience = ?, education = ?, total_jobs = ? WHERE id = ?";
+                String req = "UPDATE Utilisateur SET name = ?, LastName = ? ,UserName = ?, email = ?, password = ?, role = ?, ImagePath = ? , bio = ?, experience = ?, education = ?, total_jobs = ?, rating = ?  WHERE id = ?";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, e.getName());
-                ps.setString(2, e.getEmail());
-                ps.setString(3, e.getPassword());
-                ps.setString(4, e.getRole());
-                ps.setString(5, e.getImagePath());
-                ps.setString(6, e.getBio());
-                ps.setString(7, e.getExperience());
-                ps.setString(8, e.getEducation());
-                ps.setInt(9, e.getTotal_jobs());
+                ps.setString(2, e.getName());
+                ps.setString(3, e.getName());
+                ps.setString(4, e.getEmail());
+                ps.setString(5, e.getPassword());
+                ps.setString(6, e.getRole());
+                ps.setString(7, e.getImagePath());
+                ps.setString(8, e.getBio());
+                ps.setString(9, e.getExperience());
+                ps.setString(10, e.getEducation());
+                ps.setInt(11, e.getTotal_jobs());
+                ps.setFloat(12, e.getRating());
+                ps.setInt(13, e.getId());
 
                 ps.executeUpdate();
                 System.out.println("Freelancer updated !");
@@ -154,14 +168,17 @@ public class ServiceUser implements IService<Utilisateur> {
                 String req = "UPDATE Utilisateur SET name = ?, email = ?, password = ?, role = ?, ImagePath = ? , domaine = ?, info = ?, location = ?, nbe = ? WHERE id = ?";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, e.getName());
-                ps.setString(2, e.getEmail());
-                ps.setString(3, e.getPassword());
-                ps.setString(4, e.getRole());
-                ps.setString(5, e.getImagePath());
-                ps.setString(6, e.getDomaine());
-                ps.setString(7, e.getInfo());
-                ps.setString(8, e.getLocation());
-                ps.setInt(9, e.getNumberOfEmployees());
+                ps.setString(2, e.getName());
+                ps.setString(3, e.getName());
+                ps.setString(4, e.getEmail());
+                ps.setString(5, e.getPassword());
+                ps.setString(6, e.getRole());
+                ps.setString(7, e.getImagePath());
+                ps.setString(8, e.getDomaine());
+                ps.setString(9, e.getInfo());
+                ps.setString(10, e.getLocation());
+                ps.setInt(11, e.getNumberOfEmployees());
+                ps.setInt(12, e.getId());
                 ps.executeUpdate(req);
                 System.out.println("Entreprise updated !");
             } catch (SQLException ex) {
@@ -184,15 +201,15 @@ public class ServiceUser implements IService<Utilisateur> {
                 Freelancer f;
                 switch (rs.getString("role")) {
                     case "Admin":
-                        p = new Admin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6));
+                        p = new Admin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
                         list.add(p);
                         break;
                     case "Entreprise":
-                        e = new Entreprise(rs.getString("domaine"), rs.getString("info"), rs.getString("location"), rs.getInt("nbe"),rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("role"),rs.getString("ImagePath"));
+                        e = new Entreprise(rs.getString("domaine"), rs.getString("info"), rs.getString("location"), rs.getInt("nbe"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
                         list.add(e);
                         break;
                     case "Freelancer":
-                        f = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("role"),rs.getString("ImagePath"));
+                        f = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getFloat("rating"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
                         list.add(f);
                         break;
                     default:
@@ -216,13 +233,13 @@ public class ServiceUser implements IService<Utilisateur> {
             while (rs.next()) {
                 switch (rs.getString("role")) {
                     case "Admin":
-                        p = new Admin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString("ImagePath"));
+                        p = new Admin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
                         break;
                     case "Entreprise":
-                        p = new Entreprise(rs.getString("domaine"), rs.getString("info"), rs.getString("location"), rs.getInt("nbe"), rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("role"),rs.getString("ImagePath"));
+                        p = new Entreprise(rs.getString("domaine"), rs.getString("info"), rs.getString("location"), rs.getInt("nbe"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
                         break;
                     case "Freelancer":
-                        p = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"), rs.getString("role"),rs.getString("ImagePath"));
+                        p = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getFloat("rating"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
                         break;
                     default:
                         break;
@@ -253,26 +270,23 @@ public class ServiceUser implements IService<Utilisateur> {
         return id;
 
     }
-    
-    public int ChercherMail(String email)
-    {
+
+    public int ChercherMail(String email) {
 
         try {
             String req = "SELECT * from `utilisateur` WHERE `utilisateur`.`email` ='" + email + "'  ";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                if (rs.getString("email").equals(email))
-                {
+                if (rs.getString("email").equals(email)) {
                     System.out.println("mail trouvé ! ");
-                    return 1 ; 
+                    return 1;
                 }
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return -1 ; 
+        return -1;
     }
 
-   
 }

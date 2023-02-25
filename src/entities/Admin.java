@@ -17,19 +17,23 @@ public class Admin extends Utilisateur{
     public Admin() {
     }
 
-    public Admin(int id, String name, String email, String password, String role, String ImagePath) {
-        super(id, name, email, password, role, ImagePath);
+    public Admin(int id, String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
+        super(id, name, LastName, UserName, email, password, role, ImagePath);
     }
 
-    public Admin(String name, String email, String password, String role, String ImagePath) {
-        super(name, email, password, role, ImagePath);
+    public Admin(String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
+        super(name, LastName, UserName, email, password, role, ImagePath);
     }
-    
+
+  
+
+   
     
 
     @Override
     public String toString() {
-        return "Admin{name=" + name + ", email=" + email + ", password=" + password +  "} \n";
+                return "Admin { name=" + name + ", LastName=" + LastName + ", UserName=" + UserName + ", email=" + email + ", password=" + password + ", role=" + role + ", ImagePath=" + ImagePath + '}';
+
     }
 
 }

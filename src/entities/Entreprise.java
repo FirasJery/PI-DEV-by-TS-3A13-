@@ -21,21 +21,23 @@ public class Entreprise extends Utilisateur{
     public Entreprise() {
     }
 
-    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, int id, String name, String email, String password, String role, String StringPath) {
-        super(id, name, email, password, role, StringPath);
+    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, int id, String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
+        super(id, name, LastName, UserName, email, password, role, ImagePath);
         this.Domaine = Domaine;
         this.Info = Info;
         this.location = location;
         this.numberOfEmployees = numberOfEmployees;
     }
 
-    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, String name, String email, String password, String role, String StringPath) {
-        super(name, email, password, role, StringPath);
+    public Entreprise(String Domaine, String Info, String location, int numberOfEmployees, String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
+        super(name, LastName, UserName, email, password, role, ImagePath);
         this.Domaine = Domaine;
         this.Info = Info;
         this.location = location;
         this.numberOfEmployees = numberOfEmployees;
     }
+
+ 
 
    
 

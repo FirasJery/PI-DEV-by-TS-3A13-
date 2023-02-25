@@ -13,27 +13,32 @@ public abstract class Utilisateur {
 
     protected int id;
     protected String name;
+    protected String LastName;
+    protected String UserName;
     protected String email;
     protected String password;
     protected String role;
     protected String ImagePath;
 
-    public Utilisateur(int id, String name, String email, String password, String role, String ImagePath) {
+    public Utilisateur(int id, String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
         this.id = id;
         this.name = name;
+        this.LastName = LastName;
+        this.UserName = UserName;
         this.email = email;
         this.password = password;
         this.role = role;
         this.ImagePath = ImagePath;
     }
 
-    public Utilisateur(String name, String email, String password, String role, String ImagePath) {
+    public Utilisateur(String name, String LastName, String UserName, String email, String password, String role, String ImagePath) {
         this.name = name;
+        this.LastName = LastName;
+        this.UserName = UserName;
         this.email = email;
         this.password = password;
         this.role = role;
         this.ImagePath = ImagePath;
-
     }
 
     public int getId() {
@@ -50,6 +55,22 @@ public abstract class Utilisateur {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String LastName) {
+        this.LastName = LastName;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
     }
 
     public String getEmail() {
@@ -83,12 +104,18 @@ public abstract class Utilisateur {
     public void setImagePath(String ImagePath) {
         this.ImagePath = ImagePath;
     }
-    
-    
+
     @Override
     public String toString() {
         return "";
     }
+
+  
+
+    
+
+
+  
 
     public Utilisateur() {
     }

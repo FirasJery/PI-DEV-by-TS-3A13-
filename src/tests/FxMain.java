@@ -28,11 +28,11 @@ public class FxMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/LoginUI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/HomePageContent.fxml"));
             
             // Set up the scene and the stage
             Scene scene = new Scene(root);
-            scene.getStylesheets().add("/GUI/style.css");
+           // scene.getStylesheets().add("/GUI/style.css");
             primaryStage.setScene(scene);
             primaryStage.setTitle("Your Window Title"); // Set the title of the window
             primaryStage.show(); // Show the window
