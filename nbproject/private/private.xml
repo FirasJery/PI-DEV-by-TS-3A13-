@@ -3,30 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/EntrepriseProfileUI.fxml</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/UserModifUIController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/AddEntrepriseUIController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/style.css</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/FreelancerProfileUIController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/FreelancerProfileUI.fxml</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/EntrepriseProfileUIController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/entities/Utilisateur.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/entities/SessionManager.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/GestionAdminUIController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/UserModifUI.fxml</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/entities/Freelancer.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/GestionAdminUI.fxml</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/tests/FxMain.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/utils/DataSource.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/AddAdminUIController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/sevices/ServiceUser.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/LoginUIController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/ControleSaisieTextFields.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/entities/Admin.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/sevices/IService.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/GUI/AddFreelancerController.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/entities/Entreprise.java</file>
-            <file>file:/C:/Users/Firas/Desktop/Gestion_utilisateurs/src/tests/MainClass.java</file>
+            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/PI-DEV_TSpp_3A13/src/GUI/MessagerieController.java</file>
+            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/PI-DEV_TSpp_3A13/src/tests/FxMain.java</file>
         </group>
     </open-files>
 </project-private>

@@ -23,7 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import sevices.ServiceUser;
+import services.ServiceUser;
 
 /**
  * FXML Controller class
@@ -56,7 +56,7 @@ public class FreelancerProfileUIController implements Initializable {
         // TODO
         ServiceUser sa = new  ServiceUser();
         Freelancer f = (Freelancer)sa.getOneById(SessionManager.getInstance().getCurrentUser().getId());
-        Label_MsgA.setText("Bonjour si " + f.getName());
+        Label_MsgA.setText(f.getName());
         label_email.setText(f.getEmail());
         label_bio.setText(f.getBio());
         label_education.setText(f.getEducation());

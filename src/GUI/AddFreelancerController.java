@@ -19,7 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import sevices.ServiceUser;
+import services.ServiceUser;
 import GUI.ControleSaisieTextFields;
 import java.io.File;
 import java.io.IOException;

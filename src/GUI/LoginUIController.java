@@ -23,7 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sevices.ServiceUser;
+import services.ServiceUser;
 
 /**
  * FXML Controller class
@@ -48,6 +48,8 @@ public class LoginUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        TF_Email_login.setText("khalil.khemiri@esprit.tn");
+        TF_Paswword_login.setText("123");
         // TODO
     }
 
@@ -89,19 +91,19 @@ public class LoginUIController implements Initializable {
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("Entreprise connecté");
                 alert.show();
-                page = "/GUI/EntrepriseProfileUI.fxml" ;
+                page = "HomePage.fxml" ;
 
                 break;
             case "Freelancer":
                 alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setContentText("Freemlancer connecté");
+                alert.setContentText("Freelancer connecté");
                 alert.show();
-                page = "/GUI/FreelancerProfileUI.fxml" ;
+                page = "HomePage.fxml" ;
                 
                 break;
         }
              try {
-
+                   
             Parent page1 = FXMLLoader.load(getClass().getResource(page));
 
             Scene scene = new Scene(page1);
@@ -112,6 +114,7 @@ public class LoginUIController implements Initializable {
            // scene.getStylesheets().add("https://cdn.jsdelivr.net/openjfx/8u40-b25/rt/styles/modena/modena.css");
 
             stage.show();
+                 System.out.println("haja");
 
         } catch (IOException ex) {
 

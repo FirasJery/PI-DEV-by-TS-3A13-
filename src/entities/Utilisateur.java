@@ -110,13 +110,6 @@ public abstract class Utilisateur {
         return "";
     }
 
-  
-
-    
-
-
-  
-
     public Utilisateur() {
     }
 

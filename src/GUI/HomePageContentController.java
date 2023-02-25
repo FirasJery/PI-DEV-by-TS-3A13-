@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Bloom;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -23,7 +24,9 @@ public class HomePageContentController implements Initializable {
     @FXML
     private AnchorPane background;
     @FXML
-    private Label javalabel;
+    private Label rechercher_btn;
+    
+    Bloom bloom = new Bloom(0.3);
 
     /**
      * Initializes the controller class.
@@ -35,10 +38,22 @@ public class HomePageContentController implements Initializable {
       
     }    
 
-    @FXML
     private void dragEnteredLAbel(MouseEvent event) {
         
         System.out.println("test");
+    }
+
+    @FXML
+    private void rechercher_fx(MouseEvent event) {
+        if(rechercher_btn.getEffect() == null){
+            rechercher_btn.setEffect(bloom);
+        } else {
+            rechercher_btn.setEffect(null);
+        }
+    }
+
+    @FXML
+    private void rechercher(MouseEvent event) {
     }
     
 }

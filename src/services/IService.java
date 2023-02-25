@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sevices;
+package services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**

@@ -24,7 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import sevices.ServiceUser;
+import services.ServiceUser;
 
 /**
  * FXML Controller class
@@ -56,7 +56,7 @@ public class EntrepriseProfileUIController implements Initializable {
         // TODO
          ServiceUser sa = new  ServiceUser();
         Entreprise f = (Entreprise)sa.getOneById(SessionManager.getInstance().getCurrentUser().getId());
-        label_nom.setText("Bonjour si " + f.getName());
+        label_nom.setText(f.getName());
         label_info.setText(f.getInfo());
         label_adresse.setText(f.getLocation());
         label_domaine.setText(f.getDomaine());

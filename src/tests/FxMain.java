@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -23,27 +24,35 @@ import javafx.stage.Stage;
  * @author Firas
  */
 public class FxMain extends Application {
-    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        
+
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/HomePageContent.fxml"));
-            
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/LoginUI.fxml"));
+
             // Set up the scene and the stage
             Scene scene = new Scene(root);
-           // scene.getStylesheets().add("/GUI/style.css");
+            // scene.getStylesheets().add("/GUI/style.css");
             primaryStage.setScene(scene);
             primaryStage.setTitle("Your Window Title"); // Set the title of the window
+            primaryStage.setOnCloseRequest(event -> {
+                System.out.println("closed");
+                for (Thread t : Thread.getAllStackTraces().keySet()) {
+                    if (t.getName().equals("606")) {
+                        t.interrupt();
+                        t.stop();
+                    }
+                }
+                //primaryStage.close();
+                Platform.exit();
+            });
             primaryStage.show(); // Show the window
         } catch (IOException ex) {
-            Logger.getLogger(FxMain.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
 
     }
-        
-        
-    
 
     /**
      * @param args the command line arguments
@@ -51,5 +60,5 @@ public class FxMain extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

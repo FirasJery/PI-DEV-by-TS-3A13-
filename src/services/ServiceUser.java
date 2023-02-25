@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sevices;
+package services;
 
 import entities.Admin;
 import entities.Entreprise;
@@ -228,6 +228,34 @@ public class ServiceUser implements IService<Utilisateur> {
         Utilisateur p = null;
         try {
             String req = "Select * from utilisateur where id = '" + id + "'";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                switch (rs.getString("role")) {
+                    case "Admin":
+                        p = new Admin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
+                        break;
+                    case "Entreprise":
+                        p = new Entreprise(rs.getString("domaine"), rs.getString("info"), rs.getString("location"), rs.getInt("nbe"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
+                        break;
+                    case "Freelancer":
+                        p = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getFloat("rating"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return p;
+    }
+
+    public Utilisateur getByUsername(String user) {
+        Utilisateur p = null;
+        try {
+            String req = "Select * from utilisateur where username = '" + user + "'";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
