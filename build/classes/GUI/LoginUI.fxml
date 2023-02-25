@@ -13,7 +13,8 @@
       <Button layoutX="380.0" layoutY="254.0" mnemonicParsing="false" onAction="#On_annuler_clicked" text="Annuler" />
       <Button fx:id="Button_se_connecter" layoutX="223.0" layoutY="254.0" mnemonicParsing="false" onAction="#ON_seconnecter_clicked" text="Se connecter" />
       <TextField fx:id="TF_Email_login" layoutX="256.0" layoutY="89.0" />
-      <Button fx:id="button_inscrire" layoutX="317.0" layoutY="318.0" mnemonicParsing="false" onAction="#ON_inscrire_clicked" text="S'inscrire" />
+      <Button fx:id="button_inscrire" layoutX="63.0" layoutY="337.0" mnemonicParsing="false" onAction="#ON_inscrire_clicked" text="Inscription Freelancer" />
       <PasswordField fx:id="TF_Paswword_login" layoutX="256.0" layoutY="152.0" />
+      <Button fx:id="btn_entrep" layoutX="329.0" layoutY="337.0" mnemonicParsing="false" onAction="#btn_ins_ent_action" text="Inscritption Entreprise" />
    </children>
 </AnchorPane>

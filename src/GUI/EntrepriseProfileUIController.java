@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import entities.Entreprise;
 import entities.Freelancer;
 import entities.SessionManager;
 import java.io.File;
@@ -30,20 +31,20 @@ import sevices.ServiceUser;
  *
  * @author Firas
  */
-public class FreelancerProfileUIController implements Initializable {
+public class EntrepriseProfileUIController implements Initializable {
 
     @FXML
-    private Label Label_MsgA;
+    private Label label_info;
     @FXML
-    private ImageView ImageProfile;
+    private Label label_adresse;
     @FXML
-    private Label label_email; 
+    private Label label_domaine;
     @FXML
-    private Label label_bio;
+    private Label label_nbe;
     @FXML
-    private Label label_education;
+    private ImageView ImageViewEnt;
     @FXML
-    private Label label_experience;
+    private Label label_nom;
     @FXML
     private Button btnDeconnecter;
 
@@ -52,27 +53,26 @@ public class FreelancerProfileUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         // TODO
-        ServiceUser sa = new  ServiceUser();
-        Freelancer f = (Freelancer)sa.getOneById(SessionManager.getInstance().getCurrentUser().getId());
-        Label_MsgA.setText("Bonjour si " + f.getName());
-        label_email.setText(f.getEmail());
-        label_bio.setText(f.getBio());
-        label_education.setText(f.getEducation());
-        label_experience.setText(f.getExperience());
+         ServiceUser sa = new  ServiceUser();
+        Entreprise f = (Entreprise)sa.getOneById(SessionManager.getInstance().getCurrentUser().getId());
+        label_nom.setText("Bonjour si " + f.getName());
+        label_info.setText(f.getInfo());
+        label_adresse.setText(f.getLocation());
+        label_domaine.setText(f.getDomaine());
+        Integer a = f.getNumberOfEmployees(); 
+        label_nbe.setText(a.toString());
         if (f.getImagePath() != null)
         {
         File imagef = new File(f.getImagePath());
         Image image = new Image(imagef.toURI().toString());
-        ImageProfile.setImage(image);
+        ImageViewEnt.setImage(image);
         }
-
-    }
+    }    
 
     @FXML
     private void btnDeconnecterAction(ActionEvent event) {
-           SessionManager.getInstance().setCurrentUser(null);
+        SessionManager.getInstance().setCurrentUser(null);
          try {
 
             Parent page1 = FXMLLoader.load(getClass().getResource("/GUI/LoginUI.fxml"));
@@ -91,6 +91,5 @@ public class FreelancerProfileUIController implements Initializable {
 
         }
     }
-
-
+    
 }

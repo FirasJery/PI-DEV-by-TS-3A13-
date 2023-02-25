@@ -40,6 +40,8 @@ public class LoginUIController implements Initializable {
     private TextField TF_Paswword_login;
     @FXML
     private Button button_inscrire;
+    @FXML
+    private Button btn_entrep;
 
     /**
      * Initializes the controller class.
@@ -81,21 +83,21 @@ public class LoginUIController implements Initializable {
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("Admin connecté");
                 alert.show();
+                page = "/GUI/GestionAdminUI.fxml" ;
                 break;
             case "Entreprise":
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("Entreprise connecté");
                 alert.show();
-                
+                page = "/GUI/EntrepriseProfileUI.fxml" ;
+
                 break;
             case "Freelancer":
                 alert.setAlertType(Alert.AlertType.INFORMATION);
                 alert.setContentText("Freemlancer connecté");
                 alert.show();
                 page = "/GUI/FreelancerProfileUI.fxml" ;
-            
-          
-           
+                
                 break;
         }
              try {
@@ -107,6 +109,7 @@ public class LoginUIController implements Initializable {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             stage.setScene(scene);
+           // scene.getStylesheets().add("https://cdn.jsdelivr.net/openjfx/8u40-b25/rt/styles/modena/modena.css");
 
             stage.show();
 
@@ -140,6 +143,27 @@ public class LoginUIController implements Initializable {
 
         }
 
+    }
+
+    @FXML
+    private void btn_ins_ent_action(ActionEvent event) {
+         try {
+
+            Parent page1 = FXMLLoader.load(getClass().getResource("/GUI/AddEntrepriseUI.fxml"));
+
+            Scene scene = new Scene(page1);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+
+            stage.show();
+
+        } catch (IOException ex) {
+
+           System.out.println(ex.getMessage());
+
+        }
     }
     
     
