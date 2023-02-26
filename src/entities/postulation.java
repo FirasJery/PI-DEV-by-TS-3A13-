@@ -5,63 +5,74 @@
  */
 package entities;
 
-public class postulation {
-       int id_postulation;
-          int id_offre;
-             int id_freelancer;
-             String etat;
+/**
+ *
+ * @author ASUS
+ */
+public class Postulation {
+
+    private int id_postulation;
+    private Offre o ;
+    private Freelancer f;
+    private int isAccepted ; 
+
+    public Postulation(int id_postulation, Offre o, Freelancer f,  int isAccepted) {
+        this.id_postulation = id_postulation;
+        this.o = o;
+        this.f = f;
+        this.isAccepted = isAccepted;
+    }
+
+    public Postulation(Offre o, Freelancer f,  int isAccepted) {
+        this.o = o;
+        this.f = f;
+
+        this.isAccepted = isAccepted;
+    }
+
+    public Postulation() {
+
+    }
 
     public int getId_postulation() {
         return id_postulation;
-    }
-
-    public int getId_offre() {
-        return id_offre;
-    }
-
-    public int getId_freelancer() {
-        return id_freelancer;
-    }
-
-    public String getEtat() {
-        return etat;
     }
 
     public void setId_postulation(int id_postulation) {
         this.id_postulation = id_postulation;
     }
 
-    public void setId_offre(int id_offre) {
-        this.id_offre = id_offre;
+    public Offre getO() {
+        return o;
     }
 
-    public void setId_freelancer(int id_freelancer) {
-        this.id_freelancer = id_freelancer;
+    public void setO(Offre o) {
+        this.o = o;
     }
 
-    public void setEtat(String etat) {
-        this.etat = etat;
+    public Freelancer getF() {
+        return f;
     }
 
-    public postulation() {
+    public void setF(Freelancer f) {
+        this.f = f;
     }
 
-    public postulation(int id_postulation, int id_offre, int id_freelancer, String etat) {
-        this.id_postulation = id_postulation;
-        this.id_offre = id_offre;
-        this.id_freelancer = id_freelancer;
-        this.etat = etat;
+    public int getIsAccepted() {
+        return isAccepted;
     }
 
-    public postulation(int id_offre, int id_freelancer, String etat) {
-        this.id_offre = id_offre;
-        this.id_freelancer = id_freelancer;
-        this.etat = etat;
+    public void setIsAccepted(int isAccepted) {
+        this.isAccepted = isAccepted;
     }
 
     @Override
     public String toString() {
-        return "postulation{" + "id_postulation=" + id_postulation + ", id_offre=" + id_offre + ", id_freelancer=" + id_freelancer + ", etat=" + etat + '}';
+        return "Postulation{, o=" + o.getTitle() + ", f=" + f.getName() + ", isAccepted=" + isAccepted + '}';
     }
-             
+    
+    
+    
+    
 }
+
