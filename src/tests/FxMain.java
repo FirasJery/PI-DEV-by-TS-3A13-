@@ -28,7 +28,7 @@ public class FxMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/HomePageContent.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/LoginUI.fxml"));
             
             // Set up the scene and the stage
             Scene scene = new Scene(root);

@@ -42,6 +42,8 @@ public class LoginUIController implements Initializable {
     private Button button_inscrire;
     @FXML
     private Button btn_entrep;
+    @FXML
+    private Button btnMdpOublie;
 
     /**
      * Initializes the controller class.
@@ -150,6 +152,27 @@ public class LoginUIController implements Initializable {
          try {
 
             Parent page1 = FXMLLoader.load(getClass().getResource("/GUI/AddEntrepriseUI.fxml"));
+
+            Scene scene = new Scene(page1);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+
+            stage.show();
+
+        } catch (IOException ex) {
+
+           System.out.println(ex.getMessage());
+
+        }
+    }
+
+    @FXML
+    private void btnMdpOublieAction(ActionEvent event) {
+            try {
+
+            Parent page1 = FXMLLoader.load(getClass().getResource("/GUI/ForgotPassword.fxml"));
 
             Scene scene = new Scene(page1);
 
