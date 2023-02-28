@@ -75,7 +75,7 @@ public class ServiceUser implements IService<Utilisateur> {
 
             try {
                 Freelancer e = (Freelancer) p;
-                String req = "INSERT INTO `Utilisateur` (`name`,`LastName`,`UserName`, `email`, `password`, `role`, `ImagePath` ,`bio`, `experience`, `education`, `total_jobs`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                String req = "INSERT INTO `Utilisateur` (`name`,`LastName`,`UserName`, `email`, `password`, `role`, `ImagePath` ,`bio`, `experience`, `education`, `total_jobs` ,`rating`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, e.getName());
                 ps.setString(2, e.getLastName());
@@ -122,11 +122,11 @@ public class ServiceUser implements IService<Utilisateur> {
                 String req = "UPDATE Utilisateur SET name = ?, LastName = ? ,UserName = ? , email = ?, password = ?, role = ?, ImagePath = ? WHERE id = ?";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, p.getName());
-                ps.setString(2, p.getName());
-                ps.setString(3, p.getName());
+                ps.setString(2, p.getLastName());
+                ps.setString(3, p.getUserName());
                 ps.setString(4, p.getEmail());
                 ps.setString(5, p.getPassword());
-                ps.setString(6, p.getRole());
+                ps.setString(6, "Admin");
                 ps.setString(7, p.getImagePath());
                 ps.setInt(8, p.getId());
 
@@ -142,11 +142,11 @@ public class ServiceUser implements IService<Utilisateur> {
                 String req = "UPDATE Utilisateur SET name = ?, LastName = ? ,UserName = ?, email = ?, password = ?, role = ?, ImagePath = ? , bio = ?, experience = ?, education = ?, total_jobs = ?, rating = ?  WHERE id = ?";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, e.getName());
-                ps.setString(2, e.getName());
-                ps.setString(3, e.getName());
+                ps.setString(2, e.getLastName());
+                ps.setString(3, e.getUserName());
                 ps.setString(4, e.getEmail());
                 ps.setString(5, e.getPassword());
-                ps.setString(6, e.getRole());
+                ps.setString(6, "Freelancer");
                 ps.setString(7, e.getImagePath());
                 ps.setString(8, e.getBio());
                 ps.setString(9, e.getExperience());
@@ -168,11 +168,11 @@ public class ServiceUser implements IService<Utilisateur> {
                 String req = "UPDATE Utilisateur SET name = ?, email = ?, password = ?, role = ?, ImagePath = ? , domaine = ?, info = ?, location = ?, nbe = ? WHERE id = ?";
                 PreparedStatement ps = cnx.prepareStatement(req);
                 ps.setString(1, e.getName());
-                ps.setString(2, e.getName());
-                ps.setString(3, e.getName());
+                ps.setString(2, e.getLastName());
+                ps.setString(3, e.getUserName());
                 ps.setString(4, e.getEmail());
                 ps.setString(5, e.getPassword());
-                ps.setString(6, e.getRole());
+                ps.setString(6, "Entreprise");
                 ps.setString(7, e.getImagePath());
                 ps.setString(8, e.getDomaine());
                 ps.setString(9, e.getInfo());
@@ -305,6 +305,53 @@ public class ServiceUser implements IService<Utilisateur> {
                 System.out.println(ex.getMessage());
             }
     
+    }
+     public void modifierbasic(Utilisateur p) {
+
+        if (p instanceof Freelancer) {
+
+            try {
+                Freelancer e = (Freelancer) p;
+                String req = "UPDATE Utilisateur SET name = ?, LastName = ? ,UserName = ?, email = ?, password = ?, role = ?, ImagePath = ?  WHERE id = ?";
+                PreparedStatement ps = cnx.prepareStatement(req);
+                ps.setString(1, e.getName());
+                ps.setString(2, e.getLastName());
+                ps.setString(3, e.getUserName());
+                ps.setString(4, e.getEmail());
+                ps.setString(5, e.getPassword());
+                ps.setString(6, "Freelancer");
+                ps.setString(7, e.getImagePath());
+              
+                ps.setInt(8, e.getId());
+
+                ps.executeUpdate();
+                System.out.println("Freelancer updated !");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        } else if (p instanceof Entreprise) {
+
+            try {
+                Entreprise e = (Entreprise) p;
+                String req = "UPDATE Utilisateur SET name = ?, email = ?, password = ?, role = ?, ImagePath = ? WHERE id = ?";
+                PreparedStatement ps = cnx.prepareStatement(req);
+                ps.setString(1, e.getName());
+                ps.setString(2, e.getLastName());
+                ps.setString(3, e.getUserName());
+                ps.setString(4, e.getEmail());
+                ps.setString(5, e.getPassword());
+                ps.setString(6, "Entreprise");
+                ps.setString(7, e.getImagePath());
+                
+                ps.setInt(8, e.getId());
+                ps.executeUpdate(req);
+                System.out.println("Entreprise updated !");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        }
     }
 
 }

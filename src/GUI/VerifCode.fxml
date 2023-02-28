@@ -5,11 +5,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="GUI.VerifCodeController">
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.VerifCodeController">
    <children>
-      <Label layoutX="60.0" layoutY="59.0" text="Code" />
-      <TextField fx:id="tfCode" layoutX="187.0" layoutY="54.0" />
-      <Button fx:id="btnConfirmerCode" layoutX="256.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnConfirmerCodeAction" text="Confirmer" />
+      <Label layoutX="447.0" layoutY="272.0" text="Code" />
+      <TextField fx:id="tfCode" layoutX="507.0" layoutY="267.0" />
+      <Button fx:id="btnConfirmerCode" layoutX="557.0" layoutY="322.0" mnemonicParsing="false" onAction="#btnConfirmerCodeAction" text="Confirmer" />
    </children>
 </AnchorPane>

@@ -65,6 +65,8 @@ public class EntrepriseProfileUIController implements Initializable {
         if (f.getImagePath() != null)
         {
         File imagef = new File(f.getImagePath());
+            
+          
         Image image = new Image(imagef.toURI().toString());
         ImageViewEnt.setImage(image);
         }

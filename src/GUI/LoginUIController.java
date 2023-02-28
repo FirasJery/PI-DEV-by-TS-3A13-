@@ -111,7 +111,7 @@ public class LoginUIController implements Initializable {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             stage.setScene(scene);
-           // scene.getStylesheets().add("https://cdn.jsdelivr.net/openjfx/8u40-b25/rt/styles/modena/modena.css");
+           
 
             stage.show();
 

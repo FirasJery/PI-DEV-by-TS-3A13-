@@ -46,6 +46,8 @@ public class FreelancerProfileUIController implements Initializable {
     private Label label_experience;
     @FXML
     private Button btnDeconnecter;
+    @FXML
+    private Button btnModif;
 
     /**
      * Initializes the controller class.
@@ -76,6 +78,27 @@ public class FreelancerProfileUIController implements Initializable {
          try {
 
             Parent page1 = FXMLLoader.load(getClass().getResource("/GUI/LoginUI.fxml"));
+
+            Scene scene = new Scene(page1);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+
+            stage.show();
+
+        } catch (IOException ex) {
+
+           System.out.println(ex.getMessage());
+
+        }
+    }
+
+    @FXML
+    private void btnModifAction(ActionEvent event) {
+        try {
+
+            Parent page1 = FXMLLoader.load(getClass().getResource("/GUI/ModifierProfilFreelancer.fxml"));
 
             Scene scene = new Scene(page1);
 

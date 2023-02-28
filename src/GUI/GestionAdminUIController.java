@@ -77,24 +77,28 @@ public class GestionAdminUIController implements Initializable {
     @FXML
     private Button btnActualiser;
     public static int id_modif ;  
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        ServiceUser sa = new ServiceUser();
+    @FXML
+    private TableColumn<?, ?> col_prenom;
+    @FXML
+    private TableColumn<?, ?> col_username;
+    @FXML
+    private TableColumn<?, ?> col_rating;
+    public void afficherUsers()
+    {
+         ServiceUser sa = new ServiceUser();
 
         List<Utilisateur> lu = sa.getAll();
         ObservableList<Utilisateur> userList = FXCollections.observableArrayList(lu);
 
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        col_prenom.setCellValueFactory(new PropertyValueFactory<>("LastName"));
+        col_username.setCellValueFactory(new PropertyValueFactory<>("UserName"));
         col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
         col_bio.setCellValueFactory(new PropertyValueFactory<>("bio"));
         col_ed.setCellValueFactory(new PropertyValueFactory<>("education"));
         col_exp.setCellValueFactory(new PropertyValueFactory<>("experience"));
         col_tt.setCellValueFactory(new PropertyValueFactory<>("total_jobs"));
+        col_rating.setCellValueFactory(new PropertyValueFactory<>("rating"));
         col_loc.setCellValueFactory(new PropertyValueFactory<>("location"));
         col_role.setCellValueFactory(new PropertyValueFactory<>("role"));
         col_img.setCellValueFactory(new PropertyValueFactory<>("ImagePath"));
@@ -104,6 +108,15 @@ public class GestionAdminUIController implements Initializable {
         ColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         tv_users.setItems(userList);
+    }
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+       afficherUsers();
     }
 
     @FXML
@@ -176,7 +189,7 @@ public class GestionAdminUIController implements Initializable {
                 A.setAlertType(Alert.AlertType.INFORMATION);
                 A.setContentText("Utilisateur Supprimé ! ");
                 A.show();
-
+                afficherUsers();
             }
 
         }
@@ -197,6 +210,8 @@ public class GestionAdminUIController implements Initializable {
             A.setContentText("Selectionnez une colonne ! ");
             A.show();
         } else {
+            String IdCell = tv_users.getColumns().get(ColumnIndex).getCellData(SelectedRowIndex).toString();
+            id_modif = Integer.parseInt(IdCell);
         
         try {
 
@@ -221,26 +236,7 @@ public class GestionAdminUIController implements Initializable {
 
     @FXML
     private void btnActualiserAction(ActionEvent event) {
-        ServiceUser sa = new ServiceUser();
-
-        List<Utilisateur> lu = sa.getAll();
-        ObservableList<Utilisateur> userList = FXCollections.observableArrayList(lu);
-
-        col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        col_bio.setCellValueFactory(new PropertyValueFactory<>("bio"));
-        col_ed.setCellValueFactory(new PropertyValueFactory<>("education"));
-        col_exp.setCellValueFactory(new PropertyValueFactory<>("experience"));
-        col_tt.setCellValueFactory(new PropertyValueFactory<>("total_jobs"));
-        col_loc.setCellValueFactory(new PropertyValueFactory<>("location"));
-        col_role.setCellValueFactory(new PropertyValueFactory<>("role"));
-        col_img.setCellValueFactory(new PropertyValueFactory<>("ImagePath"));
-        col_dom.setCellValueFactory(new PropertyValueFactory<>("domaine"));
-        col_info.setCellValueFactory(new PropertyValueFactory<>("info"));
-        col_nbe.setCellValueFactory(new PropertyValueFactory<>("numberOfEmployees"));
-        ColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
-
-        tv_users.setItems(userList);
+       afficherUsers();
     }
 
 }

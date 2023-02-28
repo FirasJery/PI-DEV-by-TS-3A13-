@@ -2,33 +2,26 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AddEntrepriseUIController">
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AddEntrepriseUIController">
    <children>
-      <VBox layoutX="114.0" layoutY="55.0" spacing="50.0">
-         <children>
-            <Label text="Nom" />
-            <Label text="Email" />
-            <Label text="password" />
-            <Label text="Information" />
-            <Label text="Domaine" />
-            <Label text="Adresse" />
-            <Label text="Nombre Employes" />
-         </children>
-      </VBox>
-      <Label layoutX="705.0" layoutY="86.0" prefHeight="21.0" prefWidth="250.0" />
-      <VBox layoutX="277.0" layoutY="43.0" spacing="10.0">
+      <VBox layoutX="277.0" layoutY="43.0" spacing="5.0">
          <children>
             <TextField fx:id="tf_nom" />
             <Label fx:id="labelNomError" textFill="#b91a1a" />
+            <TextField fx:id="tfusername" />
+            <Label fx:id="labelerrorusername" textFill="#e11717" />
             <TextField fx:id="tf_mail" />
             <Label fx:id="labelMailError" textFill="#b91a1a" />
-            <TextField fx:id="tf_password" />
+            <PasswordField fx:id="tf_password" />
             <Label fx:id="labelPasswordError" textFill="#b91a1a" />
+            <PasswordField fx:id="tfconfirm" />
+            <Label fx:id="labelerrorconfirm" textFill="#e11717" />
             <TextField fx:id="tf_info" />
             <Label fx:id="labelInfoError" textFill="#b91a1a" />
             <TextField fx:id="tf_domaine" />
@@ -40,10 +33,23 @@
          </children>
       </VBox>
       <Button fx:id="btn_select_image" layoutX="577.0" layoutY="81.0" mnemonicParsing="false" onAction="#btn_image_action" text="Insére Image" />
-      <Button fx:id="btn_inscrire" layoutX="277.0" layoutY="635.0" mnemonicParsing="false" onAction="#btn_inscrire_action" text="S'inscrire" />
-      <Button fx:id="btn_annuler" layoutX="392.0" layoutY="635.0" mnemonicParsing="false" onAction="#btn_annuler_action" text="Annuler" />
-      <Label fx:id="image_link" layoutX="728.0" layoutY="250.0" />
-      <ImageView fx:id="ImagePreview" fitHeight="200.0" fitWidth="257.0" layoutX="628.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnRetour" layoutX="853.0" layoutY="635.0" mnemonicParsing="false" onAction="#btnRetourAction" text="Retour" />
+      <Button fx:id="btn_inscrire" layoutX="514.0" layoutY="470.0" mnemonicParsing="false" onAction="#btn_inscrire_action" text="S'inscrire" />
+      <Button fx:id="btn_annuler" layoutX="518.0" layoutY="533.0" mnemonicParsing="false" onAction="#btn_annuler_action" text="Annuler" />
+      <Label fx:id="image_link" layoutX="576.0" layoutY="124.0" prefHeight="21.0" prefWidth="373.0" />
+      <ImageView fx:id="ImagePreview" fitHeight="301.0" fitWidth="344.0" layoutX="577.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnRetour" layoutX="853.0" layoutY="548.0" mnemonicParsing="false" onAction="#btnRetourAction" text="Retour" />
+      <VBox layoutX="61.0" layoutY="55.0" prefHeight="200.0" prefWidth="141.0" spacing="40.0">
+         <children>
+            <Label text="Nom Entreprise" />
+            <Label text="Entreprise Username" />
+            <Label text="Email" />
+            <Label text="Password" />
+            <Label text="Confirm" />
+            <Label text="information" />
+            <Label text="Domaine" />
+            <Label text="Adresse" />
+            <Label text="Nombre employess" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

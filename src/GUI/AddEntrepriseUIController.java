@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -78,6 +79,14 @@ public class AddEntrepriseUIController implements Initializable {
     private ImageView ImagePreview;
     @FXML
     private Button btnRetour;
+    @FXML
+    private TextField tfusername;
+    @FXML
+    private Label labelerrorusername;
+    @FXML
+    private PasswordField tfconfirm;
+    @FXML
+    private Label labelerrorconfirm;
 
     /**
      * Initializes the controller class.
@@ -85,7 +94,7 @@ public class AddEntrepriseUIController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        ImagePath = "C:/Users/Firas/Desktop/profile.jpg";
+        ImagePath = "resources/profile.jpg";
 
         tf_nom.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -98,6 +107,21 @@ public class AddEntrepriseUIController implements Initializable {
 
                 } else {
                     labelNomError.setText(" ");
+                }
+
+            }
+        });
+        tfusername.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                String text = tfusername.getText();
+                if (cs.isEmpty(text)) {
+                    labelerrorusername.setText("Champs vide !");
+
+                } else if (!cs.checkOnlyString(text)) {
+                    labelNomError.setText("username n'est pas valide ! ");
+
+                } else {
+                    labelerrorusername.setText(" ");
                 }
 
             }
@@ -129,6 +153,22 @@ public class AddEntrepriseUIController implements Initializable {
 
                 } else {
                     labelPasswordError.setText(" ");
+                }
+
+            }
+        });
+        tfconfirm.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                String text = tfconfirm.getText();
+                if (cs.isEmpty(text)) {
+                    labelerrorconfirm.setText("Champs vide !");
+
+                } else if (text.length() <= 8) {
+
+                    labelerrorconfirm.setText("mot de pasee trop court  ! ");
+
+                } else {
+                    labelerrorconfirm.setText(" ");
                 }
 
             }
@@ -200,7 +240,7 @@ public class AddEntrepriseUIController implements Initializable {
         ServiceUser sa = new ServiceUser();
         Entreprise f = new Entreprise();
 
-        if (cs.isEmpty(tf_nom.getText()) || cs.isEmpty(tf_mail.getText()) || cs.isEmpty(tf_password.getText()) || cs.isEmpty(tf_info.getText()) || cs.isEmpty(tf_adresse.getText()) || cs.isEmpty(tf_domaine.getText()) || cs.isEmpty(tf_nbe.getText())) {
+        if (cs.isEmpty(tfconfirm.getText()) || cs.isEmpty(tfusername.getText()) ||cs.isEmpty(tf_nom.getText()) || cs.isEmpty(tf_mail.getText()) || cs.isEmpty(tf_password.getText()) || cs.isEmpty(tf_info.getText()) || cs.isEmpty(tf_adresse.getText()) || cs.isEmpty(tf_domaine.getText()) || cs.isEmpty(tf_nbe.getText())) {
             Alert A = new Alert(Alert.AlertType.ERROR);
             A.setContentText("Veuillez remplir tout les champs ! ");
             A.showAndWait();
@@ -261,6 +301,10 @@ public class AddEntrepriseUIController implements Initializable {
             Alert A = new Alert(Alert.AlertType.ERROR);
             A.setContentText("Nombre employes des chiffres seulement !");
             A.showAndWait();
+        }else if ( ! (tfconfirm.getText().equals(tf_password.getText()))) {
+            Alert A = new Alert(Alert.AlertType.ERROR);
+            A.setContentText("mdps non conformes !");
+            A.showAndWait();
         } //////////////////////////////////////////////////////////////////////////
         else if (sa.ChercherMail(tf_mail.getText()) == 1) {
             Alert A = new Alert(Alert.AlertType.ERROR);
@@ -268,6 +312,7 @@ public class AddEntrepriseUIController implements Initializable {
             A.showAndWait();
         } else {
             f.setName(tf_nom.getText());
+            f.setUserName(tfusername.getText());
             f.setEmail(tf_mail.getText());
             f.setPassword(tf_password.getText());
             f.setImagePath(ImagePath);
@@ -294,15 +339,18 @@ public class AddEntrepriseUIController implements Initializable {
     @FXML
     private void btn_image_action(ActionEvent event) {
         FileChooser fc = new FileChooser();
+        File defaultDir = new File("resources");
+        fc.setInitialDirectory(defaultDir);
         File SelectedFile = fc.showOpenDialog(null);
         if (SelectedFile != null) {
-            image_link.setText(SelectedFile.getName());
-            ImagePath = SelectedFile.getAbsolutePath();
+            
+            ImagePath = defaultDir.getName() + "/" + SelectedFile.getName();
+            image_link.setText(ImagePath);
             ImagePreview.setImage(new Image(new File(ImagePath).toURI().toString()));
         } else {
 
-            ImagePath = "C:/Users/Firas/Desktop/profile.jpg";
-            image_link.setText("C:/Users/Firas/Desktop/profile.jpg");
+            ImagePath = "resources/profile.jpg";
+            image_link.setText(ImagePath);
             ImagePreview.setImage(new Image(new File(ImagePath).toURI().toString()));
 
         }
