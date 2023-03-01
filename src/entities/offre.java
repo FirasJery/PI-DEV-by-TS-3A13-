@@ -5,6 +5,7 @@
  */
 package entities;
 import java.time.LocalDate;
+import java.time.Month;
 
 /**
  *
@@ -27,6 +28,10 @@ public class Offre {
 
 
     public Offre() {
+        this.isAccepted = 0 ; 
+        this.isFinished = 0 ; 
+        this.date_debut = LocalDate.of(2000, 1, 1);
+                this.date_fin = LocalDate.of(2000, 1, 1);
 
     }
 

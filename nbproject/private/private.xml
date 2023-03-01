@@ -3,16 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/entities/Utilisateur.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/services/ServiceOffre.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/services/ServicePostulation.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/tests/Main.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/entities/Entreprise.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/entities/Offre.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/utils/DataSource.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/entities/Postulation.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/services/IService.java</file>
-            <file>file:/C:/Users/Firas/Desktop/gestionoffre/src/services/ServiceUser.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/entities/Admin.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/services/IService.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/entities/Offre.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/tests/Main.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/services/ServiceOffre.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/tests/FXMain.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/entities/Postulation.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/GUI/AffichageOffreController.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/utils/DataSource.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/services/ServicePostulation.java</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/GUI/affichageOffre.fxml</file>
+            <file>file:/C:/Users/ASUS/Desktop/gestionoffre_updated/gestionoffre/src/entities/SessionManager.java</file>
         </group>
     </open-files>
 </project-private>
