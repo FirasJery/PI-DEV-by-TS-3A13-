@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/ServiceRec.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/AffReclamationFXMLController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/SuivieRecController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/AddAdminUIController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/LoginUIController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/AffichageOffreController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/utils/DataSource.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/DepotWalletController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/ServiceFacture.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Wallet.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Card.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/tests/MainClass.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/ServiceWallet.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/HomePageContentController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Review.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/AccWalletController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/HomePageController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/ServiceTrans.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/FreelancerProfileUIController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/AddCard.fxml</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/IService.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Freelancer.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/AddRecController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Reclamation.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/ServiceUser.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/ServiceCard.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Transaction.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/tests/FxMain.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/OffrePageController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/GUI/AddCardController.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Entreprise.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Utilisateur.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/entities/Facture.java</file>
+            <file>file:/C:/Users/Ghass/Documents/NetBeansProjects/Gestion_offre%20+%20user/src/services/ServiceReview.java</file>
+        </group>
+    </open-files>
+</project-private>
