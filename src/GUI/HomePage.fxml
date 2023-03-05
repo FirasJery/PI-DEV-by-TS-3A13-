@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.HomePageController">
+   <children>
+      <HBox fx:id="navbar" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1200.0" spacing="50.0" style="-fx-background-color: BB0000;">
+         <children>
+            <ImageView fx:id="home_btn" fitHeight="150.0" fitWidth="162.0" onMouseEntered="#home_effect" onMouseExited="#home_effect" onMousePressed="#go_home" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/Freelancy.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <Label fx:id="offres_btn" onMousePressed="#go_offres" text="Offres" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="reclamations_btn" onMousePressed="#Go_Reclamations" text="Reclamations" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="messages_btn" onMousePressed="#go_msg" text="Messages" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <Label fx:id="wallet_btn" text="Wallet" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <ImageView fx:id="profile_btn" fitHeight="44.0" fitWidth="47.0" onMousePressed="#go_profile" pickOnBounds="true" preserveRatio="true" translateX="230.0">
+               <image>
+                  <Image url="@../resources/DefaultProfile.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <Label fx:id="dc_btn" onMousePressed="#Se_deconnecterMousePressed" text="Déconnecter" textFill="WHITE" translateX="210.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </HBox>
+      <HBox fx:id="content" layoutY="100.0" prefHeight="620.0" prefWidth="1200.0" />
+      <HBox fx:id="bottom_content" layoutY="725.0" prefHeight="80.0" prefWidth="1200.0" />
+   </children>
+</AnchorPane>

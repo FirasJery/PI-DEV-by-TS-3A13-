@@ -6,7 +6,7 @@ import entities.Freelancer;
 import entities.Utilisateur;
 import java.util.ArrayList;
 import java.util.List;
-import sevices.ServiceUser;
+import services.ServiceUser;
 
 
 /*
