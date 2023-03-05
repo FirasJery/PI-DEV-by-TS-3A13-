@@ -7,6 +7,7 @@ package Scene;
 
 import Entities.Conversation;
 import Entities.Personne;
+import Entities.Translator;
 import Services.ServiceMessagerie;
 import Services.ServicePersonne;
 import java.net.URL;
@@ -15,7 +16,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -23,12 +30,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -68,6 +77,7 @@ public class MessagerieInterfaceController implements Initializable {
 
     Image notif = new Image(getClass().getResource("notif.png").toString(), true);
     ImageView viewn = new ImageView(notif);
+    boolean isFade = false;
 
     List<String> contacts = new ArrayList();
     List<String> last_msg = new ArrayList();
@@ -81,6 +91,8 @@ public class MessagerieInterfaceController implements Initializable {
     private TextField search_bar;
     @FXML
     private AnchorPane anchor_window;
+
+    private Translator t = new Translator();
 
     /**
      * Initializes the controller class.
@@ -175,7 +187,13 @@ public class MessagerieInterfaceController implements Initializable {
         }
         //users.getItems().add("SERVER");
         users.getItems().stream().forEach(u -> aux.getItems().add(u));
-        
+        //aux.getItems().forEach(System.out::println);
+
+        try {
+            System.out.println(t.translate("Hello", "en", "fr"));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
 
     }
 
@@ -257,12 +275,11 @@ public class MessagerieInterfaceController implements Initializable {
 
     @FXML
     private void search_convo(ActionEvent event) {
+        users.getItems().clear();
         aux.getItems().forEach(u -> {
-            users.getItems().clear();
             users.getItems().add(u);
         });
         List<String> listUsers = users.getItems();
-        listUsers.stream().forEach(System.out::println);
         if (search_bar.getText().compareTo("") != 0) {
             List<String> filteredUsers = users.getItems().stream().filter(u -> u.toUpperCase().contains(search_bar.getText().toUpperCase())).collect(Collectors.toList());
             users.getItems().clear();
@@ -282,6 +299,63 @@ public class MessagerieInterfaceController implements Initializable {
     }
 
     public void memes() {
+    }
+
+    @FXML
+    private void tryTranslate(MouseEvent event) {
+        String src = "en";
+        String dest = "fr";
+        if (!isFade) {
+            if (event.isSecondaryButtonDown()) {
+                System.out.println("sssss");
+                String message = conversation.getSelectionModel().getSelectedItem();
+                
+                try {
+                    message = t.translate(message, src, dest);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+                DialogPane d = new DialogPane();
+                d.setHeaderText("Translation from " + src + " to " + dest);
+                d.setContentText(message);
+                int lines = Math.round(message.length() / 45);
+                System.out.println(message);
+                d.setPrefWidth(360);
+                d.setPrefHeight(88 + (lines * 21));
+                if (event.getSceneX() >= anchor_window.getPrefWidth() / 2) {
+                    d.setTranslateX(event.getSceneX() - d.getPrefWidth());
+                } else {
+                    d.setTranslateX(event.getSceneX());
+                }
+                if (event.getSceneY() >= anchor_window.getPrefHeight() / 2) {
+                    d.setTranslateY(event.getSceneY() - d.getPrefHeight());
+                    System.out.println("low");
+                } else {
+                    d.setTranslateY(event.getSceneY());
+                }
+                
+                FadeTransition readIt = new FadeTransition(Duration.seconds(5), d);
+                readIt.setFromValue(1);
+                readIt.setToValue(1);
+                
+                FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), d);
+                fadeOut.setFromValue(1);
+                fadeOut.setToValue(0);
+                fadeOut.setOnFinished(new EventHandler <ActionEvent>(){
+                    @Override
+                    public void handle(ActionEvent event) {
+                        anchor_window.getChildren().remove(d);
+                        isFade = false;
+                    }
+                });
+                anchor_window.getChildren().add(d);
+                isFade = true;
+                SequentialTransition seqT = new SequentialTransition(readIt, fadeOut);
+                seqT.play();
+
+            }
+        }
+
     }
 
 }
@@ -316,7 +390,6 @@ class db_buffer extends Thread {
         viewn.setFitHeight(15);
         viewn.setPreserveRatio(true);
 
-        
     }
 
     public void set_last(List<String> last_m) {
@@ -348,12 +421,10 @@ class db_buffer extends Thread {
     }
 
     @Override
-    public void run() {       
+    public void run() {
         while (!isInterrupted()) {
             for (int i = 0; i < last_m.size(); i++) {
                 if (last_m.get(i).compareTo("") != 0) {
-
-                    System.out.println("Current convo " + current_convo);
                     if (last_m.get(i).compareTo(sm.getLastMessage(sm.findConvo(current_id, users.get(i)).getId_convo())) != 0) {
                         last_m.set(i, sm.getLastMessage(sm.findConvo(current_id, users.get(i)).getId_convo()));
                         if (i == current_convo) {
@@ -361,8 +432,6 @@ class db_buffer extends Thread {
                             m.getItems().add(sm.getLastSource(sm.findConvo(current_id, users.get(i)).getId_convo()));
                         }
                         if (i != current_convo) {
-                            System.out.println("different index" + i);
-
                             viewn.setId("n" + i);
                             viewn.setTranslateX(220);
                             viewn.setTranslateY(anchor_window.getChildren().get(0).getLayoutY() + (i * 30));
@@ -375,7 +444,6 @@ class db_buffer extends Thread {
                     }
                 }
             }
-            System.out.println("memes");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {

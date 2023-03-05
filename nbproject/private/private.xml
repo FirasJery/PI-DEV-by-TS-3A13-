@@ -5,9 +5,13 @@
         <group>
             <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Services/ServiceMessage.java</file>
             <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Services/ServiceMessagerie.java</file>
+            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Services/ServiceInvitation.java</file>
             <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Entities/Message.java</file>
             <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/atelierjdbc/fxMain.java</file>
+            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Entities/Translator.java</file>
             <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Scene/MessagerieInterfaceController.java</file>
+            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Entities/Invitation.java</file>
+            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/AtelierJDBC/src/Entities/Personne.java</file>
         </group>
     </open-files>
 </project-private>
