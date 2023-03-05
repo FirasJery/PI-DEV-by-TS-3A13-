@@ -21,6 +21,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -34,6 +36,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 import services.ServiceOffre;
 
 /**
@@ -411,6 +414,23 @@ public class AffichageOffreController implements Initializable {
         });
 
         return box;
+    }
+
+    @FXML
+    private void stat(ActionEvent event) {
+          try {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader
+                   .load(getClass().getResource("statistic.fxml"));
+
+            Scene scene = new Scene(root);
+            stage.setResizable(false);
+            stage.setTitle("Offre Managment");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.print(e.getMessage());
+        }
     }
 
 }

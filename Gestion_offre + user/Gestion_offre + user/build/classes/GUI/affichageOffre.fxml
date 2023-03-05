@@ -38,6 +38,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <Button layoutX="1088.0" layoutY="24.0" mnemonicParsing="false" onAction="#stat" text="statistique" />
          </children>
       </Pane>
    </children>

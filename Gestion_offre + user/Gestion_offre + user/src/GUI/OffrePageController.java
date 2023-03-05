@@ -20,6 +20,13 @@ import javafx.scene.control.TextField;
 import services.ServiceOffre;
 import services.ServicePostulation;
 import services.ServiceUser;
+import com.twilio.Twilio;
+import com.twilio.converter.Promoter;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
+import java.net.URI;
+import java.math.BigDecimal;
 
 /**
  * FXML Controller class
@@ -40,6 +47,8 @@ public class OffrePageController implements Initializable {
     private TextField tfDuree;
     @FXML
     private Button btnPostuler;
+     public static final String ACCOUNT_SID = "ACcdf24cdc4abbf3d6d3b29419fa108968";
+  public static final String AUTH_TOKEN = "fbe803b7edd9c589775ff5b14f3f8e32";
 
     /**
      * Initializes the controller class.
@@ -68,6 +77,17 @@ public class OffrePageController implements Initializable {
         Postulation p = new Postulation(o,f,0);
         sp.ajouter(p);
         btnPostuler.setVisible(false);
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+    Message message = Message.creator(
+      new com.twilio.type.PhoneNumber("whatsapp:+21627505807"),
+      new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
+      "merci pour votre postulation , votre demande est prise en charge et en cours de traitement.")
+
+    .create();
+
+    System.out.println(message.getSid());
+  }
+            
     }
     
-}
+    

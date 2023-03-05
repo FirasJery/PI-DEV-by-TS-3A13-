@@ -38,6 +38,5 @@ public class DataSource {
 
     public Connection getCnx() {
         return cnx;
-    }
-    
+    }   
 }
