@@ -24,10 +24,12 @@ import java.util.logging.Logger;
  */
 public class ServiceMessagerie implements IService<Conversation> {
 
+    
     private static ServiceMessagerie instance;
     private List<Conversation> cl = new ArrayList();
     private final Connection cnx;
-
+    private ServiceUser su = new ServiceUser();
+    
     public ServiceMessagerie() {
         cnx = DataSource.getInstance().getCnx();
     }
@@ -155,17 +157,18 @@ public class ServiceMessagerie implements IService<Conversation> {
         List<String> contacts = new ArrayList();
         try {
             ps = cnx.prepareStatement("SELECT * FROM CONVERSATION WHERE(((ID_SOURCE = ?)AND(STATUS_SRC != 'false'))OR((ID_DEST = ?)AND(STATUS_DEST != 'false')))");
+            
             ps.setString(1, id);
             ps.setString(2, id);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 boolean status = false;
-                if (rs.getString("id_source").compareTo(id) == 0) {
-                    contacts.add(rs.getString("id_dest"));
+                if (rs.getString("id_source").compareTo(id) == 0) {                    
+                    contacts.add(su.getOneById(rs.getInt("id_dest")).getUserName());
                 }
                 if (rs.getString("id_dest").compareTo(id) == 0) {
-                    contacts.add(rs.getString("id_source"));
+                    contacts.add(su.getOneById(rs.getInt("id_source")).getUserName());
                 }
             }
         } catch (SQLException ex) {

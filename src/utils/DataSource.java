@@ -18,7 +18,7 @@ public class DataSource {
     private Connection cnx;
     private static DataSource instance;     
     private final String USER = "root";
-    private final String PWD = "2013";
+    private final String PWD = "";
     private final String URL = "jdbc:mysql://localhost:3306/Freelancy";
 
     private DataSource() {

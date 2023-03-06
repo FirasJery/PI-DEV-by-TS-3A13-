@@ -12,15 +12,15 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -64,16 +64,17 @@ public class HomePageController implements Initializable {
         switch (sessionManager.getCurrentUser().getRole()) {
             case "Freelancer":
                 offres_btn.setText("Offres");
-                offre_path = "dashboardOffre.fxml";
+                offre_path = "/OffresGUI/affichageOffre.fxml";
                 break;
             case "Entreprise":
-                offres_btn.setText("Freelancers");
-                offre_path = "dashboardFreelancers.fxml";
+                offres_btn.setText("Offres");
+               offre_path = "/OffresGUI/AffichageOffreEntrprise.fxml";
                 break;
             default:
                 break;
         }
-        showContent("Messagerie.fxml");
+        //showContent(offre_path);
+        showContent("HomePageContent.fxml");
 
     }
 
@@ -109,8 +110,8 @@ public class HomePageController implements Initializable {
     @FXML
     private void go_msg(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
-            showContent("Messagerie.fxml");
-            System.out.println("memes");
+            showContent("/MessagerieGUI/messagerieInterface.fxml");
+            
         }
         
     }
@@ -124,14 +125,41 @@ public class HomePageController implements Initializable {
     private void go_profile(MouseEvent event) {
         switch (sessionManager.getCurrentUser().getRole()) {
             case "Freelancer":
-                showContent("FreelancerProfileUI.fxml");
+                showContent("/UserGUI/FreelancerProfileUI.fxml");
                 break;
             case "Entreprise":
-                showContent("EntrepriseProfileUI.fxml");
+                showContent("/UserGUI/EntrepriseProfileUI.fxml");
                 break;
             default:
                 break;
         }
+    }
+
+    @FXML
+    private void Se_deconnecterMousePressed(MouseEvent event) {
+         SessionManager.getInstance().setCurrentUser(null);
+         try {
+
+            Parent page1 = FXMLLoader.load(getClass().getResource("/UserGUI/LoginUI.fxml"));
+
+            Scene scene = new Scene(page1);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+
+            stage.show();
+
+        } catch (IOException ex) {
+
+           System.out.println(ex.getMessage());
+
+        }
+    }
+
+    @FXML
+    private void Go_Reclamations(MouseEvent event) {
+        showContent("/ReclamationGUI/AffReclamationFXML.fxml");
     }
 
 }

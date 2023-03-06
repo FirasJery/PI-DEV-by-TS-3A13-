@@ -28,7 +28,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <Label fx:id="reclamations_btn" text="Reclamations" textFill="WHITE">
+            <Label fx:id="reclamations_btn" onMousePressed="#Go_Reclamations" text="Reclamations" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -60,7 +60,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <Label fx:id="dc_btn" text="Déconnecter" textFill="WHITE" translateX="210.0">
+            <Label fx:id="dc_btn" onMousePressed="#Se_deconnecterMousePressed" text="Déconnecter" textFill="WHITE" translateX="210.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

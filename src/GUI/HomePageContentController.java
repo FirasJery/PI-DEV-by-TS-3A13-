@@ -25,7 +25,7 @@ public class HomePageContentController implements Initializable {
     private AnchorPane background;
     @FXML
     private Label rechercher_btn;
-    
+
     Bloom bloom = new Bloom(0.3);
 
     /**
@@ -34,18 +34,22 @@ public class HomePageContentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-      //  background.setStyle("-fx-background-image: url('bg.png'); -fx-background-size: cover;");
-      
-    }    
+        //  background.setStyle("-fx-background-image: url('bg.png'); -fx-background-size: cover;");
+        URL imageUrl = getClass().getResource("/resources/bg.png");
+
+// Set the background of the AnchorPane to the image
+        background.setStyle("-fx-background-image: url('" + imageUrl + "');");
+
+    }
 
     private void dragEnteredLAbel(MouseEvent event) {
-        
+
         System.out.println("test");
     }
 
     @FXML
     private void rechercher_fx(MouseEvent event) {
-        if(rechercher_btn.getEffect() == null){
+        if (rechercher_btn.getEffect() == null) {
             rechercher_btn.setEffect(bloom);
         } else {
             rechercher_btn.setEffect(null);
@@ -55,5 +59,5 @@ public class HomePageContentController implements Initializable {
     @FXML
     private void rechercher(MouseEvent event) {
     }
-    
+
 }
