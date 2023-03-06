@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,6 +32,17 @@ public class FxMain extends Application {
            // scene.getStylesheets().add("/GUI/style.css");
             primaryStage.setScene(scene);
             primaryStage.setTitle("Your Window Title"); // Set the title of the window
+            primaryStage.setOnCloseRequest(event -> {
+                System.out.println("closed");
+                for (Thread t : Thread.getAllStackTraces().keySet()) {
+                    if (t.getName().equals("606")) {
+                        t.interrupt();
+                        t.stop();
+                    }
+                }
+                //primaryStage.close();
+                Platform.exit();
+            });
             primaryStage.show(); // Show the window
         } catch (IOException ex) {
             Logger.getLogger(FxMain.class.getName()).log(Level.SEVERE, null, ex);

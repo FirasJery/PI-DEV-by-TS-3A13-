@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : dim. 05 mars 2023 à 20:31
--- Version du serveur : 10.4.27-MariaDB
--- Version de PHP : 8.1.12
+-- Host: 127.0.0.1
+-- Generation Time: Mar 06, 2023 at 07:19 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,38 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `freelancy`
+-- Database: `freelancy`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `credit_card`
+-- Table structure for table `conversation`
+--
+
+CREATE TABLE `conversation` (
+  `id` int(11) NOT NULL,
+  `id_source` varchar(50) NOT NULL,
+  `id_dest` varchar(50) NOT NULL,
+  `status_src` varchar(10) NOT NULL,
+  `status_dest` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `conversation`
+--
+
+INSERT INTO `conversation` (`id`, `id_source`, `id_dest`, `status_src`, `status_dest`) VALUES
+(0, '606', 'SERVER', 'true', 'true'),
+(19, '202', '606', 'true', 'pending'),
+(20, '2024', 'ssss5', 'true', 'pending'),
+(22, '36', '48', 'true', 'pending'),
+(23, '48', '47', 'true', 'pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `credit_card`
 --
 
 CREATE TABLE `credit_card` (
@@ -37,10 +62,10 @@ CREATE TABLE `credit_card` (
   `ville` varchar(200) NOT NULL,
   `num` int(20) NOT NULL,
   `id_user` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `credit_card`
+-- Dumping data for table `credit_card`
 --
 
 INSERT INTO `credit_card` (`id`, `nom`, `prenom`, `date_expiration`, `cvc`, `zipcode`, `ville`, `num`, `id_user`) VALUES
@@ -49,7 +74,7 @@ INSERT INTO `credit_card` (`id`, `nom`, `prenom`, `date_expiration`, `cvc`, `zip
 -- --------------------------------------------------------
 
 --
--- Structure de la table `facture`
+-- Table structure for table `facture`
 --
 
 CREATE TABLE `facture` (
@@ -58,12 +83,36 @@ CREATE TABLE `facture` (
   `wallet_s` int(10) NOT NULL,
   `Certif` varchar(250) NOT NULL,
   `id_user` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `offre`
+-- Table structure for table `message`
+--
+
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL,
+  `id_source` varchar(50) NOT NULL,
+  `id_dest` varchar(50) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `id_convo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `message`
+--
+
+INSERT INTO `message` (`id`, `id_source`, `id_dest`, `message`, `id_convo`) VALUES
+(39, '48', '47', 'test messagerie integration', 0),
+(40, '48', '47', 'hello test', 23),
+(41, '48', '47', 'hello', 23),
+(42, '48', '47', 'this paragraph is made for translation purposes', 23);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `offre`
 --
 
 CREATE TABLE `offre` (
@@ -78,10 +127,10 @@ CREATE TABLE `offre` (
   `id_entreprise` int(11) NOT NULL,
   `date_debut` date NOT NULL,
   `date_fin` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `offre`
+-- Dumping data for table `offre`
 --
 
 INSERT INTO `offre` (`id_offre`, `title`, `description`, `category`, `type`, `duree`, `isAccepted`, `isFinished`, `id_entreprise`, `date_debut`, `date_fin`) VALUES
@@ -96,7 +145,7 @@ INSERT INTO `offre` (`id_offre`, `title`, `description`, `category`, `type`, `du
 -- --------------------------------------------------------
 
 --
--- Structure de la table `postulation`
+-- Table structure for table `postulation`
 --
 
 CREATE TABLE `postulation` (
@@ -104,10 +153,10 @@ CREATE TABLE `postulation` (
   `isAccepted` int(11) NOT NULL,
   `id_offre` int(11) NOT NULL,
   `id_freelancer` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `postulation`
+-- Dumping data for table `postulation`
 --
 
 INSERT INTO `postulation` (`id_postulation`, `isAccepted`, `id_offre`, `id_freelancer`) VALUES
@@ -122,7 +171,7 @@ INSERT INTO `postulation` (`id_postulation`, `isAccepted`, `id_offre`, `id_freel
 -- --------------------------------------------------------
 
 --
--- Structure de la table `reclamation`
+-- Table structure for table `reclamation`
 --
 
 CREATE TABLE `reclamation` (
@@ -131,12 +180,12 @@ CREATE TABLE `reclamation` (
   `type` varchar(200) NOT NULL,
   `etat` tinyint(1) NOT NULL,
   `id_user` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `review`
+-- Table structure for table `review`
 --
 
 CREATE TABLE `review` (
@@ -145,10 +194,10 @@ CREATE TABLE `review` (
   `id_user` int(10) NOT NULL,
   `message` varchar(500) NOT NULL,
   `note` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `review`
+-- Dumping data for table `review`
 --
 
 INSERT INTO `review` (`id`, `id_editeur`, `id_user`, `message`, `note`) VALUES
@@ -157,7 +206,7 @@ INSERT INTO `review` (`id`, `id_editeur`, `id_user`, `message`, `note`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `transaction`
+-- Table structure for table `transaction`
 --
 
 CREATE TABLE `transaction` (
@@ -167,12 +216,12 @@ CREATE TABLE `transaction` (
   `sending_wallet` int(10) NOT NULL,
   `rec_wallet` int(10) NOT NULL,
   `etat` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `utilisateur`
+-- Table structure for table `utilisateur`
 --
 
 CREATE TABLE `utilisateur` (
@@ -193,10 +242,10 @@ CREATE TABLE `utilisateur` (
   `info` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `nbe` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `utilisateur`
+-- Dumping data for table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`id`, `name`, `LastName`, `UserName`, `email`, `password`, `role`, `ImagePath`, `bio`, `experience`, `education`, `total_jobs`, `rating`, `domaine`, `info`, `location`, `nbe`) VALUES
@@ -208,35 +257,48 @@ INSERT INTO `utilisateur` (`id`, `name`, `LastName`, `UserName`, `email`, `passw
 (44, 'admin', 'admin', 'admin', 'admin@esprit.tn', 'adminadmin', 'Admin', 'resources/profile.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (45, 'flower', NULL, 'aze', 'flower@esprit.tn', 'azertyazerty', 'Entreprise', 'resources/profile.jpg', NULL, NULL, NULL, NULL, NULL, 'aze', 'aze', 'aze', 1),
 (46, 'aze', 'aze', 'aze', 'aze@test.tn', 'azertyazerty', 'Freelancer', 'resources/profile.jpg', 'aze', 'aze', 'aze', 0, 0, NULL, NULL, NULL, NULL),
-(47, 'firas', 'jery', 'test', 'firasss@esprit.tn', 'azeazeaze', 'Freelancer', 'resources/.png', 'aze', 'aze', 'aze', 0, 0, NULL, NULL, NULL, NULL);
+(47, 'firas', 'jery', 'Firas', 'firasss@esprit.tn', 'azeazeaze', 'Freelancer', 'resources/.png', 'aze', 'aze', 'aze', 0, 0, NULL, NULL, NULL, NULL),
+(48, 'Khalil', 'Khemiri', 'khe', 'khalil@esprit.tn', '123', 'Freelancer', 'resources/.png', 'A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs.', 'A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs.', 'makteb', 0, 0, NULL, 'A paragraph is a series of sentences that are organized and coherent, and are all related to a single topic. Almost every piece of writing you do that is longer than a few sentences should be organized into paragraphs.', NULL, NULL);
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `credit_card`
+-- Indexes for table `conversation`
+--
+ALTER TABLE `conversation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `credit_card`
 --
 ALTER TABLE `credit_card`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Index pour la table `facture`
+-- Indexes for table `facture`
 --
 ALTER TABLE `facture`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Index pour la table `offre`
+-- Indexes for table `message`
+--
+ALTER TABLE `message`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `offre`
 --
 ALTER TABLE `offre`
   ADD PRIMARY KEY (`id_offre`),
   ADD KEY `fork1` (`id_entreprise`);
 
 --
--- Index pour la table `postulation`
+-- Indexes for table `postulation`
 --
 ALTER TABLE `postulation`
   ADD PRIMARY KEY (`id_postulation`),
@@ -244,14 +306,14 @@ ALTER TABLE `postulation`
   ADD KEY `fk2` (`id_offre`);
 
 --
--- Index pour la table `reclamation`
+-- Indexes for table `reclamation`
 --
 ALTER TABLE `reclamation`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Index pour la table `review`
+-- Indexes for table `review`
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`id`),
@@ -259,7 +321,7 @@ ALTER TABLE `review`
   ADD KEY `fku2` (`id_user`);
 
 --
--- Index pour la table `transaction`
+-- Indexes for table `transaction`
 --
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`id`),
@@ -267,82 +329,94 @@ ALTER TABLE `transaction`
   ADD KEY `sending_wallet` (`sending_wallet`);
 
 --
--- Index pour la table `utilisateur`
+-- Indexes for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `credit_card`
+-- AUTO_INCREMENT for table `conversation`
+--
+ALTER TABLE `conversation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `credit_card`
 --
 ALTER TABLE `credit_card`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT pour la table `facture`
+-- AUTO_INCREMENT for table `facture`
 --
 ALTER TABLE `facture`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `offre`
+-- AUTO_INCREMENT for table `message`
+--
+ALTER TABLE `message`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `offre`
 --
 ALTER TABLE `offre`
   MODIFY `id_offre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT pour la table `postulation`
+-- AUTO_INCREMENT for table `postulation`
 --
 ALTER TABLE `postulation`
   MODIFY `id_postulation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT pour la table `reclamation`
+-- AUTO_INCREMENT for table `reclamation`
 --
 ALTER TABLE `reclamation`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT pour la table `review`
+-- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `transaction`
+-- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `utilisateur`
+-- AUTO_INCREMENT for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `offre`
+-- Constraints for table `offre`
 --
 ALTER TABLE `offre`
   ADD CONSTRAINT `fork1` FOREIGN KEY (`id_entreprise`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `postulation`
+-- Constraints for table `postulation`
 --
 ALTER TABLE `postulation`
   ADD CONSTRAINT `fk1` FOREIGN KEY (`id_freelancer`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk2` FOREIGN KEY (`id_offre`) REFERENCES `offre` (`id_offre`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `review`
+-- Constraints for table `review`
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `fku1` FOREIGN KEY (`id_editeur`) REFERENCES `utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

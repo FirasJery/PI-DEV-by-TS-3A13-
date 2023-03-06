@@ -110,8 +110,8 @@ public class HomePageController implements Initializable {
     @FXML
     private void go_msg(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
-           // showContent("Messagerie.fxml");
-            System.out.println("memes");
+            showContent("/MessagerieGUI/messagerieInterface.fxml");
+            
         }
         
     }
