@@ -40,7 +40,7 @@ public class ForgotPasswordController implements Initializable {
 
     ControleSaisieTextFields cs;
 
-    private int generateVerificationCode() {
+    public static int generateVerificationCode() {
         // Générer un code de vérification aléatoire à 6 chiffres
         Random random = new Random();
         return 100000 + random.nextInt(900000);

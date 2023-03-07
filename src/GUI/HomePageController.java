@@ -6,9 +6,19 @@
 package GUI;
 
 import entities.SessionManager;
+import entities.Wallet;
+import java.awt.AWTException;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +31,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import services.NotifService;
+import services.ServiceWallet;
+import javafx.application.Platform;
+import java.awt.event.ActionEvent;
 
 /**
  * FXML Controller class
@@ -73,6 +87,52 @@ public class HomePageController implements Initializable {
             default:
                 break;
         }
+        // Instance Wallet
+            ServiceWallet sw = new ServiceWallet();
+            if (sw.ChercherW(sessionManager.getCurrentUser().getId())==-1)
+            {
+            Wallet w;
+            w= new Wallet(sessionManager.getCurrentUser().getName(),0,0,sessionManager.getCurrentUser().getEmail(),sessionManager.getCurrentUser(),sw.generateRandomString(9));
+            sw.ajouter(w);}
+            //
+        //showContent(offre_path);
+        showContent("HomePageContent.fxml");
+        
+        NotifService nn= new NotifService();
+        try {
+            List<String> lss = nn.getNotifmsg(sessionManager.getCurrentUser().getId());
+            for(String s : lss)
+            {
+            showNotification(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HomePageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    public void showNotification(String message) {
+        Platform.runLater(() -> {
+            SystemTray tray = SystemTray.getSystemTray();
+            java.awt.Image image = Toolkit.getDefaultToolkit().getImage("icon.png");
+            TrayIcon trayIcon = new TrayIcon(image, "Freelancy");
+            trayIcon.setImageAutoSize(true);
+            trayIcon.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Handle user clicking on the notification
+                }
+            });
+            try {
+                tray.add(trayIcon);
+                trayIcon.displayMessage("freelancy", message, TrayIcon.MessageType.INFO);
+            } catch (AWTException ex) {
+                System.out.println("TrayIcon could not be added.");
+            }
+        });
+        
+        
+        
         //showContent(offre_path);
         showContent("HomePageContent.fxml");
 
@@ -110,7 +170,7 @@ public class HomePageController implements Initializable {
     @FXML
     private void go_msg(MouseEvent event) {
         if (event.isPrimaryButtonDown()) {
-            showContent("/MessagerieGUI/messagerieInterface.fxml");
+          showContent("/MessagerieGUI/messagerieInterface.fxml");
             
         }
         
@@ -160,6 +220,12 @@ public class HomePageController implements Initializable {
     @FXML
     private void Go_Reclamations(MouseEvent event) {
         showContent("/ReclamationGUI/AffReclamationFXML.fxml");
+    }
+
+    @FXML
+    private void wall(MouseEvent event) {
+        
+        showContent("/WalletGUI/AccWallet.fxml");
     }
 
 }

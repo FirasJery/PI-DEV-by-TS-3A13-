@@ -20,23 +20,23 @@
       <VBox layoutX="277.0" layoutY="137.0" spacing="5.0">
          <children>
             <TextField fx:id="tf_nom" />
-            <Label fx:id="labelNomError" textFill="#b91a1a" />
+            <Label fx:id="labelNomError" textFill="RED" />
             <TextField fx:id="tfusername" />
-            <Label fx:id="labelerrorusername" textFill="#e11717" />
+            <Label fx:id="labelerrorusername" textFill="RED" />
             <TextField fx:id="tf_mail" />
-            <Label fx:id="labelMailError" textFill="#b91a1a" />
+            <Label fx:id="labelMailError" textFill="RED" />
             <PasswordField fx:id="tf_password" />
-            <Label fx:id="labelPasswordError" textFill="#b91a1a" />
+            <Label fx:id="labelPasswordError" textFill="RED" />
             <PasswordField fx:id="tfconfirm" />
-            <Label fx:id="labelerrorconfirm" textFill="#e11717" />
+            <Label fx:id="labelerrorconfirm" textFill="RED" />
             <TextField fx:id="tf_info" />
-            <Label fx:id="labelInfoError" textFill="#b91a1a" />
+            <Label fx:id="labelInfoError" textFill="RED" />
             <TextField fx:id="tf_domaine" />
-            <Label fx:id="labelDomaineError" textFill="#b91a1a" />
+            <Label fx:id="labelDomaineError" textFill="RED" />
             <TextField fx:id="tf_adresse" />
-            <Label fx:id="labelAdresseError" textFill="#b91a1a" />
+            <Label fx:id="labelAdresseError" textFill="RED" />
             <TextField fx:id="tf_nbe" />
-            <Label fx:id="labelNbeError" textFill="#b91a1a" />
+            <Label fx:id="labelNbeError" textFill="RED" />
          </children>
       </VBox>
       <Button fx:id="btn_select_image" layoutX="788.0" layoutY="614.0" mnemonicParsing="false" onAction="#btn_image_action" prefHeight="31.0" prefWidth="141.0" text="Insére Image" />

@@ -68,7 +68,8 @@ public class PageNoterFreelancersController implements Initializable {
         int count = 0;
         for (Freelancer offre : offres) {
             VBox box = createOffreBoxFreelancerAnoter(offre);
-            box.setPrefWidth(500);
+            box.setPrefWidth(300);
+            box.setPrefHeight(300);
             hBox.getChildren().add(box);
             count++;
 

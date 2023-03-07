@@ -99,20 +99,20 @@ public class AddEntrepriseUIController implements Initializable {
         // TODO
         ImagePath = "resources/profile.jpg";
 
-        tf_nom.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                String text = tf_nom.getText();
-                if (cs.isEmpty(text)) {
+        tf_nom.textProperty().addListener((observable, oldValue, newValue) -> {
+            
+                
+                if (cs.isEmpty(newValue)) {
                     labelNomError.setText("Champs vide !");
 
-                } else if (!cs.checkOnlyString(text)) {
+                } else if (!cs.checkOnlyString(newValue)) {
                     labelNomError.setText("nom n'est pas valide ! ");
 
                 } else {
                     labelNomError.setText(" ");
                 }
 
-            }
+            
         });
         tfusername.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {

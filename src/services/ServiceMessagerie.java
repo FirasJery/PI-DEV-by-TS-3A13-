@@ -6,7 +6,6 @@
 package services;
 
 import entities.Conversation;
-import entities.Utilisateur;
 import utils.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,12 +23,11 @@ import java.util.logging.Logger;
  */
 public class ServiceMessagerie implements IService<Conversation> {
 
-    
     private static ServiceMessagerie instance;
     private List<Conversation> cl = new ArrayList();
     private final Connection cnx;
     private ServiceUser su = new ServiceUser();
-    
+
     public ServiceMessagerie() {
         cnx = DataSource.getInstance().getCnx();
     }
@@ -43,21 +41,21 @@ public class ServiceMessagerie implements IService<Conversation> {
     }
 
     @Override
-    public void ajouter(Conversation t){
+    public void ajouter(Conversation t) {
         List<Conversation> s = this.getAll();
-            String status;
-            if (s != null) {
-                for (int i = 0; i < s.size(); i++) {
-                    if (t.getId_convo() == s.get(i).getId_convo()) {
-                        return;
-                    }
+        String status;
+        if (s != null) {
+            for (int i = 0; i < s.size(); i++) {
+                if (t.getId_convo() == s.get(i).getId_convo()) {
+                    return;
                 }
             }
-            if (t.get_status_src()) {
-                status = "true";
-            } else {
-                status = "false";
-            }
+        }
+        if (t.get_status_src()) {
+            status = "true";
+        } else {
+            status = "false";
+        }
         try {
             PreparedStatement ps;
             ps = cnx.prepareStatement("INSERT INTO CONVERSATION(id_source, id_dest, status_src, status_dest) VALUES(?, ?, 'true', 'pending')");
@@ -116,27 +114,28 @@ public class ServiceMessagerie implements IService<Conversation> {
 
     public Conversation findConvo(String id1, String id2) {
         PreparedStatement ps;
+
         Conversation c = null;
         try {
-            ps = cnx.prepareStatement("SELECT * FROM CONVERSATION WHERE((ID_SOURCE = ?)OR(ID_SOURCE = ?)AND(ID_DEST = ?)OR(ID_DEST = ?))");
+            System.out.println("FIND CONVO " + id1 + " " + id2);
+            ps = cnx.prepareStatement("SELECT * FROM CONVERSATION WHERE(((ID_SOURCE = ?)OR(ID_SOURCE = ?))AND((ID_DEST = ?)OR(ID_DEST = ?)))");
             ps.setString(1, id1);
             ps.setString(2, id2);
             ps.setString(3, id1);
             ps.setString(4, id2);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                boolean status = false;
-                if (rs.getString(4).compareTo("true") == 0) {
-                    status = true;
-                }
-                c = new Conversation(rs.getInt(1), rs.getString(2), rs.getString(3), status);
+            rs.first();
+            boolean status = false;
+            if (rs.getString(4).compareTo("false") != 0) {
+                status = true;
             }
+            c = new Conversation(rs.getInt("id"), rs.getString(2), rs.getString(3), status);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return c;
     }
-    
+
     public ResultSet findConvo(String id1, String id2, int i) {
         PreparedStatement ps;
         try {
@@ -157,14 +156,14 @@ public class ServiceMessagerie implements IService<Conversation> {
         List<String> contacts = new ArrayList();
         try {
             ps = cnx.prepareStatement("SELECT * FROM CONVERSATION WHERE(((ID_SOURCE = ?)AND(STATUS_SRC != 'false'))OR((ID_DEST = ?)AND(STATUS_DEST != 'false')))");
-            
+
             ps.setString(1, id);
             ps.setString(2, id);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 boolean status = false;
-                if (rs.getString("id_source").compareTo(id) == 0) {                    
+                if (rs.getString("id_source").compareTo(id) == 0) {
                     contacts.add(su.getOneById(rs.getInt("id_dest")).getUserName());
                 }
                 if (rs.getString("id_dest").compareTo(id) == 0) {
@@ -198,28 +197,27 @@ public class ServiceMessagerie implements IService<Conversation> {
             ps.setString(2, id);
             ps.setString(3, idc);
             ResultSet rs = ps.executeQuery();
-            
-            while (rs.next()) {               
-                if (rs.getString("id_source").compareTo(id) == 0) {
+            rs.first();
+            if (rs.getString("id_source").compareTo(id) == 0) {
                     PreparedStatement ips = cnx.prepareStatement("UPDATE CONVERSATION SET STATUS_SRC = ? WHERE (ID = ?)");
                     ips.setString(1, status);
                     ips.setString(2, idc);
                     ips.executeUpdate();
                 }
                 if (rs.getString("id_dest").compareTo(id) == 0) {
+                    
                     PreparedStatement ips = cnx.prepareStatement("UPDATE CONVERSATION SET STATUS_DEST = ? WHERE (ID = ?)");
                     ips.setString(1, status);
                     ips.setString(2, idc);
                     ips.executeUpdate();
-                    
+
                 }
-            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
-    
-    public List<String> getStatus(String id){
+
+    public List<String> getStatus(String id) {
         PreparedStatement ps;
         List<String> stats = new ArrayList();
         String q = "SELECT (CASE WHEN (id_source = ?)AND(status_src != 'false') then status_src WHEN (id_dest = ?)AND(status_dest != 'false') then status_dest END) AS STAT FROM CONVERSATION HAVING(STAT != '')";
@@ -228,7 +226,7 @@ public class ServiceMessagerie implements IService<Conversation> {
             ps.setString(1, id);
             ps.setString(2, id);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 stats.add(rs.getString("stat"));
             }
         } catch (SQLException ex) {
@@ -289,12 +287,15 @@ public class ServiceMessagerie implements IService<Conversation> {
             ps = cnx.prepareStatement("SELECT * FROM MESSAGE WHERE(ID_CONVO = ?)");
             ps.setString(1, String.valueOf(idc));
             ResultSet rs = ps.executeQuery();
+
             rs.last();
+            
             return rs.getString("message");
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return null;
+        return "";
     }
 
     public String getLastSource(int idc) {

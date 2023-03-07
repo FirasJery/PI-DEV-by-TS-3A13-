@@ -12,19 +12,19 @@
    <children>
       <Pane layoutX="4.0" prefHeight="620.0" prefWidth="1200.0">
          <children>
-            <TextArea fx:id="tfobj" layoutX="240.0" layoutY="180.0" prefHeight="288.0" prefWidth="653.0" />
-            <Text fill="WHITE" layoutX="10.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Objet Du reclamation" textAlignment="CENTER" wrappingWidth="208.181640625">
+            <TextArea fx:id="tfobj" layoutX="347.0" layoutY="180.0" prefHeight="288.0" prefWidth="653.0" />
+            <Text fontSmoothingType="LCD" layoutX="91.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Objet Du reclamation" wrappingWidth="162.181640625">
                <font>
-                  <Font size="25.0" />
+                  <Font name="System Bold" size="23.0" />
                </font>
             </Text>
-            <ComboBox fx:id="combotype" layoutX="218.0" layoutY="56.0" prefWidth="150.0" />
-            <Text fill="WHITE" layoutX="49.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type Reclamation" wrappingWidth="149.99998438358307">
+            <ComboBox fx:id="combotype" layoutX="347.0" layoutY="64.0" prefHeight="51.0" prefWidth="303.0" />
+            <Text fontSmoothingType="LCD" layoutX="97.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type Reclamation" wrappingWidth="149.99998438358307">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="23.0" />
                </font>
             </Text>
-            <Button layoutX="783.0" layoutY="531.0" mnemonicParsing="false" onAction="#add" prefHeight="72.0" prefWidth="274.0" style="-fx-background-color: #e88080;" text="Reclamer" textFill="#0a0101">
+            <Button layoutX="347.0" layoutY="500.0" mnemonicParsing="false" onAction="#add" prefHeight="72.0" prefWidth="274.0" style="-fx-background-color: #e88080;" text="Reclamer" textFill="#0a0101">
                <font>
                   <Font size="32.0" />
                </font>

@@ -43,13 +43,13 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="TF_Email_login" layoutX="290.0" layoutY="62.0" />
+            <TextField fx:id="TF_Email_login" layoutX="290.0" layoutY="62.0" text="esprit@esprit.tn" />
             <Button fx:id="button_inscrire" focusTraversable="false" layoutX="238.0" layoutY="448.0" mnemonicParsing="false" onAction="#ON_inscrire_clicked" text="Inscription Freelancer">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <PasswordField fx:id="TF_Paswword_login" layoutX="290.0" layoutY="125.0" />
+            <PasswordField fx:id="TF_Paswword_login" layoutX="290.0" layoutY="125.0" text="espritesprit" />
             <Button fx:id="btn_entrep" focusTraversable="false" layoutX="236.0" layoutY="400.0" mnemonicParsing="false" onAction="#btn_ins_ent_action" text="Inscritption Entreprise">
                <cursor>
                   <Cursor fx:constant="HAND" />

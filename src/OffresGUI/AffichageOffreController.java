@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -48,19 +50,42 @@ public class AffichageOffreController implements Initializable {
     private Button btnOffre;
     @FXML
     private Pane Pane;
-    public static int id_offre ; 
+    public static int id_offre;
+    @FXML
+    private TextField tfRecherche;
+    private List<Offre> offres1;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        afficherOffres();
+        ServiceOffre serviceOffre = new ServiceOffre();
+        offres1 = serviceOffre.getAllNotAccepted();
+        List<Offre> l2 = serviceOffre.getOffresPostules(SessionManager.getInstance().getCurrentUser().getId());
+
+        Set<Offre> set2 = new HashSet<>(l2);
+        Iterator<Offre> iter1 = offres1.iterator();
+        while (iter1.hasNext()) {
+            Offre offer = iter1.next();
+            if (set2.contains(offer)) {
+                iter1.remove();
+            }
+        }
+        afficherOffres(offres1);
+        tfRecherche.textProperty().addListener((observable, oldValue, newValue) -> {
+            String Regex = " "; 
+         List<Offre> offres = offres1.stream().filter(o -> o.getTitle().matches(".*"+newValue+".*")).collect(Collectors.toList());
+            afficherOffres(offres);
+        });
+        
+        
+        
     }
 
     @FXML
     private void btnOffreAction(ActionEvent event) {
-        afficherOffres();
+        afficherOffres(offres1);
     }
 
     @FXML
@@ -72,21 +97,9 @@ public class AffichageOffreController implements Initializable {
     private void btnOffreTermineAction(ActionEvent event) {
         afficherOffresTermines(SessionManager.getInstance().getCurrentUser().getId());
     }
-
-    public void afficherOffres() {
-        ServiceOffre serviceOffre = new ServiceOffre();
-        List<Offre> offres = serviceOffre.getAllNotAccepted();
-        List<Offre> l2 = serviceOffre.getOffresPostules(SessionManager.getInstance().getCurrentUser().getId());
-              
-
-        Set<Offre> set2 = new HashSet<>(l2);
-        Iterator<Offre> iter1 = offres.iterator();
-        while (iter1.hasNext()) {
-            Offre offer = iter1.next();
-            if (set2.contains(offer)) {
-                iter1.remove();
-            }
-        }
+  
+    public void afficherOffres(List<Offre> offres) {
+       
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -100,7 +113,8 @@ public class AffichageOffreController implements Initializable {
         int count = 0;
         for (Offre offre : offres) {
             VBox box = createOffreBox(offre);
-            box.setPrefWidth(500);
+            box.setPrefWidth(300);
+            box.setPrefHeight(300);
             hBox.getChildren().add(box);
             count++;
 
@@ -150,15 +164,15 @@ public class AffichageOffreController implements Initializable {
         box.setOnMouseClicked(event -> { // Mouse click
             id_offre = offre.getId_offre();
             Pane.getChildren().clear();
-             FXMLLoader loadOffre = new FXMLLoader(getClass().getResource("/OffresGUI/OffrePage.fxml"));
-        
-        try {
-           
-            Pane.getChildren().add(loadOffre.load());
-        } catch (IOException ex) {
-            ex.getMessage();
-        }
-            
+            FXMLLoader loadOffre = new FXMLLoader(getClass().getResource("/OffresGUI/OffrePage.fxml"));
+
+            try {
+
+                Pane.getChildren().add(loadOffre.load());
+            } catch (IOException ex) {
+                ex.getMessage();
+            }
+
         });
 
         box.setOnMouseEntered(event -> {
@@ -174,8 +188,7 @@ public class AffichageOffreController implements Initializable {
 
     public void afficherOffresEncours(int id_freelancer) {
         ServiceOffre serviceOffre = new ServiceOffre();
-       List<Offre> offres = serviceOffre.getOffresEncours(id_freelancer);
-               
+        List<Offre> offres = serviceOffre.getOffresEncours(id_freelancer);
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -189,7 +202,8 @@ public class AffichageOffreController implements Initializable {
         int count = 0;
         for (Offre offre : offres) {
             VBox box = createOffreEncoursBox(offre);
-            box.setPrefWidth(500);
+            box.setPrefWidth(300);
+            box.setPrefHeight(300);
             hBox.getChildren().add(box);
             count++;
 
@@ -252,8 +266,6 @@ public class AffichageOffreController implements Initializable {
     public void afficherOffresTermines(int id_freelancer) {
         ServiceOffre serviceOffre = new ServiceOffre();
         List<Offre> offres = serviceOffre.getOffresTermines(id_freelancer);
-               
-
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -267,7 +279,8 @@ public class AffichageOffreController implements Initializable {
         int count = 0;
         for (Offre offre : offres) {
             VBox box = createOffreTermineBox(offre);
-            box.setPrefWidth(500);
+            box.setPrefWidth(300);
+            box.setPrefHeight(300);
             hBox.getChildren().add(box);
             count++;
 
@@ -335,8 +348,6 @@ public class AffichageOffreController implements Initializable {
     public void afficherOffresPostules(int id_freelancer) {
         ServiceOffre serviceOffre = new ServiceOffre();
         List<Offre> offres = serviceOffre.getOffresPostules(id_freelancer);
-               
-
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -350,7 +361,8 @@ public class AffichageOffreController implements Initializable {
         int count = 0;
         for (Offre offre : offres) {
             VBox box = createOffrePostulesBox(offre);
-            box.setPrefWidth(500);
+            box.setPrefWidth(300);
+            box.setPrefHeight(300);
             hBox.getChildren().add(box);
             count++;
 
@@ -412,10 +424,10 @@ public class AffichageOffreController implements Initializable {
 
     @FXML
     private void stat(ActionEvent event) {
-          try {
+        try {
             Stage stage = new Stage();
             Parent root = FXMLLoader
-                   .load(getClass().getResource("/OffresGUI/statistic.fxml"));
+                    .load(getClass().getResource("/OffresGUI/statistic.fxml"));
 
             Scene scene = new Scene(root);
             stage.setResizable(false);

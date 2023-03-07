@@ -104,6 +104,7 @@ public class AddFreelancerController implements Initializable {
     Thread webcamThread;
     @FXML
     private MediaView MediaView;
+    private int code ; 
 
     /**
      * Initializes the controller class.
@@ -348,13 +349,8 @@ public class AddFreelancerController implements Initializable {
 
     @FXML
     private void TakePhotoAction(ActionEvent event) {
-       if (TF_email.getText().isEmpty())
-       {
-           Alert test = new Alert(Alert.AlertType.ERROR);
-           test.setContentText("Remplir tout les champs pour prendre une photo ! ");
-           test.show();
-       }
-       else {
+      
+       
         if (!webcam.isOpen()) {
             webcam.close();
             webcam.setViewSize(new Dimension(640, 480));
@@ -377,7 +373,7 @@ public class AddFreelancerController implements Initializable {
         webcamThread.setDaemon(true);
         webcamThread.start();
         btnSnap.setVisible(true);
-       }
+       
     }
 
     @FXML
@@ -394,7 +390,8 @@ public class AddFreelancerController implements Initializable {
 
     private void saveImage(BufferedImage image) {
         try {
-            ImagePath = "resources/" + TF_email.getText() + ".png";
+            code = ForgotPasswordController.generateVerificationCode();
+            ImagePath = "resources/" + code + ".png";
             File outputfile = new File(ImagePath);
             imageLabel.setText(ImagePath);
             ImageIO.write(image, "png", outputfile);

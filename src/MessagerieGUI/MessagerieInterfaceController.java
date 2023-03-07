@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -101,17 +100,19 @@ public class MessagerieInterfaceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         p = SessionManager.getInstance().getCurrentUser();
+        
         current_id = String.valueOf(SessionManager.getInstance().getCurrentUser().getId());
-        c = new Conversation(0, String.valueOf(p.getId()), "SERVER", true);
+        //c = new Conversation(0, String.valueOf(p.getId()), "SERVER", true);
 
         current_id = String.valueOf(p.getId());
 
         contacts = sm.findContacts(current_id);
-        contacts.forEach(c -> {
-            users.getItems().add(c);
-            last_msg.add(sm.getLastMessage(sm.findConvo(current_id, c).getId_convo()));
+        last_msg.clear();
+        contacts.forEach(con -> {
+            users.getItems().add(con);
+            int n = sm.findConvo(String.valueOf(p.getId()), String.valueOf(su.getByUsername(con).getId())).get_id();
+            last_msg.add(sm.getLastMessage(n));
         });
-
         for (int i = 0; i < last_msg.size(); i++) {
             if (last_msg.get(i) == null) {
                 last_msg.set(i, "");
@@ -138,7 +139,6 @@ public class MessagerieInterfaceController implements Initializable {
                 String id_contact = new String();
                 id_contact = String.valueOf(su.getByUsername(contacts.get(i)).getId());
                 String idc = String.valueOf(sm.findConvo(current_id, id_contact).getId_convo());
-
                 a.setTranslateX(220);
                 a.setTranslateY(anchor_window.getChildren().get(0).getLayoutY() + (i * 30));
                 a.setPrefSize(20, 20);
@@ -194,11 +194,11 @@ public class MessagerieInterfaceController implements Initializable {
     private void send_message(ActionEvent event) {
         String msg = message.getText();
         if (msg.compareTo("") != 0) {
-            Conversation c_tmp = sm.findConvo(String.valueOf(p.getId()), users.getItems().get(convo_index));
+            Conversation c_tmp = sm.findConvo(String.valueOf(p.getId()), String.valueOf(su.getByUsername(users.getItems().get(convo_index)).getId()));
             if (c_tmp != null) {
                 sm.updateMessage(c_tmp, String.valueOf(p.getId()), msg);
                 conversation.getItems().add(message.getText()); //make the last message get updated from (Conversation : c)
-                msg_source.getItems().add(String.valueOf(p.getId()));
+                msg_source.getItems().add(String.valueOf(p.getUserName()));
                 dbt.set_last_indexed(message.getText(), convo_index);
                 dbt.set_src(String.valueOf(p.getId()));
                 message.clear();
@@ -209,9 +209,10 @@ public class MessagerieInterfaceController implements Initializable {
     @FXML
     private void get_convo(MouseEvent event) {
         String current_user = users.getSelectionModel().getSelectedItem();
+        //System.out.println(current_user);
         convo_index = users.getSelectionModel().getSelectedIndex();
 
-        Conversation temp = sm.findConvo(String.valueOf(p.getId()), String.valueOf(su.getByUsername(current_user)));
+        Conversation temp = sm.findConvo(String.valueOf(p.getId()), String.valueOf(su.getByUsername(current_user).getId()));
         if (temp != null) {
             String lmi = "";
             String srcc = "";
@@ -226,7 +227,6 @@ public class MessagerieInterfaceController implements Initializable {
                     srcc = rs.getString("id_source");
                 }
                 //rs.last();
-                System.out.println("Index " + convo_index);
                 dbt.set_last_indexed(lmi, convo_index);
                 dbt.set_conversation(conversation);
                 dbt.set_src(srcc);
@@ -318,7 +318,6 @@ public class MessagerieInterfaceController implements Initializable {
                     d.setHeaderText("Translation from " + src + " to " + dest);
                     d.setContentText(message);
                     int lines = Math.round(message.length() / 45);
-                    System.out.println(message);
                     d.setPrefWidth(360);
                     d.setPrefHeight(88 + (lines * 21));
                     if (event.getSceneX() >= anchor_window.getPrefWidth() / 2) {
@@ -328,7 +327,6 @@ public class MessagerieInterfaceController implements Initializable {
                     }
                     if (event.getSceneY() >= anchor_window.getPrefHeight() / 2) {
                         d.setTranslateY(event.getSceneY() - d.getPrefHeight());
-                        System.out.println("low");
                     } else {
                         d.setTranslateY(event.getSceneY());
                     }
@@ -425,7 +423,7 @@ class db_buffer extends Thread {
         while (!isInterrupted()) {
             for (int i = 0; i < last_m.size(); i++) {
                 if (last_m.get(i).compareTo("") != 0) {
-                    if (last_m.get(i).compareTo(sm.getLastMessage(sm.findConvo(current_id, users.get(i)).getId_convo())) != 0) {
+                    if (last_m.get(i).compareTo(sm.getLastMessage(sm.findConvo(current_id, String.valueOf(su.getByUsername(users.get(i)).getId())).getId_convo())) != 0) {
                         last_m.set(i, sm.getLastMessage(sm.findConvo(current_id, String.valueOf(su.getByUsername(users.get(i)).getId())).getId_convo()));
                         if (i == current_convo) {
                             c.getItems().add(last_m.get(i));

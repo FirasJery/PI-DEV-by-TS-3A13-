@@ -6,7 +6,6 @@
 package ReclamationGUI;
 
 import entities.SessionManager;
-import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
 
 /**
  * FXML Controller class
@@ -35,46 +33,37 @@ public class AffReclamationFXMLController implements Initializable {
     @FXML
     private Button btnajouterRec;
 
-
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Suivie.setCursor(Cursor.HAND);
-                btnajouterRec.setCursor(Cursor.HAND);
-
-        
         // TODO
-    }    
+        Suivie.setCursor(Cursor.HAND);
+        btnajouterRec.setCursor(Cursor.HAND);
+    }
 
     @FXML
     private void ajj(ActionEvent event) {
         affpane.getChildren().clear();
-        FXMLLoader loadOffre = new FXMLLoader(getClass().getResource("AddRec.fxml"));
-        
+        FXMLLoader loadOffre = new FXMLLoader(getClass().getResource("/ReclamationGUI/AddRec.fxml"));
         try {
-           
             affpane.getChildren().add(loadOffre.load());
         } catch (IOException ex) {
             ex.getMessage();
         }
-        
+
     }
 
     @FXML
     private void suiv(ActionEvent event) {
         affpane.getChildren().clear();
-        FXMLLoader loadOffre = new FXMLLoader(getClass().getResource("SuivieRec.fxml"));
-        
+        FXMLLoader loadOffre = new FXMLLoader(getClass().getResource("/ReclamationGUI/SuivieRec.fxml"));
         try {
-           
             affpane.getChildren().add(loadOffre.load());
         } catch (IOException ex) {
             ex.getMessage();
         }
     }
 
-    
-    
 }

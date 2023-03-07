@@ -79,22 +79,16 @@ public class LoginUIController implements Initializable {
             role = sa.getOneById(id).getRole();
             switch (role) {
             case "Admin":
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setContentText("Admin connecté");
-                alert.show();
+               
                 page = "/UserGUI/GestionAdminUI.fxml" ;
                 break;
             case "Entreprise":
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setContentText("Entreprise connecté");
-                alert.show();
+              
                 page = "/GUI/HomePage.fxml" ;
 
                 break;
             case "Freelancer":
-                alert.setAlertType(Alert.AlertType.INFORMATION);
-                alert.setContentText("Freemlancer connecté");
-                alert.show();
+             
                 page = "/GUI/HomePage.fxml" ;
                 
                 break;

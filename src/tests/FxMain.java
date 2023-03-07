@@ -32,7 +32,7 @@ public class FxMain extends Application {
            // scene.getStylesheets().add("/GUI/style.css");
             primaryStage.setScene(scene);
             primaryStage.setTitle("Your Window Title"); // Set the title of the window
-            primaryStage.setOnCloseRequest(event -> {
+              primaryStage.setOnCloseRequest(event -> {
                 System.out.println("closed");
                 for (Thread t : Thread.getAllStackTraces().keySet()) {
                     if (t.getName().equals("606")) {

@@ -22,7 +22,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import services.ServiceRec;
 
-
 /**
  * FXML Controller class
  *
@@ -38,24 +37,22 @@ public class SuivieRecController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    public void table(){
+    public void table() {
         List<Reclamation> offres = sr.getMyRtrans(sessionManager.getCurrentUser().getId());
         VBox vBox = new VBox();
-        
+
         vBox.setAlignment(Pos.TOP_CENTER);
         vBox.setSpacing(30);
-        
 
         HBox hBox = new HBox();
-         
+
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(100);//
-        
 
         int count = 0;
         for (Reclamation offre : offres) {
             VBox box = createOffreBox(offre);
-            
+
             hBox.getChildren().add(box);
             count++;
 
@@ -76,59 +73,54 @@ public class SuivieRecController implements Initializable {
         scrollpane.setFitToWidth(true);
         scrollpane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         table();
-    }    
-    
-     private VBox createOffreBox(Reclamation offre)  {
+    }
+
+    private VBox createOffreBox(Reclamation offre) {
         VBox box = new VBox();
-        
+
         box.setAlignment(Pos.CENTER);
         box.setSpacing(30);
-         box.setUserData(offre.getId()); // set the ID as the user data for the VBox
+        box.setUserData(offre.getId()); // set the ID as the user data for the VBox
 
+        Label titre = new Label("Type :  " + offre.getType());
 
-        Label titre = new Label("Type :  "+offre.getType());
-        
-        
-         Button bb = new Button();
-         bb.setText("Supprimer");
-        
+        Button bb = new Button();
+        bb.setText("Supprimer");
+
         Label user = new Label(offre.getId_user().getName());
         Label etat = new Label();
-        if (offre.isEtat()==0)
-        {
-             etat = new Label("Etat :               Non Traitée");
-        ;
-        }else 
-            etat=new Label("Etat :                      Traitée");
-       
-        Label voir = new Label("Contenu      :"+offre.getDesc());
+        if (offre.isEtat() == 0) {
+            etat = new Label("Etat :               Non Traitée");
+            
+        } else {
+            etat = new Label("Etat :                      Traitée");
+        }
+
+        Label voir = new Label("Contenu      :" + offre.getDesc());
         Label sep = new Label("____________________________________________________________________________________________________________________");
 
-     
-        
-      user.setStyle("-fx-text-fill : Blue;");
-      voir.setStyle("-fx-text-fill : Black;");
-      etat.setStyle("-fx-text-fill : Red;");
-        
-         voir.setFont(Font.font("Serif", FontWeight.LIGHT, 23));
+        user.setStyle("-fx-text-fill : Blue;");
+        voir.setStyle("-fx-text-fill : Black;");
+        etat.setStyle("-fx-text-fill : Red;");
+
+        voir.setFont(Font.font("Serif", FontWeight.LIGHT, 23));
         titre.setFont(Font.font("Arial", FontWeight.BOLD, 29));
-        
+
         user.setWrapText(true);
-        box.getChildren().addAll( titre,voir,etat,bb,sep);
-        
+        box.getChildren().addAll(titre, voir, etat, bb, sep);
+
         bb.setOnMouseClicked(event -> {
-            
+
             sr.supprimer(offre.getId());
             table();
-            
+
         });
-        
+
         /*bb.setOnMouseClicked(event -> {
             
             sp.supprimer(offre.getId());
@@ -153,7 +145,7 @@ public class SuivieRecController implements Initializable {
               
         });
 
-*/
+         */
         return box;
     }
 }

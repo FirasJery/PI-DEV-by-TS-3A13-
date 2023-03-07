@@ -72,14 +72,14 @@ public class OffrePageController implements Initializable {
         Postulation p = new Postulation(o, f, 0);
         sp.ajouter(p);
         btnPostuler.setVisible(false);
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+       /* Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber("whatsapp:+21627505807"),
                 new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
                 "merci pour votre postulation , votre demande est prise en charge et en cours de traitement.")
                 .create();
 
-        System.out.println(message.getSid());
+        System.out.println(message.getSid());*/
     }
 
 }
