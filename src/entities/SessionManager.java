@@ -5,6 +5,11 @@
  */
 package entities;
 
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.HBox;
+
 
 /**
  *
@@ -13,6 +18,10 @@ package entities;
 public class SessionManager {
     private static SessionManager instance;
     private Utilisateur currentUser;
+    private Certif currentCertif;
+    private HBox content;
+    private Test t;
+    
     // other instance variables
     
     private SessionManager() {
@@ -30,9 +39,35 @@ public class SessionManager {
         this.currentUser = user;
     }
     
+    public void setCurrentCertif(Certif c){
+        this.currentCertif = c;
+    }
+    
     public Utilisateur getCurrentUser() {
         return this.currentUser;
     }
     
+    public Certif getCurrentCertif(){
+        return this.currentCertif;
+    }
+    
+    public void setCurrentHbox(HBox b){
+        this.content = b;
+    }
+    
+    public HBox getCurrentHbox(){
+        return this.content;
+    }
+    
+    
+    
     // other methods
+
+    public Test getT() {
+        return t;
+    }
+
+    public void setT(Test t) {
+        this.t = t;
+    }
 }

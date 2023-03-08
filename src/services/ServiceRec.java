@@ -6,9 +6,7 @@
 package services;
 
 import entities.Reclamation;
-import entities.Transaction;
 import entities.Utilisateur;
-import entities.Wallet;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

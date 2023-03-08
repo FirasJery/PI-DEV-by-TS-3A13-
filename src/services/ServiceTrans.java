@@ -6,6 +6,7 @@
 package services;
 
 import entities.Card;
+import entities.Data;
 import entities.Transaction;
 import entities.Utilisateur;
 import entities.Wallet;
@@ -15,6 +16,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import utils.DataSource;
 
 /**
@@ -123,6 +126,23 @@ public class ServiceTrans implements IService<Transaction> {
         }
 
         return list;
+    }
+    
+     public ObservableList<Data> getData(int id) throws SQLException {
+       
+        String sql = "SELECT date, COUNT(*) AS count FROM transaction WHERE sending_wallet='"+id+"' GROUP BY date";
+        Statement stmt = cnx.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        // Create an ObservableList of data to use in the chart
+        ObservableList<Data> data = FXCollections.observableArrayList();
+        while (rs.next()) {
+            String date = rs.getString("date");
+            int count = rs.getInt(2);
+            data.add(new Data(date, count));
+        }
+        
+        return data;
     }
     
     public List<Transaction> getMyRtrans(int id) {

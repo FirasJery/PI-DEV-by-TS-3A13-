@@ -73,7 +73,7 @@ public class ServiceCard implements IService<Card> {
                 Utilisateur u;
                 ServiceUser su = new ServiceUser();
                 u= su.getOneById(rs.getInt("id_user"));
-                Card c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getInt("num"),u);
+                Card c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getString("num"),u);
                 list.add(c);
             }
         } catch (SQLException ex) {
@@ -94,7 +94,7 @@ public class ServiceCard implements IService<Card> {
                  Utilisateur u;
                 ServiceUser su = new ServiceUser();
                 u= su.getOneById(rs.getInt("id_user"));
-                 c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getInt("num"),u);
+                 c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getString("num"),u);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -117,7 +117,7 @@ public class ServiceCard implements IService<Card> {
                 ServiceUser su = new ServiceUser();
                 u= su.getOneById(rs.getInt("id_user"));
                     
-                  c=new Card(rs.getString("nom"),rs.getString("prenom"),rs.getString("Date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getInt("num"),u);
+                  c=new Card(rs.getString("nom"),rs.getString("prenom"),rs.getString("Date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getString("num"),u);
                    l.add(c);
                 }
                 System.out.println(l);
@@ -137,8 +137,25 @@ public class ServiceCard implements IService<Card> {
                 Utilisateur u;
                 ServiceUser su = new ServiceUser();
                 u= su.getOneById(id);
-                Card c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getInt("num"),u);
+                Card c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getString("num"),u);
                 list.add(c);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
+    public ObservableList<String> getMyCardW(int id) {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        String num;
+        try {
+            String req = "Select num from credit_card WHERE credit_card.id_user='"+id+"' ";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                num=rs.getString("num");
+                list.add(num);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -152,14 +169,14 @@ public class ServiceCard implements IService<Card> {
         try {
             Card c;
             
-            String req = "Select * from credit_card WHERE credit_card.num='"+num+"' ";
+            String req = "Select * from credit_card WHERE credit_card.num='"+String.valueOf(num)+"' ";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
                 Utilisateur u;
                 ServiceUser su = new ServiceUser();
                 u= su.getOneById(rs.getInt("id_user"));
-                 c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getInt("num"),u);
+                 c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getString("num"),u);
                  a = c.getCvc();
             }
             } catch (SQLException ex) {
@@ -187,14 +204,14 @@ public class ServiceCard implements IService<Card> {
     public Card getOneByNum(int num) {
         Card c = null;
         try {
-            String req = "Select * from credit_card WHERE credit_card.num='"+num+"'";
+            String req = "Select * from credit_card WHERE credit_card.num='"+String.valueOf(num)+"'";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
                  Utilisateur u;
                 ServiceUser su = new ServiceUser();
                 u= su.getOneById(rs.getInt("id_user"));
-                 c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getInt("num"),u);
+                 c = new Card(rs.getInt(1), rs.getString("nom"), rs.getString(3),rs.getString("date_expiration"),rs.getInt("cvc"),rs.getInt("zipcode"),rs.getString("ville"),rs.getString("num"),u);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

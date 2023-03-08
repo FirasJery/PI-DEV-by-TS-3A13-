@@ -18,13 +18,13 @@ public class Card {
     private int cvc;
     private int zipcode;
     private String ville;
-    private int num;
+    private String num;
     private Utilisateur user;
      
 public Card(){
 }
 
-    public Card(String nom, String prenom, String date, int cvc, int zipcode, String ville, int num, Utilisateur user) {
+    public Card(String nom, String prenom, String date, int cvc, int zipcode, String ville, String num, Utilisateur user) {
         this.nom = nom;
         this.prenom = prenom;
         this.date = date;
@@ -35,7 +35,7 @@ public Card(){
         this.user=user;
     }
 
-    public Card(int id, String nom, String prenom, String date, int cvc, int zipcode, String ville, int num,Utilisateur user) {
+    public Card(int id, String nom, String prenom, String date, int cvc, int zipcode, String ville, String num,Utilisateur user) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -75,7 +75,7 @@ public Card(){
         return ville;
     }
 
-    public int getNum() {
+    public String getNum() {
         return num;
     }
 
@@ -107,7 +107,7 @@ public Card(){
         this.ville = ville;
     }
 
-    public void setNum(int num) {
+    public void setNum(String num) {
         this.num = num;
     }
 

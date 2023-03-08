@@ -5,9 +5,7 @@
  */
 package services;
 
-import entities.Reclamation;
 import entities.Review;
-import entities.Transaction;
 import entities.Utilisateur;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -131,6 +129,30 @@ public class ServiceReview implements IService <Review> {
 
         return null ; 
     }
+    
+     public List<Review> getReviewsByFreelancer(int id_freelancer) {
+        List<Review> list = new ArrayList<>();
+        try {
+            String req = "Select * from review where id_user = '"+id_freelancer+"'";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                ServiceUser sw = new ServiceUser();
+                Utilisateur ud,u;
+                
+                u=sw.getOneById(rs.getInt("id_user"));
+                ud=sw.getOneById(rs.getInt("id_editeur"));
+                Review c = new Review(rs.getInt(1), ud,u,rs.getString("message"), rs.getFloat("note"));
+                list.add(c);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
+    
+    
     
     
 }

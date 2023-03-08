@@ -6,6 +6,7 @@ import entities.Freelancer;
 import entities.Utilisateur;
 import java.util.ArrayList;
 import java.util.List;
+import services.PasswordEncryption;
 import services.ServiceUser;
 
 
@@ -21,9 +22,14 @@ import services.ServiceUser;
  */
 public class MainClass {
     
-     public static void main(String[] args) {
+     public static void main(String[] args) throws Exception {
 
         ServiceUser sa = new ServiceUser();
+        String password = "azertyazerty"; 
+         String enc = PasswordEncryption.encrypt(password);
+         System.out.println(enc);
+         String a = PasswordEncryption.decrypt(enc);
+         System.out.println(a);         
         
      }
 }

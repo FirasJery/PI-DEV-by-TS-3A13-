@@ -289,25 +289,25 @@ public class ServiceUser implements IService<Utilisateur> {
         }
         return -1;
     }
-    public void ResetPaswword(String email ,String password)
-    {
-         try {
 
-                String req = "UPDATE Utilisateur SET password = ? WHERE email = ?";
-                PreparedStatement ps = cnx.prepareStatement(req);
-               
-                ps.setString(1, password);
-                ps.setString(2, email);
-               
+    public void ResetPaswword(String email, String password) {
+        try {
 
-                ps.executeUpdate();
-                System.out.println("Password updated !");
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-    
+            String req = "UPDATE Utilisateur SET password = ? WHERE email = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+
+            ps.setString(1, password);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
+            System.out.println("Password updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
-     public void modifierbasic(Utilisateur p) {
+
+    public void modifierbasic(Utilisateur p) {
 
         if (p instanceof Freelancer) {
 
@@ -322,7 +322,7 @@ public class ServiceUser implements IService<Utilisateur> {
                 ps.setString(5, e.getPassword());
                 ps.setString(6, "Freelancer");
                 ps.setString(7, e.getImagePath());
-              
+
                 ps.setInt(8, e.getId());
 
                 ps.executeUpdate();
@@ -344,7 +344,7 @@ public class ServiceUser implements IService<Utilisateur> {
                 ps.setString(5, e.getPassword());
                 ps.setString(6, "Entreprise");
                 ps.setString(7, e.getImagePath());
-                
+
                 ps.setInt(8, e.getId());
                 ps.executeUpdate(req);
                 System.out.println("Entreprise updated !");
@@ -354,41 +354,310 @@ public class ServiceUser implements IService<Utilisateur> {
 
         }
     }
-     
-      public List<Freelancer> getFreelancersByJob(int id_entreprise) {
-          System.out.println(id_entreprise);
-          List<Freelancer> list = new ArrayList<>();
-          ServiceOffre so = new ServiceOffre();
+
+    public List<Freelancer> getFreelancersByJob(int id_entreprise) {
+        System.out.println(id_entreprise);
+        List<Freelancer> list = new ArrayList<>();
+        ServiceOffre so = new ServiceOffre();
         List<Offre> lo = so.getOffresTerminesParEntreprise(id_entreprise);
-          
-          for (Offre o : lo){
-              System.out.println(o.getId_offre());
+
+        for (Offre o : lo) {
+            System.out.println(o.getId_offre());
+            try {
+
+                // String req = "Select * from utilisateur";
+                String req = "SELECT * "
+                        + "FROM utilisateur "
+                        + "JOIN postulation ON utilisateur.id = postulation.id_freelancer "
+                        + "WHERE postulation.isAccepted = 1 AND postulation.id_offre = '" + o.getId_offre() + "'";
+                Statement st = cnx.createStatement();
+                ResultSet rs = st.executeQuery(req);
+                while (rs.next()) {
+
+                    Freelancer f;
+
+                    f = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getFloat("rating"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
+                    System.out.println(f);
+                    list.add(f);
+
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        }
+        return list;
+    }
+///////////////////////////////////////////////////////////////// Common user attributes modif  
+
+    public void modifierNom(Utilisateur p) {
+
         try {
-            
-           // String req = "Select * from utilisateur";
-            String req = "SELECT * " 
-           + "FROM utilisateur " 
-           + "JOIN postulation ON utilisateur.id = postulation.id_freelancer " 
-           + "WHERE postulation.isAccepted = 1 AND postulation.id_offre = '"+ o.getId_offre() +"'";
+
+            String req = "UPDATE Utilisateur SET name = ? WHERE id = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getName());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("Nom updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierPrenom(Utilisateur p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET LastName = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getLastName());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("prenom updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierEmail(Utilisateur p) {
+
+        if (ChercherMail(p.getEmail()) == -1) {
+            try {
+
+                String req = "UPDATE Utilisateur SET email = ? WHERE id = ?";
+                PreparedStatement ps = cnx.prepareStatement(req);
+                ps.setString(1, p.getEmail());
+                ps.setInt(2, p.getId());
+
+                ps.executeUpdate();
+                System.out.println("Nom updated !");
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("Mail existant ! ");
+        }
+    }
+
+    public void modifierPassword(Utilisateur p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET password = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getPassword());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("password updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierImage(Utilisateur p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET ImagePath = ? WHERE id = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getImagePath());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("Image updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    ///////////////////////// Entreprise attributes modif  
+
+    public void modifierAdresse(Entreprise p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET location = ? WHERE id = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getLocation());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("Adresse updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierDomaine(Entreprise p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET domaine = ? WHERE id = ?";
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getDomaine());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("Domaine updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierinfo(Entreprise p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET info = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getInfo());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("Info updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifiernbe(Entreprise p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET nbe = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, p.getNumberOfEmployees());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("nbe updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    ///////////////////////// Freelancer attributes modif  
+
+    public void modifierBio(Freelancer p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET bio = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getBio());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("bio updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierExp(Freelancer p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET experience = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getExperience());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("exp updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierEdu(Freelancer p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET education = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setString(1, p.getEducation());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("edu updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierTJ(Freelancer p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET total_jobs = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setInt(1, p.getTotal_jobs());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("edu updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void modifierRating(Freelancer p) {
+
+        try {
+
+            String req = "UPDATE Utilisateur SET rating = ? WHERE id = ?";
+
+            PreparedStatement ps = cnx.prepareStatement(req);
+            ps.setFloat(1, p.getRating());
+            ps.setInt(2, p.getId());
+
+            ps.executeUpdate();
+            System.out.println("rating updated !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public Utilisateur getByUsername(String user) {
+        Utilisateur p = null;
+        try {
+            String req = "Select * from utilisateur where username = '" + user + "'";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-               
-                Freelancer f;
-                
-                   
-                        f = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getFloat("rating"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
-                       System.out.println(f);
-                        list.add(f);
-                 
-                
+                switch (rs.getString("role")) {
+                    case "Admin":
+                        p = new Admin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
+                        break;
+                    case "Entreprise":
+                        p = new Entreprise(rs.getString("domaine"), rs.getString("info"), rs.getString("location"), rs.getInt("nbe"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
+                        break;
+                    case "Freelancer":
+                        p = new Freelancer(rs.getString("bio"), rs.getString("experience"), rs.getString("education"), rs.getInt("total_jobs"), rs.getFloat("rating"), rs.getInt("id"), rs.getString("name"), rs.getString("Lastname"), rs.getString("Username"), rs.getString("email"), rs.getString("password"), rs.getString("role"), rs.getString("ImagePath"));
+                        break;
+                    default:
+                        break;
+                }
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-          
-          }
-        return list;
+
+        return p;
     }
+    
+  
+
 
 }

@@ -14,28 +14,53 @@ public class Wallet {
     private String num_carte;
     private float solde;
     private float bonus;
+    private String tel;
     private Utilisateur iduser;
-    private String email;
+    private String cle;
 
     public Wallet() {
     }
 
     
     
-    public Wallet(int id, String num_carte, float solde, float bonus,Utilisateur iduser) {
+    public Wallet(int id, String num_carte, float solde, float bonus,String tel,Utilisateur iduser,String cle) {
         this.id = id;
         this.num_carte = num_carte;
         this.solde = solde;
         this.bonus = bonus;
         this.iduser = iduser;
+        this.tel=tel;
+        this.cle=cle;
     }
 
-    public Wallet(String num_carte, float solde, float bonus,Utilisateur iduser) {
+    public Wallet(String num_carte, float solde, float bonus,String tel,Utilisateur iduser,String cle) {
         this.num_carte = num_carte;
         this.solde = solde;
         this.bonus = bonus;
+        this.tel=tel;
         this.iduser = iduser;
+        this.cle=cle;
     }
+
+    public String getCle() {
+        return cle;
+    }
+
+    public void setCle(String cle) {
+        this.cle = cle;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+    
+    
+    
+    
 
     public int getId() {
         return id;
@@ -57,21 +82,15 @@ public class Wallet {
         this.id = id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+   
 
-    public String getEmail() {
-        return email;
-    }
-
-    public Wallet(int id, String num_carte, float solde, float bonus, Utilisateur iduser, String email) {
+    public Wallet(int id, String num_carte, float solde, float bonus, Utilisateur iduser, String cle) {
         this.id = id;
         this.num_carte = num_carte;
         this.solde = solde;
         this.bonus = bonus;
         this.iduser = iduser;
-        this.email = email;
+        this.cle = cle;
     }
 
 
