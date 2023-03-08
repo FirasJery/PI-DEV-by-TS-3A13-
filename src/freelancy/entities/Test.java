@@ -5,72 +5,91 @@
  */
 package freelancy.entities;
 
-import java.util.Objects;
-import java.util.logging.Logger;
-
 /**
  *
- * @author hichem
+ * @author Ghass
  */
 public class Test {
-    private long idTest;
-    private String nom;
-    private String description;
+    
+    private int id;
+    private String titre;
+    private String categorie;
+    private String desc;
+    private Certif idcertif;
+    private float prix;
 
     public Test() {
     }
 
-    public Test(long idTest) {
-        this.idTest = idTest;
-    }
-    
-    
-
-    public Test(String nom, String description) {
-        this.nom = nom;
-        this.description = description;
-        
+    public Test(int id, String titre, String categorie, String desc, Certif idcertif,float prix) {
+        this.id = id;
+        this.titre = titre;
+        this.categorie = categorie;
+        this.desc = desc;
+        this.idcertif = idcertif;
+        this.prix=prix;
     }
 
-    public Test(long idTest, String nom, String description) {
-        this.idTest = idTest;
-        this.nom = nom;
-        this.description = description;
-        
+    public Test(String titre, String categorie, String desc, Certif idcertif,float prix) {
+        this.titre = titre;
+        this.categorie = categorie;
+        this.desc = desc;
+        this.idcertif = idcertif;
+        this.prix=prix;
     }
 
-    public long getIdTest() {
-        return idTest;
+    public int getId() {
+        return id;
     }
 
-    public void setIdTest(long idTest) {
-        this.idTest = idTest;
+    public String getTitre() {
+        return titre;
     }
 
-    public String getNom() {
-        return nom;
+    public String getCategorie() {
+        return categorie;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public String getDesc() {
+        return desc;
     }
 
-    public String getDescription() {
-        return description;
+    public Certif getIdcertif() {
+        return idcertif;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
-    
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setIdcertif(Certif idcertif) {
+        this.idcertif = idcertif;
+    }
+
+    public float getPrix() {
+        return prix;
+    }
+
+    public void setPrix(float prix) {
+        this.prix = prix;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 43 * hash + (int) (this.idTest ^ (this.idTest >>> 32));
+        int hash = 7;
+        hash = 37 * hash + this.id;
         return hash;
     }
 
@@ -86,7 +105,7 @@ public class Test {
             return false;
         }
         final Test other = (Test) obj;
-        if (this.idTest != other.idTest) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
@@ -94,9 +113,8 @@ public class Test {
 
     @Override
     public String toString() {
-        return "un "  + nom + "\n" + description +  " ";
+        return "Test{" + "id=" + id + ", titre=" + titre + ", categorie=" + categorie + ", desc=" + desc + ", idcertif=" + idcertif + '}';
     }
-    
     
     
     

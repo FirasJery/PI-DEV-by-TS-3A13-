@@ -5,26 +5,29 @@
  */
 package freelancy.services;
 
+import entities.Passage;
 import freelancy.entities.Question;
 import freelancy.entities.Test;
-import freelancy.utils.DataSource;
+import entities.Utilisateur;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import utils.DataSource;
+
 /**
  *
- * @author hichem
+ * @author Ghass
  */
-public class ServiceQuestion implements Iservice<Question> {
-    Connection cnx = DataSource.getInstance().getCnx();
+public class ServiceQuestion implements IService<Question>{
     
-    @Override
-    public void ajouter(Question p) {
+   Connection cnx = DataSource.getInstance().getCnx();
+     @Override
+    public void ajouter(Question c) {
         try {
-            String req = "INSERT INTO `question` (`question`,`reponse`,`note`,`idTest`) VALUES ('" + p.getQuestion() + "', '"  + p.getReponse() + "', '" +  p.getNote() + "', '" +  p.getIdTest() + "')";
+            String req = "INSERT INTO question (question,reponse,note,idtest,choix1,choix2,choix3,type) VALUES ('" + c.getQuestion() + "', '" + c.getReponse()+ "','" + c.getNote()+ "','" + c.getIdtest().getId() + "','"+c.getChoix1()+"','"+c.getChoix2()+"','"+c.getChoix3()+"','"+c.getTypr()+"'";
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
             System.out.println("Question created !");
@@ -34,23 +37,22 @@ public class ServiceQuestion implements Iservice<Question> {
     }
     
     
-    
     @Override
-    public void supprimer(long id) {
+    public void supprimer(int id) {
         try {
-            String req = "DELETE FROM `question` WHERE idQuest = " + id;
+            String req = "DELETE FROM question WHERE id = " + id;
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
-            System.out.println("Question deleted !");
+            System.out.println("passage deleted !");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
     
     @Override
-    public void modifier(Question p) {
+    public void modifier(Question c) {
         try {
-            String req = "UPDATE `question` SET `question` = '" + p.getQuestion() + "', `reponse` = '" + p.getReponse() + "', `note` = '" + p.getNote() +  "' WHERE `question`.`idQuest` = " + p.getIdQuest();
+            String req = "UPDATE question SET question = '" + c.getQuestion() + "', reponse = '" + c.getReponse() + "', note = '" + c.getNote() + "',idtest = '" + c.getIdtest().getId() + "',choix1 = '" + c.getChoix1() + "', choix2 = '" + c.getChoix2() + "',choix3 = '" + c.getChoix3() + "',type = '" + c.getTypr() + "' WHERE question.id = " + c.getId();
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
             System.out.println("Question updated !");
@@ -63,12 +65,17 @@ public class ServiceQuestion implements Iservice<Question> {
     public List<Question> getAll() {
         List<Question> list = new ArrayList<>();
         try {
-            String req = "SELECT * FROM question";
+            String req = "Select * from question";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                Question p = new Question(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getLong(5));
-                list.add(p);
+               
+                Test t;
+                ServiceTest stt = new ServiceTest();
+                t=stt.getOneById(Integer.parseInt(rs.getString("idtest")));
+                
+                Question c = new Question(rs.getInt(1), rs.getString("question"),rs.getString("reponse"),rs.getInt("note"),t,rs.getString("choix1"),rs.getString("choix2"),rs.getString("choix3"),rs.getString("type"));
+                list.add(c);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -77,72 +84,73 @@ public class ServiceQuestion implements Iservice<Question> {
         return list;
     }
     
-    public List<Question> getQuestions(long id) {
-        List<Question> list = new ArrayList<>();
+    public Question Getquest(int ind){
+        List<Question> list= new ArrayList<>();
+        list=getAll();
         
-        try {
-            String req = "SELECT question.question,question.reponse,question.note FROM question WHERE question.idTest = '"+id+"'";
-            Statement st = cnx.createStatement();
-            ResultSet rs = st.executeQuery(req);
-            while (rs.next()) {
-                Question p = new Question( rs.getString(1), rs.getString(2), rs.getInt(3));
-                list.add(p);
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        return list.get(ind);
+        
+    }
+    public int getetat(int ind){
+     List<Question> list= new ArrayList<>();
+        list=getAll();
+        if(list.size()<=ind){
+        return 1;
         }
-
-        return list;
+        return 0;
     }
     
-    /*public List<String> getAllQuestions(long id) {
-        List<String> list = new ArrayList<>();
-        
-        try {
-            String req = "SELECT  FROM question WHERE question.idTest = '"+id+"'";
-            Statement st = cnx.createStatement();
-            ResultSet rs = st.executeQuery(req);
-            while (rs.next()) {
-                String p = new String(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getLong(5));
-                list.add(p);
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        return list;
-    }*/
     
     @Override
-    public Question getOneById(long id) {
-        Question p = null;
+    public Question getOneById(int id) {
+        Question c = null;
         try {
-            String req = "SELECT * FROM question";
+            String req = "Select * from question WHERE question.id ='"+id+"'";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                p = new Question(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getInt(4),rs.getLong(5));
+                  Test t;
+                ServiceTest stt = new ServiceTest();
+                t=stt.getOneById(Integer.parseInt(rs.getString("idtest")));
+                
+                 c = new Question(rs.getInt(1), rs.getString("question"),rs.getString("reponse"),rs.getInt("note"),t,rs.getString("choix1"),rs.getString("choix2"),rs.getString("choix3"),rs.getString("type"));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
-        return p;
+        return c;
     }
     
-    public  long getLastId(Test p) {
-    long lastId = 0;
-    try {
-            String req = "SELECT test.idTest FROM test ORDER BY idTest DESC LIMIT 1";
+        public List<Question> getByTestid(int id) {
+        List<Question> list = new ArrayList<>();
+        try {
+            String req = "Select * from question WHERE question.idtest='"+id+"'";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                lastId = rs.getLong("idTest");
+               
+                Test t;
+                ServiceTest stt = new ServiceTest();
+                t=stt.getOneById(Integer.parseInt(rs.getString("idtest")));
+                
+              Question c = new Question(rs.getInt(1), rs.getString("question"),rs.getString("reponse"),rs.getInt("note"),t,rs.getString("choix1"),rs.getString("choix2"),rs.getString("choix3"),rs.getString("type"));
+                list.add(c);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-    return lastId;
+
+        return list;
     }
     
+    
+     public Question Getquest(int ind,int id){
+        List<Question> list= new ArrayList<>();
+        list=getByTestid(id);
+        System.out.println(list.get(ind));
+        return list.get(ind);
+        
+        
+    }
 }

@@ -5,57 +5,42 @@
  */
 package freelancy.services;
 
+import freelancy.entities.Certif;
 import freelancy.entities.Test;
-import freelancy.entities.Question;
-import freelancy.utils.DataSource;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import utils.DataSource;
+
 /**
  *
- * @author hichem
+ * @author Ghass
  */
-public class ServiceTest implements Iservice<Test> {
-    Connection cnx = DataSource.getInstance().getCnx();
+public class ServiceTest implements IService <Test>{
     
-    @Override
-    public void ajouter(Test p) {
+    Connection cnx = DataSource.getInstance().getCnx();
+     @Override
+    public void ajouter(Test c) {
         try {
-            String req = "INSERT INTO `test` (`nom`, `description`) VALUES ('" + p.getNom() + "', '" + p.getDescription() +  "')";
+            String req = "INSERT INTO test (titre,categorie,description,idcertif,prix) VALUES ('" + c.getTitre() + "', '" + c.getCategorie()+ "','" + c.getDesc() + "','" + c.getIdcertif().getId() + "','"+c.getPrix()+"')";
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
-            System.out.println("test created !");
+            System.out.println("Test created !");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
     
-    /*public void ajouter2(Test p) {
-        try {
-            String req = "INSERT INTO `test` (`nom`, `description`, `score`, `answer`, `lien`,`reponse` ) VALUES (?,?,?,?,?,?)";
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setString(2, p.getNom());
-            ps.setString(3, p.getDescription());
-            ps.setString(4, p.getAnswer());
-            ps.setString(5, p.getLien());
-            ps.setInt(6, p.getScore());
-            ps.setBoolean(7, p.isReponse());
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }*/
     
     @Override
-    public void supprimer(long id) {
+    public void supprimer(int id) {
         try {
-            String req = "DELETE FROM `test` WHERE idTest = " + id;
+            String req = "DELETE FROM test WHERE id = " + id;
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
             System.out.println("Test deleted !");
@@ -65,12 +50,12 @@ public class ServiceTest implements Iservice<Test> {
     }
     
     @Override
-    public void modifier(Test p) {
+    public void modifier(Test c) {
         try {
-            String req = "UPDATE `test` SET `nom` = '" + p.getNom() + "', `description` = '" + p.getDescription() +   "' WHERE `test`.`idTest` = " + p.getIdTest();
+            String req = "UPDATE test SET titre = '" + c.getTitre() + "', categorie = '" + c.getCategorie() + "', description = '" + c.getDesc() + "',idcertif = '" + c.getIdcertif().getId() + "',prix='"+c.getPrix()+"'  WHERE test.id = " + c.getId();
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
-            System.out.println("Test updated !");
+            System.out.println("card updated !");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -80,13 +65,36 @@ public class ServiceTest implements Iservice<Test> {
     public List<Test> getAll() {
         List<Test> list = new ArrayList<>();
         try {
-            String req = "SELECT * FROM test";
+            String req = "Select * from test";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                Test p = new Test( rs.getLong(1),rs.getString(2), rs.getString(3));
-                 list.add(p);
+                ServiceCertif sw = new ServiceCertif();
+                Certif u;
                 
+                u=sw.getOneById(rs.getInt("idcertif"));
+                Test c = new Test(rs.getInt(1), rs.getString("titre"), rs.getString(3),rs.getString("description"),u,rs.getFloat("prix"));
+                list.add(c);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
+    public List<Test> getByIdCertif(int id) {
+        List<Test> list = new ArrayList<>();
+        try {
+            String req = "Select * from test WHERE test.idcertif ='"+id+"'";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                ServiceCertif sw = new ServiceCertif();
+                Certif u;
+                
+                u=sw.getOneById(rs.getInt("idcertif"));
+                Test c = new Test(rs.getInt(1), rs.getString("titre"), rs.getString(3),rs.getString("description"),u,rs.getFloat("prix"));
+                list.add(c);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -95,27 +103,66 @@ public class ServiceTest implements Iservice<Test> {
         return list;
     }
     
-    
-    
+    public ObservableList<String> getall() {
+        ObservableList<String> posts = FXCollections.observableArrayList();
+        try {
+            String req = "select distinct nom from categorie";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+
+            while (rs.next()) {
+               String d = rs.getString("nom");
+                
+               posts.add(d);
+            }
+            
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return posts;
+    }
     
     @Override
-    public Test getOneById(long id) {
-        Test p = null;
+    public Test getOneById(int id) {
+        Test c = null;
         try {
-            String req = "SELECT * FROM test";
+            String req = "Select * from test WHERE test.id ='"+id+"'";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                p = new Test(rs.getLong(1), rs.getString(2), rs.getString(3));
+                 ServiceCertif sw = new ServiceCertif();
+                Certif u;
+                
+                u=sw.getOneById(rs.getInt("idcertif"));
+                c = new Test(rs.getInt(1), rs.getString("titre"), rs.getString(3),rs.getString("description"),u,rs.getFloat("prix"));
+              
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
 
-        return p;
+        return c;
     }
-    
-    
-        
-    
+      public List<Test> getSuccess(int iduser,int idcertif) {
+          
+        List<Test> list = new ArrayList<>();
+        try {
+            String req = "Select * from test join passage on test.id=passage.idtest WHERE passage.iduser='"+iduser+"' AND passage.etat=1 AND test.idcertif='"+idcertif+"'";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                ServiceCertif sw = new ServiceCertif();
+                Certif u;
+                
+                u=sw.getOneById(rs.getInt("idcertif"));
+                Test c = new Test(rs.getInt(1), rs.getString("titre"), rs.getString(3),rs.getString("description"),u,rs.getFloat("prix"));
+                list.add(c);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return list;
+    }
 }
