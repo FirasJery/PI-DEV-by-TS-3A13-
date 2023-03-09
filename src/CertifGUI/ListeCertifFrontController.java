@@ -95,16 +95,14 @@ public class ListeCertifFrontController implements Initializable {
         
         box.setAlignment(Pos.CENTER);
         box.setSpacing(30);
+          URL imageUrl = getClass().getResource("/resources/trans.jpg");
+        box.setStyle("-fx-background-image: url('" + imageUrl + "');");
+        box.setPrefWidth(1200);
          box.setUserData(offre.getId()); // set the ID as the user data for the VBox
 
 
         Label titre = new Label("Titre :"+offre.getNom());
-        
-        
-       
-        
-       
-        
+
         File imagef = new File(offre.getBadge());
         Image image = new Image(imagef.toURI().toString());
         ImageView imm = new ImageView(image);
@@ -116,8 +114,10 @@ public class ListeCertifFrontController implements Initializable {
         
         titre.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         
-      desc.setStyle("-fx-text-fill : Green;");
-      voir.setStyle("-fx-text-fill : Blue;");
+      desc.setStyle("-fx-text-fill : white;");
+      voir.setStyle("-fx-text-fill : white;");
+            titre.setStyle("-fx-text-fill : white;");
+
         
          voir.setFont(Font.font("Serif", FontWeight.LIGHT, 15));
         desc.setFont(Font.font("Arial", FontWeight.BOLD, 20));

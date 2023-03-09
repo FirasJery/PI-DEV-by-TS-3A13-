@@ -19,13 +19,15 @@ import utils.DataSource;
  *
  * @author Ghass
  */
-public class ServiceRec implements IService <Reclamation> {
-    
+public class ServiceRec implements IService<Reclamation> {
+
     Connection cnx = DataSource.getInstance().getCnx();
-     @Override
+
+    @Override
     public void ajouter(Reclamation c) {
         try {
-            String req = "INSERT INTO reclamation (description,type,etat,id_user) VALUES ('" + c.getDesc() + "', '" + c.getType()+ "','" + c.isEtat() + "','" + c.getId_user().getId() + "')";
+            String req = "INSERT INTO reclamation (description,type,etat,id_user) VALUES ('" + c.getDesc() + "', '"
+                    + c.getType() + "','" + c.isEtat() + "','" + c.getId_user().getId() + "')";
             Statement st = cnx.createStatement();
             st.executeUpdate(req);
             System.out.println("card created !");
@@ -33,8 +35,7 @@ public class ServiceRec implements IService <Reclamation> {
             System.out.println(ex.getMessage());
         }
     }
-    
-    
+
     @Override
     public void supprimer(int id) {
         try {
@@ -46,7 +47,7 @@ public class ServiceRec implements IService <Reclamation> {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     @Override
     public void modifier(Reclamation c) {
         try {
@@ -58,7 +59,7 @@ public class ServiceRec implements IService <Reclamation> {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     @Override
     public List<Reclamation> getAll() {
         List<Reclamation> list = new ArrayList<>();
@@ -69,9 +70,9 @@ public class ServiceRec implements IService <Reclamation> {
             while (rs.next()) {
                 ServiceUser sw = new ServiceUser();
                 Utilisateur u;
-                
-                u=sw.getOneById(rs.getInt("id_user"));
-                Reclamation c = new Reclamation(rs.getInt(1), rs.getString("description"), rs.getString(3),rs.getInt("etat"),u);
+
+                u = sw.getOneById(rs.getInt("id_user"));
+                Reclamation c = new Reclamation(rs.getInt(1), rs.getString("description"), rs.getString(3), rs.getInt("etat"), u);
                 list.add(c);
             }
         } catch (SQLException ex) {
@@ -80,21 +81,21 @@ public class ServiceRec implements IService <Reclamation> {
 
         return list;
     }
-    
+
     @Override
     public Reclamation getOneById(int id) {
         Reclamation c = null;
         try {
-            String req = "Select * from reclamation WHERE reclamation.id ='"+id+"'";
+            String req = "Select * from reclamation WHERE reclamation.id ='" + id + "'";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
-                 ServiceUser sw = new ServiceUser();
+                ServiceUser sw = new ServiceUser();
                 Utilisateur u;
-                
-                u=sw.getOneById(rs.getInt("id_user"));
-                c = new Reclamation(rs.getInt(1), rs.getString("description"), rs.getString(3),rs.getInt("etat"),u);
-              
+
+                u = sw.getOneById(rs.getInt("id_user"));
+                c = new Reclamation(rs.getInt(1), rs.getString("description"), rs.getString(3), rs.getInt("etat"), u);
+
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -102,20 +103,19 @@ public class ServiceRec implements IService <Reclamation> {
 
         return c;
     }
-    
-    
+
     public List<Reclamation> getMyRtrans(int id) {
         List<Reclamation> list = new ArrayList<>();
         try {
-            String req = "Select * from reclamation WHERE reclamation.id_user='"+id+"' ";
+            String req = "Select * from reclamation WHERE reclamation.id_user='" + id + "' ";
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery(req);
             while (rs.next()) {
                 ServiceUser sw = new ServiceUser();
                 Utilisateur u;
-                
-                u=sw.getOneById(id);
-                Reclamation c = new Reclamation(rs.getInt(1), rs.getString("description"), rs.getString(3),rs.getInt("etat"),u);
+
+                u = sw.getOneById(id);
+                Reclamation c = new Reclamation(rs.getInt(1), rs.getString("description"), rs.getString(3), rs.getInt("etat"), u);
                 list.add(c);
             }
         } catch (SQLException ex) {
@@ -124,7 +124,5 @@ public class ServiceRec implements IService <Reclamation> {
 
         return list;
     }
-    
-    
-    
+
 }

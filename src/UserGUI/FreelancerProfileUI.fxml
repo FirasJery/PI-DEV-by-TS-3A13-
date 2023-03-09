@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserGUI.FreelancerProfileUIController">
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="1200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserGUI.FreelancerProfileUIController">
    <children>
       <StackPane layoutX="317.0" layoutY="-3.0" prefHeight="628.0" prefWidth="884.0">
          <children>
@@ -397,7 +397,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="75.0" prefWidth="318.0" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#btnAdvancedAction" text="Parametre avancées" />
+                              <Button mnemonicParsing="false" onAction="#btnAdvancedAction" text="Parametre avancées">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                               <Button fx:id="btntRetourAdvanced" mnemonicParsing="false" onAction="#bntRetourAdvancedAction" text="Retour" visible="false" />
                            </children>
                         </VBox>

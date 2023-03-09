@@ -151,6 +151,35 @@ public class ServiceReview implements IService <Review> {
 
         return list;
     }
+     
+     public int[] getReviewsDivided(int id_freelancer) {
+        int l [] = new int[10];
+        for(int i = 0; i < 10; i++){
+            l[i] = 0;
+        }
+        try {
+            String req = "Select * from review where id_user = '"+id_freelancer+"'";
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery(req);
+            while (rs.next()) {
+                ServiceUser sw = new ServiceUser();
+                Utilisateur ud,u;
+                
+                u=sw.getOneById(rs.getInt("id_user"));
+                ud=sw.getOneById(rs.getInt("id_editeur"));
+                Review c = new Review(rs.getInt(1), ud,u,rs.getString("message"), rs.getFloat("note"));
+                int i = (int) Math.floor(rs.getFloat("note"));
+                System.out.println("current note " + i);
+                int j = l[i-1]+1 ;
+                l[i-1] = j;
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+ 
+        return l;
+    }
     
     
     

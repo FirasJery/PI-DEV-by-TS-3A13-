@@ -480,11 +480,22 @@ public class AffichageOffreController implements Initializable {
         });
 
         box.setOnMouseEntered(event -> {
-            box.setStyle("-fx-background-color: #FFA07A;");
+            box.setStyle("-fx-background-color: #acaaad; -fx-background-radius: 40;");
+            box.setOpacity(0.78);
+            title.setStyle("-fx-text-fill: #BB0000;");
+            Color c = new Color(0, 0, 0, 1);
+            category.setTextFill(c);
+            duree.setTextFill(c);
+            box.setEffect(glow);
         });
 
         box.setOnMouseExited(event -> {
-            box.setStyle("-fx-background-color: #8B0000;");
+            box.setStyle("-fx-background-color: #BB0000; -fx-background-radius: 20;");
+            box.setOpacity(0.7);
+            title.setStyle("-fx-text-fill: #acaaad;");
+            category.setTextFill(Color.WHITE);
+            duree.setTextFill(Color.WHITE);
+            box.setEffect(shadow);
         });
 
         return box;

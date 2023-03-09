@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorBack" prefHeight="800.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.BackGUIController">
+<AnchorPane id="AnchorPane" fx:id="anchorBack" prefHeight="800.0" prefWidth="1600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.BackGUIController">
    <children>
-      <HBox fx:id="navbar" alignment="CENTER" prefHeight="100.0" prefWidth="1600.0" spacing="20.0">
+      <HBox fx:id="navbar" alignment="CENTER" prefHeight="100.0" prefWidth="1600.0" spacing="20.0" style="-fx-background-color: #acaaad;">
          <children>
-            <Label onMousePressed="#goUtil" text="Utilisateurs">
+            <Label onMousePressed="#goUtil" text="Utilisateurs" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -18,7 +18,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <Label onMousePressed="#goOffre" text="Offres">
+            <Label onMousePressed="#goOffre" text="Offres" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -26,7 +26,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <Label onMousePressed="#goReclam" text="Reclamations">
+            <Label onMousePressed="#goReclam" text="Reclamations" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -34,7 +34,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <Label onMousePressed="#goMessagerie" text="Messagerie">
+            <Label onMousePressed="#goMessagerie" text="Messagerie" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -42,7 +42,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <Label onMousePressed="#goWallet" text="Wallet">
+            <Label onMousePressed="#goWallet" text="Wallet" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -50,7 +50,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-            <Label onMousePressed="#goCertif" text="Certification">
+            <Label onMousePressed="#goCertif" text="Certification" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -68,6 +68,6 @@
             </Label>
          </children>
       </HBox>
-      <HBox fx:id="content" layoutY="100.0" prefHeight="700.0" prefWidth="1600.0" />
+      <HBox fx:id="content" alignment="CENTER" layoutY="100.0" prefHeight="700.0" prefWidth="1600.0" />
    </children>
 </AnchorPane>

@@ -187,8 +187,6 @@ public class ReviewsDisplayController implements Initializable {
         Date.setWrapText(true);
         box.getChildren().addAll(Date, montant, rec, bb, sep);
         URL imageUrl = getClass().getResource("/resources/trans.jpg");
-
-        
         box.setStyle("-fx-background-image: url('" + imageUrl + "');");
         box.setPrefWidth(1200);
         bb.setOnMouseClicked(event -> {
@@ -224,8 +222,6 @@ public class ReviewsDisplayController implements Initializable {
         Date.setWrapText(true);
         box.getChildren().addAll(Date, montant, rec, sep);
         URL imageUrl = getClass().getResource("/resources/trans.jpg");
-
-        
         box.setStyle("-fx-background-image: url('" + imageUrl + "');");
         box.setPrefWidth(1200);
       

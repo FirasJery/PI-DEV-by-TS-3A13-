@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchor_window" prefHeight="620.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MessagerieGUI.MessagerieInterfaceController">
+<AnchorPane id="AnchorPane" fx:id="anchor_window" prefHeight="620.0" prefWidth="1200.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MessagerieGUI.MessagerieInterfaceController">
    <children>
       <ListView id="listUsers" fx:id="users" layoutX="16.0" layoutY="71.0" onMouseClicked="#get_convo" prefHeight="460.0" prefWidth="193.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="585.0" layoutX="299.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="3.0" />

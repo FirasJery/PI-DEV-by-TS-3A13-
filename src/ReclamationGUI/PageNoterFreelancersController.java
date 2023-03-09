@@ -23,8 +23,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import services.ServiceOffre;
@@ -58,8 +61,7 @@ public class PageNoterFreelancersController implements Initializable {
         System.out.println(lo);
         System.out.println(offres);
         VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(20);
+         
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
@@ -98,13 +100,18 @@ public class PageNoterFreelancersController implements Initializable {
         ServiceReview sr = new ServiceReview();
 
         VBox box = new VBox();
-        box.setStyle("-fx-background-color: #8B0000; -fx-border-color: black; -fx-border-width: 2px;");
-        box.setMaxSize(500, 500);
+        box.setStyle("-fx-background-color: #BB0000; -fx-background-radius: 20;");
 
+        box.setMaxSize(500, 500);
+        box.setSpacing(50);
         box.setAlignment(Pos.CENTER);
-        box.setSpacing(20);
+
         Insets I = new Insets(20, 0, 20, 0);
         box.setPadding(I);
+        box.setOpacity(0.7);
+        Glow glow = new Glow();
+        DropShadow shadow = new DropShadow();
+        box.setEffect(shadow);
         box.setUserData(offre.getId()); // set the ID as the user data for the VBox
 
         Label title = new Label(offre.getName());
@@ -113,7 +120,15 @@ public class PageNoterFreelancersController implements Initializable {
         // Label type = new Label(offre.getType());
         Label duree = new Label("");
 
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+         title.setStyle("-fx-text-fill: #acaaad;");
+        title.setWrapText(true);
+
+        title.setAlignment(Pos.CENTER);
+        category.setTextFill(Color.WHITE);
+        category.setFont(Font.font("Arial", FontWeight.BOLD, 19));
+        duree.setFont(Font.font("Arial", FontWeight.BOLD, 19));
+        duree.setTextFill(Color.WHITE);
+        title.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         //description.setWrapText(true);
         Button rate = new Button();
         rate.setText("Noter");
@@ -167,6 +182,7 @@ public class PageNoterFreelancersController implements Initializable {
                 f.setRating((float)noteGlobale);
                 ServiceUser su = new ServiceUser(); 
                 su.modifierRating(f);
+                afficherFreelancersAnoter();
                 
             }
 
@@ -181,11 +197,22 @@ public class PageNoterFreelancersController implements Initializable {
         });
 
         box.setOnMouseEntered(event -> {
-            box.setStyle("-fx-background-color: #FFA07A;");
+            box.setStyle("-fx-background-color: #acaaad; -fx-background-radius: 40;");
+            box.setOpacity(0.78);
+            title.setStyle("-fx-text-fill: #BB0000;");
+            Color ca = new Color(0, 0, 0, 1);
+            category.setTextFill(ca);
+            duree.setTextFill(ca);
+            box.setEffect(glow);
         });
 
         box.setOnMouseExited(event -> {
-            box.setStyle("-fx-background-color: #8B0000;");
+           box.setStyle("-fx-background-color: #BB0000; -fx-background-radius: 20;");
+            box.setOpacity(0.7);
+            title.setStyle("-fx-text-fill: #acaaad;");
+            category.setTextFill(Color.WHITE);
+            duree.setTextFill(Color.WHITE);
+            box.setEffect(shadow);
         });
 
         return box;

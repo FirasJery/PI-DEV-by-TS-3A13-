@@ -54,8 +54,5 @@ public class DepotWalletController implements Initializable {
             
     }}
 
-    @FXML
-    private void retourner(ActionEvent event) {
-    }
     
 }

@@ -7,6 +7,7 @@ package entities;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 
@@ -60,6 +61,7 @@ public class SessionManager {
     }
     public void setCurrentHbox(HBox b){
         this.content = b;
+        
     }
     
     public HBox getCurrentHbox(){

@@ -16,6 +16,7 @@ public class Reclamation {
     private String type;
     private int etat;
     private Utilisateur user;
+  
     
     public Reclamation(){}
 
@@ -26,6 +27,7 @@ public class Reclamation {
         this.etat = etat;
         this.user = user;
     }
+    
 
     @Override
     public String toString() {
@@ -103,5 +105,15 @@ public class Reclamation {
         }
         return true;
     }
+
+    public Utilisateur getUser() {
+        return user;
+    }
+
+    public void setUser(Utilisateur user) {
+        this.user = user;
+    }
+
+  
     
 }

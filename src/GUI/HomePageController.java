@@ -79,8 +79,6 @@ public class HomePageController implements Initializable {
     private AnchorPane AnchorHome;
     @FXML
     private Label bntCertif;
-    @FXML
-    private Label btnRevues;
 
     /**
      * Initializes the controller class.
@@ -100,6 +98,7 @@ public class HomePageController implements Initializable {
             case "Entreprise":
                 offres_btn.setText("Offres");
                 offre_path = "/OffresGUI/AffichageOffreEntrprise.fxml";
+                bntCertif.setVisible(false);
                 break;
             default:
                 break;
@@ -257,8 +256,5 @@ public class HomePageController implements Initializable {
 
     }
 
-    @FXML
-    private void Go_Revues(MouseEvent event) {
-    }
 
 }

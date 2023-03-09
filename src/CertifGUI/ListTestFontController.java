@@ -5,9 +5,7 @@
  */
 package CertifGUI;
 
-import entities.Certif;
 import entities.Facture;
-import entities.Offre;
 import entities.SessionManager;
 import entities.Test;
 import entities.Wallet;
@@ -20,15 +18,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -39,9 +34,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import services.ServiceFacture;
 import services.ServicePassage;
 
@@ -83,7 +75,8 @@ public class ListTestFontController implements Initializable {
             }
         }
         VBox vBox = new VBox();
-        
+                vBox.setPrefWidth(1200);
+
         vBox.setAlignment(Pos.TOP_CENTER);
         vBox.setSpacing(30);
         
@@ -121,7 +114,8 @@ public class ListTestFontController implements Initializable {
     public void tableSucc() throws SQLException{
         List<Test> offres = st.getSuccess(sm.getCurrentUser().getId(),sm.getCurrentCertif().getId());
         VBox vBox = new VBox();
-        
+                vBox.setPrefWidth(1200);
+
         vBox.setAlignment(Pos.TOP_CENTER);
         vBox.setSpacing(30);
         
@@ -166,8 +160,12 @@ public class ListTestFontController implements Initializable {
     
      private VBox createOffreBox(Test offre)  {
         VBox box = new VBox();
+                box.setPrefWidth(1200);
+
         box.setAlignment(Pos.CENTER);
         box.setSpacing(30);
+         URL imageUrl = getClass().getResource("/resources/trans.jpg");
+        box.setStyle("-fx-background-image: url('" + imageUrl + "');");
          box.setUserData(offre.getId()); // set the ID as the user data for the VBox
 
 
@@ -186,8 +184,12 @@ public class ListTestFontController implements Initializable {
      
         
    
-      voir.setStyle("-fx-text-fill : Black;");
-    
+      voir.setStyle("-fx-text-fill : white;");
+      cat.setStyle("-fx-text-fill : white;");
+
+                  titre.setStyle("-fx-text-fill : white;");
+                                    prix.setStyle("-fx-text-fill : white;");
+
         
          voir.setFont(Font.font("Serif", FontWeight.LIGHT, 23));
         titre.setFont(Font.font("Arial", FontWeight.BOLD, 29));
@@ -246,6 +248,11 @@ public class ListTestFontController implements Initializable {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
         box.setSpacing(30);
+                        box.setPrefWidth(1200);
+
+         URL imageUrl = getClass().getResource("/resources/trans.jpg");
+        box.setStyle("-fx-background-image: url('" + imageUrl + "');");
+
          box.setUserData(offre.getId()); // set the ID as the user data for the VBox
 
 
@@ -262,8 +269,13 @@ public class ListTestFontController implements Initializable {
 
      
         
-   
-      voir.setStyle("-fx-text-fill : Black;");
+                     titre.setStyle("-fx-text-fill : white;");
+
+      voir.setStyle("-fx-text-fill : white;");
+            cat.setStyle("-fx-text-fill : white;");
+
+                  score.setStyle("-fx-text-fill : white;");
+
     
         
          voir.setFont(Font.font("Serif", FontWeight.LIGHT, 23));

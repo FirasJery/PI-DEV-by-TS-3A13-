@@ -72,13 +72,19 @@ public class BackGUIController implements Initializable {
 
     @FXML
     private void goReclam(MouseEvent event) {
+        try {
+            Parent page1 = FXMLLoader.load(getClass().getResource("/ReclamationGUI/ReclamationBack.fxml"));
+
+            SessionManager.getInstance().showContent(page1);
+        } catch (IOException ex) {
+            Logger.getLogger(BackGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     private void goMessagerie(MouseEvent event) {
         try {
             Parent page1 = FXMLLoader.load(getClass().getResource("/MessagerieGUI/MessagerieBack.fxml"));
-
             SessionManager.getInstance().showContent(page1);
         } catch (IOException ex) {
             Logger.getLogger(BackGUIController.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,7 +106,6 @@ public class BackGUIController implements Initializable {
     private void goCertif(MouseEvent event) {
         try {
             Parent page1 = FXMLLoader.load(getClass().getResource("/CertifGUI/ListeCertif.fxml"));
-
             SessionManager.getInstance().showContent(page1);
         } catch (IOException ex) {
             Logger.getLogger(BackGUIController.class.getName()).log(Level.SEVERE, null, ex);

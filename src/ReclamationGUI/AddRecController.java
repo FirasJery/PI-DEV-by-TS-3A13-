@@ -121,6 +121,10 @@ public class AddRecController implements Initializable {
             p.setId_user(sessionManager.getCurrentUser());
 
             sd.ajouter(p);
+            tfobj.clear();
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("Votre REclamation sera traitée.");
+            a.show();
         }
     }
 
