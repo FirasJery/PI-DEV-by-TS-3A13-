@@ -1,0 +1,16 @@
+{% extends 'generic/navbar.html.twig' %}
+
+{% block body %}
+<form method="POST" style="display:felx; flex-direction:column;">
+    <div>
+        <label>Username</label>
+        <input type="text" name="user">
+    </div>
+    <div>
+        <label>Password</label>
+        <input type="text" name="pass">
+    </div>
+    <input type="submit" value="Login {{ cp.current_user }} " name="login-submit">
+    
+</form>
+{% endblock %}

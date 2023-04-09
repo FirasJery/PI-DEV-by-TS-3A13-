@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html style="height:calc(100% - 110px); width:100%;">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        {% endblock %}
+    </head>
+    <body style="height:100%; width:100%;">
+        {% block navbar %}{% endblock %}
+        {% block body %}{% endblock %}
+    </body>
+</html>

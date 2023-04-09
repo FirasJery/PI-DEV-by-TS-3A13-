@@ -1,0 +1,517 @@
+{% extends 'generic/navbar.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .messagerie-container{
+        display: flex;
+        height: 100%;
+        width: auto;
+    }
+
+    .contacts-container{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 20%;
+        overflow-y: auto;
+    }
+
+    .contacts-features{
+        height:auto;
+        width:auto;
+        display: flex;
+    }
+
+    .feature-img{
+        height: 40px;
+        width: 40px;
+        position:relative;
+        margin-left: auto;
+        cursor: pointer;
+    }
+
+    .modal-c{
+        z-index:1;
+        width:300px;
+        height: auto;
+        max-height: 200px;
+        display: block;
+        position:fixed;
+        top: 140px;
+        left: 280px;
+        /*top:0;
+        left:0;*/
+        background-color: white;
+        overflow-y: scroll;
+    }
+
+    .create-container{
+        height:auto;
+        width:auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search-member{
+        height: auto;
+        width: auto;
+        display: flex;
+        padding: 4px 20px 2px 20px;
+    }
+
+    .modal-user{
+        cursor: pointer;
+        background-color: white;
+    }
+
+    .modal-user:hover{
+        background-color: #DADADA;
+    }
+
+    .modal-user-img{
+        height: 40px;
+        width: 40px;
+        border-radius: 40px;
+    }
+
+    .memeber-list{
+        display: flex;
+    }
+
+    .mod-member{
+        height: 40px;
+        width: auto;
+        border: 2px #3200ab solid;
+        border-radius: 15px;
+        background-color: #7fbdff;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .search-contact{
+
+    }
+
+    .con-bar{
+        margin-top:2%; 
+        margin-left: 7%; 
+        margin-right:7%; 
+        width: 80%;
+        background-color: #DADADA;
+        border-radius: 15px;
+    }
+
+    .contact-card{
+        display:flex;
+        height: 100px;
+        width: 100%;
+        cursor: pointer;
+        border-radius: 15px;
+    }
+
+    .contact-card:hover{
+        background-color:#DADADA;
+    }
+
+    .contact-img{
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+    }
+
+    .user-info{
+        display: flex;
+        flex-direction: column;
+        margin-top: 10%;
+        font-family: 'Trebuchet MS';
+    }
+
+    .left-msg,
+    .right-msg{
+        display: flex;
+        height: auto;
+    }
+
+    .right-msg{
+        position: relative;
+        margin-left:auto;
+    }
+
+    .displayed-msg-right{
+        height: auto;
+        width: auto;
+        margin-top: 25px;
+        max-width: 400px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        background-color: blue;
+        border-radius: 15px;
+        padding: 10px 10px 10px 10px;
+        color: white;
+        font-family: 'Trebuchet MS';
+    }
+
+    .displayed-msg-left{
+        height: auto;
+        width: auto;
+        margin-top: 25px;
+        max-width: 400px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        background-color: #DADADA;
+        border-radius: 15px;
+        padding: 10px 10px 10px 10px;
+        color: #2E2E2E;
+        font-family: 'Trebuchet MS';
+    }
+
+    .conversation-container{
+        height: auto;
+        width: 50%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .conversation-footer{
+        position: relative;
+        display:flex;
+    }
+
+    .profile-container{
+        height: auto;
+        width: 29%;
+        position: absolute;
+        right: 0px;
+    }
+
+    .cta-btn {
+        background-color: #0f1756;
+        border-radius: 8px;
+        border-style: none;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        height: 40px;
+        line-height: 20px;
+        list-style: none;
+        outline: none;
+        padding: 10px 16px;
+        position: relative;
+        text-align: center;
+        transition: color 100ms;
+        vertical-align: baseline;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        margin-left:auto;
+        margin-top: 1%;
+    }
+
+    .cta-btn,
+    .cta-btn {
+        background-color: #0f1756;
+    }
+
+    .msg-txt-area {
+    resize: vertical;
+    height: auto;
+    max-height: 140px;
+    width: auto;
+    word-break: break-word;
+    margin-left: 2%;
+    margin-right: 1%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    border-radius: 2px solid black;
+    outline: none;
+    resize: none;
+    }
+
+    .convo-flux{
+        display: flex; 
+        flex-direction: column; 
+        height: auto;
+        overflow-y: auto;
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}    
+    <script>
+        function ajaxShowConvo(part_id, e_id) {
+                document.getElementById(e_id).addEventListener("click", () => {
+                    document.getElementById("create-container").style.display = "none";
+                    $.ajax({
+                        type: 'POST',
+                        url: '/show-convo',
+                        data:{
+                            'other-part': part_id,
+                            'contact-click': 'contact-click'
+                        },
+                        success: function (response) {
+                            console.log(part_id);
+                            //$("#cc").empty();
+                            $("#cc").empty().html(response);
+                            //console.log(response);
+                        },
+                        error: function (response) {
+                            console.log('Error:', response);
+                        }
+                    })
+                });
+        }
+
+        //TRANSFER THIS FUNCTION TO CONVERSATION.HTML. -> NO NEED???
+        function ajaxAppendMessage(){
+            $(document).ready(() => {
+                $("#send-btn").unbind().click(() => {
+                    let msg_content = $("comm-con").val();
+                    if(msg_content != ""){
+                        $.ajax({
+                            type: 'POST',
+                            url: '/send-msg',
+                            data:{
+                                'conversation-id': $("#send-btn").parent().parent().attr("id"),
+                                'msg-content': $("#comm-con").val(),
+                                'user': "u",
+                                'contact-click': 'contact-click'
+                            },
+                            success: function (response) {
+                                $("#cc").append(response);
+                                //console.log(response);
+                            },
+                            error: function (response) {
+                                console.log('Error:', response);
+                            }
+                        })
+                    }
+                });
+            });
+        }
+
+        function ajaxRecieveMessage(convo_id, msg){
+            $.ajax({
+                type: 'POST',
+                url: '/send-msg',
+                data:{
+                    'conversation-id': convo_id,
+                    'msg-content': msg,
+                    'user': "o",
+                    'contact-click': 'contact-click'
+                },
+                success: function (response) {
+                    console.log("jQuery succ");
+                    $("#cc").append(response);
+                },
+                error: function (response) {
+                    console.log('Error:', response);
+                }
+            });
+        }
+
+        function findContacts(name){
+            console.log(name);
+            let add_data = new Array();
+            add_data.push("-1");
+            let ch = document.getElementById("m-list");
+            for(const child of ch.children){
+                add_data.push(child.firstChild.innerHTML);
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/get-contacts',
+                data:{
+                    'contact-name': name,
+                    'additional-data': add_data
+                },
+                success: function(response){
+                    //console.log(response);
+                     $("#modc-child").html(response);
+                },
+                error: function(response){
+                    console.log('Error:', response);
+                }
+            });
+        }
+    </script>
+
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('68154387874516026ac7', {
+        cluster: 'eu'
+        });
+
+        function pusherChannels(convo_id, part_id){
+            pid = "cp" + convo_id;
+            var channel = pusher.subscribe(pid);
+            channel.bind('message-sent', function(data) {
+                console.log(data['message']);
+                if(data['part'] == part_id){
+                    console.log("");
+                } else {
+                    ajaxRecieveMessage(convo_id, data['message']);
+                }
+            });
+        }    
+    </script>
+
+    <script>
+        var contacts = new Array();
+        
+        function pushContact(c){
+            contacts.push(c);
+        }
+
+        function scrollBot(){
+            var cc = document.getElementById("cc");
+            cc.scrollTop = cc.scrollHeight;
+        }
+        
+        ////////////////////////////////////////////
+
+        pageSetup();
+
+        function pageSetup(){
+            searchContact();
+            detectNewChild();
+        }
+
+        function searchContact(){
+            $(document).ready(() => {
+                var s = document.getElementById("cb");
+                s.addEventListener("input", () => {
+                    document.getElementsByName("a-contact").forEach(e => {
+                        if(e.innerHTML.includes(s.value)){
+                            console.log("found");
+                            e.parentElement.parentElement.parentElement.style.display = "flex";
+                        } else {
+                            e.parentElement.parentElement.parentElement.style.display = "none";
+                        }
+                    });
+                })
+            })
+        }
+
+        function detectNewChild(){
+            $(document).ready(() => {
+                let u_list = document.getElementById("m-list").addEventListener("DOMNodeInserted", e => {
+                    let ch = document.getElementById(e.target.id);
+                    console.log(ch.id);
+                    if(ch.parentNode.id == "m-list"){
+                        ch.addEventListener("click", () => {
+                            ch.remove();
+                        });
+                    }
+                });
+            })
+        }
+    </script>
+{% endblock %}
+
+{% block body %}
+<div class="messagerie-container">
+    <div class="contacts-container">
+        <div class="contacts-features">
+            <div style="margin-top: 2%;"><b>Inbox</b></div>
+            <img id="f1" src="{{ asset('resources/add-grp.png') }}" class="feature-img">
+        </div>
+        <div class="search-contact" style="justify-content: center; width:auto;">
+            <input id="cb" type="text" placeholder="Search..." class="con-bar"></input>
+        </div>
+        {% for c in convos %}
+        <div class="contact-card" name="some-contact" id="e_{{ loop.index }}">
+            <img src="{{ asset('resources/default.jpg') }}" class="contact-img" style="margin-left: 2%;">
+            <div class="user-info" style="margin-left: 2%;">
+                <div ><b id="u_{{ loop.index }}" name="a-contact">{{ cp.other_participant(c).getUsername() }}</b></div>
+                <div style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden; width: 80%;">{{ c.getLastMessageStr }}</div>
+            </div>
+        </div>
+        <script>
+            ajaxShowConvo("{{ cp.other_participant(c).getId() }}", "e_{{ loop.index }}");
+            ajaxAppendMessage();
+            pusherChannels("{{ c.id }}", "{{ cp.your_participant(c).getId() }}");
+            pushContact("{{ cp.other_participant(c).getUsername() }}");
+        </script>
+        {% endfor %}
+    </div>
+    <div style="height:100%; width: 2px; background-color:#DADADA;"></div>
+    <div id="cc-container" class="conversation-container">
+        <div class="create-container" id="create-container">
+            <div class="search-member">
+                <b>To:</b>
+                <input id="ms" type="text" placeholder="Username..." style="width: 60%; height: 80%; border: 0px; outline: none; margin-left: 1%;">
+            </div>
+            <div class="modal-c" id="modc">
+                <div id="modc-child" style="display:flex; flex-direction: column;">
+                <!--content-->
+                </div>
+            </div>
+            <div class="member-list" id="m-list">
+            </div>
+            <div style="height:2px; width: 100%; background-color:#DADADA;"></div>
+        </div>
+        <div id="cc" class="convo-flux" style="">  
+            {% block conversation %}
+            {% endblock %}
+        </div>
+        <div style="height:2px; width: 100%; background-color:#DADADA;position:relative;margin-top:auto;"></div>
+        <div class="conversation-footer">
+            <textarea id="comm-con" name="your-add-comment" placeholder="What are you thinking..." class="msg-txt-area"
+            rows="2" cols="80"></textarea>
+            <div id="send-btn" class="cta-btn">Send</div>
+        </div>
+    </div>
+    <div style="height:100%; width: 2px; background-color:#DADADA;"></div>
+    <div class="profile-container">
+        <img id="profile-img" src="{{ asset('resources/default.jpg') }}" class="contact-img" style="margin-left: 0%;">
+        <div id="profile-username"><b>User</b></div>
+    </div>
+    <script>
+        miscMsg();
+
+        function miscMsg(){
+            txtScroll();
+            modalManipulation();
+        }
+        function txtScroll(){
+            var textbox = document.getElementById("comm-con");
+            textbox.addEventListener("input", () => {
+                textbox.style.height = 'auto';
+                textbox.style.height = `${textbox.scrollHeight}px`;
+            });
+        }
+        function modalManipulation(){
+            document.getElementById("ms").addEventListener("input", () => {
+                document.getElementById("modc").style.display = "block";
+                findContacts(document.getElementById("ms").value);
+            });
+
+            window.addEventListener("click", e => {
+                if(e.target.id != "ms"){
+                    document.getElementById("modc").style.display = "none";
+                } else {
+                    document.getElementById("modc").style.display = "block";
+                }
+
+                if(e.target.id == "f1"){
+                    document.getElementById("create-container").style.display = "flex";
+                    document.getElementById("cc").innerHTML = "";
+                }
+            })
+        }
+    </script>
+    
+</div>
+{% endblock %}
