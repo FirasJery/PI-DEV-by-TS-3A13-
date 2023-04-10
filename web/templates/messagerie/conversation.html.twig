@@ -53,7 +53,8 @@
 {% block javascripts %}
     <script>
         $(document).ready(() => {
-            $("#cc-container").attr("id", "{{ convo.getId() }}"); //put convo's id to cc-container //put us
+            $("#cc").parent().attr("id", "{{ convo.getId() }}"); //put convo's id to cc-container
+            $("#create-container").css("display", "none");
             profileSetup();
             scrollBot();
         });

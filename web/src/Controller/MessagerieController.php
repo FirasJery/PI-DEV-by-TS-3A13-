@@ -67,25 +67,17 @@ class MessagerieController extends AbstractController
      */
     public function convo_view(Request $request) : Response {
         if($request->getSession()->get("current_user")){
-            $cr = $this->em->getRepository(Conversation::class);
-            $ur = $this->em->getRepository(User::class);
-            $convo = null;
-            $c = $cr->findAll();
-            foreach($c as $s){
-                $i = 0;
-                foreach($s->getParticipants() as $part){
-                    if($part->getUser()->getId() == $request->getSession()->get("current_user")->getId()){
-                        $i = $i + 1;
-                    }
-                    if($part->getUser()->getId() == intval($request->request->get("other-part"))){
-                        $i = $i + 1;
-                    }
-                }
-                if($i == 2){
-                    $convo = $s;
-                }
-            }
-            return $this->render("messagerie/conversation.html.twig", ["convo" => $convo]);
+            $convo = $this->em->getRepository(Conversation::class)->findConversationByUsers(
+                array(
+                    $request->getSession()->get("current_user")->getId(), 
+                    intval($request->request->get("other-part"))
+                    )
+            );
+            if($convo){
+                return $this->render("messagerie/conversation.html.twig", ["convo" => $convo]);
+            } else {
+                return $this->render("generic/navbar.html.twig");
+            }      
         } else {
             return $this->render("generic/navbar.html.twig");
         }
@@ -94,39 +86,66 @@ class MessagerieController extends AbstractController
     /**
      * @Route("/send-msg", name="send-msg")
      */
-    public function message_pusher(Request $request, ConversationRepository $cr, MessageRepository $mr, ManagerRegistry $man) : Response {
-        if(($request->getSession()->get("current_user")) && ($request->request->get("msg-content"))){
-            if($request->request->get("user") == "u"){
-                $convo = $cr->find(intval($request->request->get("conversation-id")));
-                $part = null;
-                foreach($convo->getParticipants() as $p){
-                    if($p->getUser()->getId() == $request->getSession()->get("current_user")->getId()){
-                        $part = $p;
+    public function message_pusher(
+        Request $request, 
+        ConversationRepository $cr,
+        UserRepository $ur,
+        ParticipantRepository $pr,
+        MessageRepository $mr, 
+        ManagerRegistry $man
+        ) : Response {
+            if(($request->getSession()->get("current_user")) && ($request->request->get("msg-content"))){
+                if($request->request->get("user") == "u"){
+                    if($request->request->get("conversation-id") == "-1"){
+                        if($request->request->get("u-list")){
+                            $u_list = $request->request->get("u-list");
+                            $ar = [];
+                            array_push($ar, 1);
+                            foreach($u_list as $utmp){
+                                array_push($ar, $ur->findOneBy(["username" => $utmp])->getId());
+                            }
+                            $convo = $cr->findConversationByUsers($ar);
+                            if($convo){
+                                $this->sendMessage($convo, $request, $man);
+
+                                return $this->render("messagerie/conversation.html.twig", ["convo" => $convo]);
+                            } else {
+                                $convo = new Conversation();
+                                foreach($ar as $uid){
+                                    $part_tmp = new Participant();
+                                    $part_tmp->setUser($ur->find($uid));
+                                    $convo->addParticipant($part_tmp);
+                                }
+                                if(count($ar) > 2){
+                                    $convo->setType("grp");
+                                } else {
+                                    $convo->setType("p2p");
+                                }
+                                $man->getManager()->persist($convo);
+                                $man->getManager()->flush();
+                                $this->sendMessage($convo, $request, $man);
+
+                                //CREATE NEW TEMPLATE SO YOU CAN SHOW THE NEW CONVO ON THE SIDEBAR
+                                return $this->render("messagerie/conversation.html.twig", ["convo" => $convo]);
+                            }
+                        } else {
+                            return new Response('', 204);
+                        }
+                        
+                    } else {
+                        $convo = $cr->find(intval($request->request->get("conversation-id")));
+                        $this->sendMessage($convo, $request, $man);
+
+                        return $this->render("messagerie/message-append.html.twig", ["msg" => $convo->getLastMessage()]);
                     }
+                } else {
+                    $convo = $cr->find(intval($request->request->get("conversation-id")));
+
+                    return $this->render("messagerie/message-append.html.twig", ["msg" => $convo->getLastMessage()]);
                 }
-                $msg = new Message();
-                $msg->setContent($request->request->get("msg-content"));
-                $msg->setParticipant($part);
-                $msg->setConversation($convo);
-                $convo->addMessage($msg);
-                $mgr = $man->getManager();
-                $mgr->persist($msg);
-                $mgr->flush();
-
-                $cid =  "cp" . $request->request->get("conversation-id");
-                $cntn = $request->request->get("msg-content");
-                $pid = $part->getId();
-                $this->pushR($cid, $cntn, $pid);
-
-                return $this->render("messagerie/message-append.html.twig", ["msg" => $convo->getLastMessage()]);
             } else {
-                $convo = $cr->find(intval($request->request->get("conversation-id")));
-
-                return $this->render("messagerie/message-append.html.twig", ["msg" => $convo->getLastMessage()]);
+                return $this->render("generic/navbar.html.twig");
             }
-        } else {
-            return $this->render("generic/navbar.html.twig");
-        }
     }
 
     /**
@@ -156,6 +175,8 @@ class MessagerieController extends AbstractController
         return $this->render("messagerie/modal-contacts.html.twig", ["data" => $data, "idk" => $add]);
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////
+
     public function pushR($channel, $msg, $pid){
         $options = array(
             'cluster' => 'eu',
@@ -171,6 +192,30 @@ class MessagerieController extends AbstractController
           $data['message'] = $msg;
           $data['part'] = $pid; 
           $pusher->trigger($channel, 'message-sent', $data);
-    }    
+    }  
+    
+    public function sendMessage(Conversation $convo, Request $request, ManagerRegistry $man){
+        $part = null;
+        foreach($convo->getParticipants() as $p){
+            if($p->getUser()->getId() == $request->getSession()->get("current_user")->getId()){
+                $part = $p;
+            }
+        }
+        $msg = new Message();
+        $msg->setContent($request->request->get("msg-content"));
+        $msg->setParticipant($part);
+        $msg->setConversation($convo);
+
+        $convo->addMessage($msg);
+    
+        $mgr = $man->getManager();
+        $mgr->persist($msg);
+        $mgr->flush();
+
+        $cid =  "cp" . $convo->getId();
+        $cntn = $msg->getContent();
+        $pid = $part->getId();
+        $this->pushR($cid, $cntn, $pid);
+    }
 }
 ?>

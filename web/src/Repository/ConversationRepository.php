@@ -42,8 +42,8 @@ class ConversationRepository extends ServiceEntityRepository
         }
     }
 
-    public function findConvo(Participant $u, Participant $p){
-        /*$qb = $this->getEntityManager()->createQueryBuilder();
+    /*public function findConvo(Participant $u, Participant $p){
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('c')
         ->from('App\Entity\Conversation', 'c')
         ->join('c.participants', 'p1', 'WITH', 'p1 = :user')
@@ -52,7 +52,7 @@ class ConversationRepository extends ServiceEntityRepository
         //->andWhere('p2 = :other')
         ->setParameters(["user" => $u, "other" => $p]);
 
-        return $qb->getQuery()->getResult();*/
+        return $qb->getQuery()->getResult();
         return findConvo2($u->getId(), $p->getId());
     }
 
@@ -73,36 +73,32 @@ class ConversationRepository extends ServiceEntityRepository
         //$form->get("my_field")->getData();
 
         return $query->getResult();
-    }
+    }*/
 
-    public function findConversationByParticipants(int $otherUserId, int $myId)
-    {
-        $qb = $this->createQueryBuilder('c');
-        $qb
-            ->select(
-                $qb->expr()->count('p.conversation')
-            )
-            ->innerJoin('c.participants', 'p')
-            ->where(
-                $qb->expr()->orX(
-                    $qb->expr()->eq('p.user', ':me'),
-                    $qb->expr()->eq('p.user', ':otherUser')
-                )
-            )
-            ->groupBy('p.conversation')
-            ->having(
-                $qb->expr()->eq(
-                    $qb->expr()->count('p.conversation'),
-                    2
-                )
-            )
-            ->setParameters([
-                'me' => $myId,
-                'otherUser' => $otherUserId
-            ])
-        ;
+    public function findConversationByUsers($users){
+        $size = count($users);
+        $c = $this->findAll();
+        foreach($c as $s){
+            $i = 0;
+            if(($s->getType() == "grp") && ($size <= 2)){
+                return null;
+            }
+            if (($s->getType() == "p2p") && ($size > 2)) {
+                return null;
+            }
+            foreach($s->getParticipants() as $part){
+                for($j = 0; $j < $size; $j++){
+                    if($part->getUser()->getId() == $users[$j]){
+                        $i = $i + 1;
+                    }
+                }
+            }
+            if($i == $size){
+                return $s;
+            }
+        }
 
-        return $qb->getQuery()->getResult();
+        return null;
     }
 
     public function getOtherParticipant(Conversation $c, User $u){

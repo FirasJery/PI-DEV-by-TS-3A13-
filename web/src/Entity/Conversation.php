@@ -22,7 +22,7 @@ class Conversation
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation")
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation", cascade={"persist"})
      */
     private $participants;
 
@@ -36,6 +36,11 @@ class Conversation
      * @ORM\OneToMany(targetEntity="Message", mappedBy="conversation")
      */
     private $messages;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -100,6 +105,14 @@ class Conversation
     public function getMessages(): Collection
     {
         return $this->messages;
+    }
+
+    public function getType() : ?string {
+        return $this->type;
+    }
+
+    public function setType($t){
+        $this->type = $t;
     }
 
     public function addMessage(Message $message): self

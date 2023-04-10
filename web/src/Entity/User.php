@@ -28,7 +28,7 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="Participant", mappedBy="conversation")
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="user")
      */
     private $participants;
 

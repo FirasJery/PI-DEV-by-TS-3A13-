@@ -18,12 +18,12 @@ class Participant
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="participants")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="participant")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Conversation", inversedBy="participants")
+     * @ORM\ManyToOne(targetEntity="Conversation", inversedBy="participant")
      */
     private $conversation;
 
