@@ -1,0 +1,11 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Home!{% endblock %}
+
+{% block contentblock %}
+ {% if app.user %}
+        <div class="mb-3">
+            Welcome {{ app.user.name }}
+        </div>
+    {% endif %}
+{% endblock %}

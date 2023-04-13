@@ -1,0 +1,93 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Utilisateur index{% endblock %}
+
+{% block contentblock %}
+    <style>
+        .table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+           </style>                     
+
+    <h1>Utilisateur index</h1>
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Name</th>
+                <th>LastName</th>
+                <th>UserName</th>
+                <th>Role</th>
+                <th>ImagePath</th>
+                <th>Bio</th>
+                <th>Experience</th>
+                <th>Education</th>
+                <th>Total_jobs</th>
+                <th>Rating</th>
+                <th>Domaine</th>
+                <th>Info</th>
+                <th>Location</th>
+                <th>Nbe</th>
+                <th>IsBanned</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for utilisateur in utilisateurs %}
+            <tr>
+            
+                <td>{{ utilisateur.id }}</td>
+             
+                <td>{{ utilisateur.email }}</td>
+                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
+                <td>{{ utilisateur.password }}</td>
+                <td>{{ utilisateur.name }}</td>
+                <td>{{ utilisateur.LastName }}</td>
+                <td>{{ utilisateur.UserName }}</td>
+                <td>{{ utilisateur.role }}</td>
+                <td>{{ utilisateur.ImagePath }}</td>
+                <td>{{ utilisateur.bio }}</td>
+                <td>{{ utilisateur.experience }}</td>
+                <td>{{ utilisateur.education }}</td>
+                <td>{{ utilisateur.totalJobs }}</td>
+                <td>{{ utilisateur.rating }}</td>
+                <td>{{ utilisateur.domaine }}</td>
+                <td>{{ utilisateur.info }}</td>
+                <td>{{ utilisateur.location }}</td>
+                <td>{{ utilisateur.nbe }}</td>
+                <td>{{ utilisateur.isBanned }}</td>
+                <td>
+                    <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
+                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <a href="{{ path('app_utilisateur_newFreelancer') }}">Create Freelancer</a>
+     <a href="{{ path('app_utilisateur_newEntreprise') }}">Create Entreprise</a>
+    
+{% endblock %}
