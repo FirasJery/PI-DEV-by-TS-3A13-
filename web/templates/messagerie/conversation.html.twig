@@ -60,7 +60,14 @@
         });
 
         function profileSetup(){
-            $("#profile-username").html("<b>{{ cp.other_participant(convo).username }}</b>");
+            /*{% if convo.type == "grp" %}
+                    $("#profile-username").html("<b>{{ convo.title }}</b>");
+            {% else %}
+                {% for p in cp.other_participant(convo) %}
+                    $("#profile-username").html("<b>{{ p.getUsername() }}</b>");
+                {% endfor %}
+            {% endif %}*/
+            $("#profile-username").html("<b>{{ cp.getInfo(convo) }}</b>");
         }
     </script>
 {% endblock %}

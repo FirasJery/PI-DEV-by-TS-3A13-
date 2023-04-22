@@ -59,5 +59,10 @@ class ContextProcessor
             return null;
         }
     }
+
+    public function getInfo(Conversation $c){
+        $session = $this->requstStack->getSession();
+        return $c->getType() . count($this->conversationRepository->getOtherParticipant($c, $session->get("current_user")));
+    }
 }
 ?>

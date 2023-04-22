@@ -81,10 +81,10 @@ class ConversationRepository extends ServiceEntityRepository
         foreach($c as $s){
             $i = 0;
             if(($s->getType() == "grp") && ($size <= 2)){
-                return null;
+                continue;
             }
             if (($s->getType() == "p2p") && ($size > 2)) {
-                return null;
+                continue;
             }
             foreach($s->getParticipants() as $part){
                 for($j = 0; $j < $size; $j++){
@@ -110,12 +110,13 @@ class ConversationRepository extends ServiceEntityRepository
         //->andWhere('con.id != :current_id')
         ->setParameters(['convo' => $c]);// 'current_id' => $u->getId()]);
         $part = $qb->getQuery()->getResult();
+        $filtered = [];
         foreach($part as $p){   
             if($p->getUser()->getId() != $u->getId()){
-                return $p->getUser();
+                array_push($filtered, $p->getUser());
             }
         }
-        return null;
+        return $filtered;
     }
 
     public function getYourParticipant(Conversation $c, User $u){

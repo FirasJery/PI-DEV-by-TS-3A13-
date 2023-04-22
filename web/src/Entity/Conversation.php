@@ -27,6 +27,11 @@ class Conversation
     private $participants;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
      * @ORM\OneToOne(targetEntity="Message")
      * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id")
      */
@@ -81,6 +86,14 @@ class Conversation
         }
 
         return $this;
+    }
+
+    public function getTitle(){
+        return $this->title;
+    }
+
+    public function setTitle($t){
+        $this->title = $t;
     }
 
     public function getLastMessage(): ?Message

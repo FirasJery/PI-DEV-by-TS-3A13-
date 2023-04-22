@@ -67,13 +67,14 @@ class MessagerieController extends AbstractController
      */
     public function convo_view(Request $request) : Response {
         if($request->getSession()->get("current_user")){
-            $convo = $this->em->getRepository(Conversation::class)->findConversationByUsers(
-                array(
-                    $request->getSession()->get("current_user")->getId(), 
-                    intval($request->request->get("other-part"))
-                    )
-            );
+            $fp = [];
+            array_push($fp, $request->getSession()->get("current_user")->getId());
+            foreach($request->request->get("other-part") as $p){
+                array_push($fp, intval($p));
+            }
+            $convo = $this->em->getRepository(Conversation::class)->findConversationByUsers($fp);
             if($convo){
+                dump($convo->getType());
                 return $this->render("messagerie/conversation.html.twig", ["convo" => $convo]);
             } else {
                 return $this->render("generic/navbar.html.twig");
@@ -110,12 +111,18 @@ class MessagerieController extends AbstractController
 
                                 return $this->render("messagerie/conversation.html.twig", ["convo" => $convo]);
                             } else {
+                                $title = "";
                                 $convo = new Conversation();
                                 foreach($ar as $uid){
                                     $part_tmp = new Participant();
                                     $part_tmp->setUser($ur->find($uid));
                                     $convo->addParticipant($part_tmp);
+                                    $title = $title . $part_tmp->getUser()->getUsername();
+                                    if($uid != end($ar)){
+                                        $title = $title . ", ";
+                                    }           
                                 }
+                                $convo->setTitle($title);
                                 if(count($ar) > 2){
                                     $convo->setType("grp");
                                 } else {
@@ -140,8 +147,12 @@ class MessagerieController extends AbstractController
                     }
                 } else {
                     $convo = $cr->find(intval($request->request->get("conversation-id")));
-
-                    return $this->render("messagerie/message-append.html.twig", ["msg" => $convo->getLastMessage()]);
+                    $lm = $cr->find(intval($request->request->get("conversation-id")))->getLastMessage();
+                    if($lm->getParticipant()->getUser()->getId() != $request->getSession()->get("current_user")->getId()){
+                        return $this->render("messagerie/message-append.html.twig", ["msg" => $lm]);
+                    } else {
+                        return new Response('', 204);
+                    }
                 }
             } else {
                 return $this->render("generic/navbar.html.twig");

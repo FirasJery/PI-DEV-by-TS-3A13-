@@ -310,6 +310,7 @@
                                     'contact-click': 'contact-click'
                                 },
                                 success: function (response) {
+                                    console.log("test");
                                     $("#cc").append(response);
                                     //console.log(response);
                                 },
@@ -393,6 +394,8 @@
     </script>
 
     <script>
+        let u_list_un = new Array();
+        let u_list_id = new Array();
         var contacts = new Array();
         
         function pushContact(c){
@@ -459,15 +462,29 @@
         <div class="contact-card" name="some-contact" id="e_{{ loop.index }}">
             <img src="{{ asset('resources/default.jpg') }}" class="contact-img" style="margin-left: 2%;">
             <div class="user-info" style="margin-left: 2%;">
-                <div ><b id="u_{{ loop.index }}" name="a-contact">{{ cp.other_participant(c).getUsername() }}</b></div>
+                <div ><b id="u_{{ loop.index }}" name="a-contact">
+                    {% if c.type == "grp" %}
+                        {{ c.title }}
+                    {% else %}
+                        {% for p in cp.other_participant(c) %}
+                            {{ p.getUsername() }}
+                        {% endfor %}
+                    {% endif %}
+                </b></div>
                 <div style="text-overflow: ellipsis;white-space: nowrap;overflow: hidden; width: 80%;">{{ c.getLastMessageStr }}</div>
             </div>
         </div>
         <script>
-            ajaxShowConvo("{{ cp.other_participant(c).getId() }}", "e_{{ loop.index }}");
+            {% for p in cp.other_participant(c) %}
+                u_list_un.push("{{ p.getUsername() }}");
+                u_list_id.push("{{ p.getId() }}");
+            {% endfor %}
+            ajaxShowConvo(u_list_id, "e_{{ loop.index }}");
             ajaxAppendMessage();
             pusherChannels("{{ c.id }}", "{{ cp.your_participant(c).getId() }}");
-            pushContact("{{ cp.other_participant(c).getUsername() }}");
+            pushContact(u_list_un);
+            u_list_un = [];
+            u_list_id = [];
         </script>
         {% endfor %}
     </div>
