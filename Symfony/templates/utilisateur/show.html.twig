@@ -1,34 +1,22 @@
-{% extends 'baseFront.html.twig' %}
+{% extends 'baseBack.html.twig' %}
 
-{% block title %}Utilisateur{% endblock %}
+{% block title %}User{% endblock %}
 
 {% block contentblock %}
-    <h1>Utilisateur</h1>
+    <h1>User</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ utilisateur.id }}</td>
+                <th>Name</th>
+                <td>{{ utilisateur.name }}</td>
             </tr>
-            <tr>
+             <tr>
                 <th>Email</th>
                 <td>{{ utilisateur.email }}</td>
             </tr>
             <tr>
-                <th>Roles</th>
-                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ utilisateur.password }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ utilisateur.name }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
+                <th>Last Name</th>
                 <td>{{ utilisateur.LastName }}</td>
             </tr>
             <tr>
@@ -40,7 +28,7 @@
                 <td>{{ utilisateur.role }}</td>
             </tr>
             <tr>
-                <th>ImagePath</th>
+                <th>Image</th>
                 <td><img src="{{ asset('' ~ utilisateur.ImagePath) }}" alt="User Image"></td>
             </tr>
             {% if utilisateur.role == 'Freelancer' %} 
@@ -58,11 +46,11 @@
             </tr>
             <tr>
                 <th>Total_jobs</th>
-                <td>{{ utilisateur.totalJobs }}</td>
+                <td>{{ utilisateur.totalJobs }} Jobs </td>
             </tr>
             <tr>
                 <th>Rating</th>
-                <td>{{ utilisateur.rating }}</td>
+                <td>{{ utilisateur.rating }}/20</td>
             </tr>
             {% endif %}
             {% if utilisateur.role == 'Entreprise' %} 
@@ -80,19 +68,34 @@
             </tr>
             <tr>
                 <th>Nbe</th>
-                <td>{{ utilisateur.nbe }}</td>
+                <td>{{ utilisateur.nbe }} employees </td>
             </tr>
              {% endif %}
             <tr>
                 <th>IsBanned</th>
-                <td>{{ utilisateur.isBanned }}</td>
+                {% if utilisateur.isBanned == 0 %} 
+                <td> No</td>
+                {% endif %}
+                {% if utilisateur.isBanned == 1 %}
+                <td> Yes</td>
+                {% endif %}
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_utilisateur_index') }}">back to list</a>
-
-    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
-
+    <div align = "center">
+    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">
+    <button class="btn btn-warning btn-rounded btn-fw">Edit</button>
+    </a>
+    <br>
+    <br>
     {{ include('utilisateur/_delete_form.html.twig') }}
+    </div>
+
+
+    <div align = "right">
+    <a href="{{ path('app_utilisateur_index') }}">
+    <button type="button" class="btn btn-dark btn-rounded btn-fw">back to list</button>
+    </a>
+    </div>
 {% endblock %}

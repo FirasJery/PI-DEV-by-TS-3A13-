@@ -42,5 +42,16 @@ class SecurityController extends AbstractController
         ]);
     
     }
+    #[Route(path: '/dashboard', name: 'app_dashboard')]
+    public function goDashboard(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+              
+        return $this->render('security/dashboard.html.twig', [
+            'aaa' => $user,
+        ]);
+    
+    }
 
 }

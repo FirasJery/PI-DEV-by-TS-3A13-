@@ -1,41 +1,30 @@
-{% extends 'baseFront.html.twig' %}
+{% extends 'baseBack.html.twig' %}
 
-{% block title %}Utilisateur index{% endblock %}
+{% block title %}Users List{% endblock %}
 
-{% block contentblock %}
-    <style>
-        .table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+{% block contentblock %}                 
+
+    <h1 align = 'center'>Users List</h1>
+    <div align = 'center'>
+    <a href="{{ path('app_utilisateur_newAdmin') }}">
+    <button type="button" class="btn btn-primary btn-rounded btn-icon"> Create Admin </button>
+    </a>
+    </div>
+
     
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-    
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
 
-           </style>                     
-
-    <h1>Utilisateur index</h1>
     <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Actions</th>
+                
+                <th>Role</th>
                 <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
                 <th>Name</th>
                 <th>LastName</th>
                 <th>UserName</th>
-                <th>Role</th>
-                <th>ImagePath</th>
+                <th>Image</th>
                 <th>Bio</th>
                 <th>Experience</th>
                 <th>Education</th>
@@ -46,37 +35,53 @@
                 <th>Location</th>
                 <th>Nbe</th>
                 <th>IsBanned</th>
-                <th>actions</th>
+                
             </tr>
         </thead>
         <tbody>
         {% for utilisateur in utilisateurs %}
             <tr>
-            
-                <td>{{ utilisateur.id }}</td>
-             
+                <td>
+                    <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw">show</button>
+                    </a>
+                    <br>
+                    <br>
+                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">
+                    <button type="button" class="btn btn-warning btn-rounded btn-fw">edit</button>
+                    </a>
+                </td>
+                
+                <td>{{ utilisateur.role }}</td>
                 <td>{{ utilisateur.email }}</td>
-                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
-                <td>{{ utilisateur.password }}</td>
                 <td>{{ utilisateur.name }}</td>
                 <td>{{ utilisateur.LastName }}</td>
                 <td>{{ utilisateur.UserName }}</td>
-                <td>{{ utilisateur.role }}</td>
-                <td>{{ utilisateur.ImagePath }}</td>
+                <td><img src="{{ asset('' ~ utilisateur.ImagePath) }}" alt="User Image"></td>
                 <td>{{ utilisateur.bio }}</td>
                 <td>{{ utilisateur.experience }}</td>
                 <td>{{ utilisateur.education }}</td>
+                {% if utilisateur.Role == 'Freelancer' %} 
+                <td>{{ utilisateur.totalJobs }} Jobs</td>
+                {% else %}
                 <td>{{ utilisateur.totalJobs }}</td>
+                {% endif %}
+                {% if utilisateur.Role == 'Freelancer' %} 
+                <td>{{ utilisateur.rating }}/20</td>
+                {% else %}
                 <td>{{ utilisateur.rating }}</td>
+                {% endif %}
                 <td>{{ utilisateur.domaine }}</td>
                 <td>{{ utilisateur.info }}</td>
                 <td>{{ utilisateur.location }}</td>
                 <td>{{ utilisateur.nbe }}</td>
-                <td>{{ utilisateur.isBanned }}</td>
-                <td>
-                    <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
-                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
-                </td>
+                 {% if utilisateur.isBanned == 0 %} 
+                <td> No</td>
+                {% endif %}
+                {% if utilisateur.isBanned == 1 %}
+                <td> Yes</td>
+                {% endif %}
+                
             </tr>
         {% else %}
             <tr>
@@ -86,8 +91,5 @@
         </tbody>
     </table>
     </div>
-
-    <a href="{{ path('app_utilisateur_newFreelancer') }}">Create Freelancer</a>
-     <a href="{{ path('app_utilisateur_newEntreprise') }}">Create Entreprise</a>
     
 {% endblock %}

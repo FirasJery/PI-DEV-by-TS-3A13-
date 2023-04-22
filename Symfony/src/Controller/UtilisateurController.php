@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Form\UtilisateurEditType;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +27,6 @@ class UtilisateurController extends AbstractController
     {
         $utilisateur = new Utilisateur();
         $utilisateur->setRole('Admin');
-        $utilisateur->setRating(0);
-        $utilisateur->setIsBanned(0);
-        $utilisateur->setTotalJobs(0);
         $form = $this->createForm(UtilisateurType::class, $utilisateur , ['user_role' => "Admin"]);
         $form->handleRequest($request);
 
@@ -52,7 +50,7 @@ class UtilisateurController extends AbstractController
                 $utilisateur->setPassword(
                     $userPasswordHasher->hashPassword(
                         $utilisateur,
-                        $form->get('plainPassword')->getData()
+                        $form->get('Password')->getData()
                     )
                 );
             }
@@ -61,7 +59,7 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('utilisateur/new.html.twig', [
+        return $this->renderForm('utilisateur/newAdmin.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
         ]);
@@ -98,7 +96,7 @@ class UtilisateurController extends AbstractController
                 $utilisateur->setPassword(
                     $userPasswordHasher->hashPassword(
                         $utilisateur,
-                        $form->get('plainPassword')->getData()
+                        $form->get('Password')->getData()
                     )
                 );
             }
@@ -142,7 +140,7 @@ if ($uploadedFile) {
                 $utilisateur->setPassword(
                     $userPasswordHasher->hashPassword(
                         $utilisateur,
-                        $form->get('plainPassword')->getData()
+                        $form->get('Password')->getData()
                     )
                 );
             }
@@ -166,15 +164,47 @@ if ($uploadedFile) {
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
+   /* #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
     {
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurType::class, $utilisateur, ['user_role' => $utilisateur->getRole()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $utilisateurRepository->save($utilisateur, true);
+            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+        }
 
+        return $this->renderForm('utilisateur/edit.html.twig', [
+            'utilisateur' => $utilisateur,
+            'form' => $form,
+        ]);
+    }*/
+    #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository): Response
+    {
+        $form = $this->createForm(UtilisateurEditType::class, $utilisateur, ['user_role' => $utilisateur->getRole()]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('ImagePath')->getData();
+
+            if ($uploadedFile) {
+                // generate a unique file name
+                $newFileName = md5(uniqid()) . '.' . $uploadedFile->guessExtension();
+                $targetDirectory = $this->getParameter('kernel.project_dir') . '/public/uploads/images';
+            
+                // move the uploaded file to the target directory
+                $uploadedFile->move(
+                    $targetDirectory, // specify the target directory where the file should be saved
+                    $newFileName      // specify the new file name
+                );
+                    
+                            // set the image path to the path of the uploaded file
+                            $utilisateur->setImagePath('uploads/images/' . $newFileName);
+                
+            }
+            $utilisateurRepository->save($utilisateur, true);
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
 
