@@ -1,0 +1,24 @@
+<div id="modc-child" style="display:flex; flex-direction: column;">
+    {% for c in data %}
+        <div class="modal-user" name="modal-user" id="mu_{{ loop.index0 }}{{ c.username }}">
+            <img src="{{ asset('resources/default.jpg') }}" class="modal-user-img">
+            <b>{{ c.username }}</b>
+        </div>
+        <script>
+            document.getElementById("mu_{{ loop.index0 }}{{ c.username }}").addEventListener("click", () => {
+                $(document).ready(() => {
+                    $("#m-list").append("<div class='mod-member' id='mm_{{ loop.index0 }}{{ c.username }}'>"
+                    + "<b style='color: #3200ab; position: relative; top: 15%;'>{{ c.username }}</b>"
+                    + "</div>");
+                    $("#ms").val("");
+                    $("#modc-child").empty();
+                });
+            });
+        </script>
+    {% endfor %}
+    {% for i in idk %}
+        <script>
+            console.log("{{ i }}");
+        </script>
+    {% endfor %}
+</div>
