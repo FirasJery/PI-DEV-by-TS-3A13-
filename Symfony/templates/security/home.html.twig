@@ -3,9 +3,10 @@
 {% block title %}Home!{% endblock %}
 
 {% block contentblock %}
- {% if app.user %}
-        <div class="mb-3">
-            Welcome {{ app.user.name }}
-        </div>
-    {% endif %}
+    <section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
+      <h1>Welcome to Freelancy {% if app.user %} {{ app.user.name }} ! {% endif %} </h1>
+      <a href="#about" class="btn-get-started scrollto">Get Started</a>
+    </div>
+  </section>
 {% endblock %}

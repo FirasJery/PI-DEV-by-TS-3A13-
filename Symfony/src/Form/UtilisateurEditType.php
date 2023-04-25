@@ -23,8 +23,12 @@ class UtilisateurEditType extends AbstractType
             
             
             
-            ->add('name')
-            ->add('LastName')
+            ->add('name');
+            if ( $options['user_role'] == 'Freelancer' ) {
+                $builder
+            ->add('LastName');
+            }
+            $builder
             ->add('UserName')
             ->add('email')
             
