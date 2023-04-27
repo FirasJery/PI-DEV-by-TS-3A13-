@@ -80,4 +80,13 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findOneByEmail($value): ?Utilisateur
+   {
+        return $this->createQueryBuilder('u')
+           ->andWhere('u.email = :val')
+           ->setParameter('val', $value)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+    }
 }

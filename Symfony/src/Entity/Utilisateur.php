@@ -84,6 +84,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?int $isBanned = 0 ;
+    #[ORM\Column]
+    private ?int $isVerified = 0 ;
 
 
 
@@ -347,6 +349,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsBanned(int $isBanned): self
     {
         $this->isBanned = $isBanned;
+
+        return $this;
+    }
+    public function getIsVerified(): ?int
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(int $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

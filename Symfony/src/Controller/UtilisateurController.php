@@ -14,6 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
+use Doctrine\ORM\EntityManagerInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+
+
 
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
@@ -58,6 +65,7 @@ class UtilisateurController extends AbstractController
                 );
             }
             $utilisateurRepository->save($utilisateur, true);
+           
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -69,7 +77,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/newFreelancer', name: 'app_utilisateur_newFreelancer', methods: ['GET', 'POST'])]
-    public function newF(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher): Response
+    public function newF(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher, VerifyEmailHelperInterface $verifyEmailHelper,MailerInterface $mailer): Response
     {
         $utilisateur = new Utilisateur();
         $utilisateur->setRole('Freelancer');
@@ -104,14 +112,57 @@ class UtilisateurController extends AbstractController
                 );
             }
             $utilisateurRepository->save($utilisateur, true);
+            $signatureComponents = $verifyEmailHelper->generateSignature(
+                'app_verify_email',
+                $utilisateur->getId(),
+                $utilisateur->getEmail(),
+                ['id' => $utilisateur->getId()]
+            );
+            $email = (new TemplatedEmail())
+            ->from(new Address('firas.eljary@esprit.tn', 'Freelancy Bot'))
+            ->to($utilisateur->getEmail())
+            ->subject('Your Email confirmation link')
+            ->htmlTemplate('security/emailverify.html.twig')
+            ->context([
+                'signedUrl' => $signatureComponents->getSignedUrl()], 
+            );
 
-            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+            $mailer->send($email);
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('utilisateur/new.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
         ]);
+    }
+
+    
+    #[Route("/verify", name : 'app_verify_email')]
+    public function verifyUserEmail(Request $request, VerifyEmailHelperInterface $verifyEmailHelper, UtilisateurRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        
+        $utilisateur = $userRepository->find($request->query->get('id'));
+        if (!$utilisateur) {
+            throw $this->createNotFoundException('user not found');
+        }
+         
+        try {
+            $verifyEmailHelper->validateEmailConfirmation(
+                $request->getUri(),
+                $utilisateur->getId(),
+                $utilisateur->getEmail()
+            );
+            $utilisateur->setIsVerified(true);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+            // The email has been successfully confirmed. Handle the success case here.
+        } catch (VerifyEmailExceptionInterface $e) {
+            // The email could not be confirmed. Handle the error case here.
+            throw $this->createNotFoundException();
+        }
+        return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+       
     }
 
     #[Route('/newEntreprise', name: 'app_utilisateur_newEntreprise', methods: ['GET', 'POST'])]
@@ -270,12 +321,6 @@ if ($uploadedFile) {
     }
 
     
-    #[Route("/verify", name : 'app_verify_email')]
-    public function verifyUserEmail(): Response
-    {
-        // TODO
-        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-    }
 
 
    
