@@ -1,0 +1,46 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Wallet{% endblock %}
+
+{% block contentblock %}
+    <h1>Wallet</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ wallet.id }}</td>
+            </tr>
+            <tr>
+                <th>NomWallet</th>
+                <td>{{ wallet.nomWallet }}</td>
+            </tr>
+            <tr>
+                <th>Solde</th>
+                <td>{{ wallet.solde }}</td>
+            </tr>
+            <tr>
+                <th>Bonus</th>
+                <td>{{ wallet.bonus }}</td>
+            </tr>
+            <tr>
+                <th>Tel</th>
+                <td>{{ wallet.tel }}</td>
+            </tr>
+            <tr>
+                <th>IdUser</th>
+                <td>{{ wallet.idUser }}</td>
+            </tr>
+            <tr>
+                <th>Cle</th>
+                <td>{{ wallet.cle }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_wallet_index') }}">back to list</a>
+
+    <a href="{{ path('app_wallet_edit', {'id': wallet.id}) }}" ></a>
+
+    {{ include('wallet/_delete_form.html.twig') }}
+{% endblock %}
