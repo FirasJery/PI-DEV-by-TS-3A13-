@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class UtilisateurType extends AbstractType
 {
@@ -50,11 +50,20 @@ class UtilisateurType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        
+
                         'mimeTypesMessage' => 'Please upload a valid JPG document',
                     ])
                 ],
-            ]) ;
+
+            ])
+                 
+           ->add('Image', HiddenType::class, [
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'id' => 'Image',
+                ],
+            ]);
             
            if ( $options['user_role'] == 'Freelancer' ) {
             $builder

@@ -12,6 +12,12 @@
 
     <h1>Reset your password</h1>
 
+    {% for message in app.flashes('mailnotfound') %}
+            <div class="alert alert-danger" >
+                {{ message }}
+            </div>
+        {% endfor %}
+
      <div>
             <small>
                 Enter your email address and we will send you a

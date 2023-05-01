@@ -47,12 +47,17 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
+        if ($token->getUser()->getIsVerified() == 0) {
+            return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        }
+        else{
         if ($token->getUser()->getRole() == 'Admin') {
             return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
         }
         if($token->getUser()->getRole() == 'Freelancer' || $token->getUser()->getRole() == 'Entreprise'){
             return new RedirectResponse($this->urlGenerator->generate('app_home'));
         }
+    }
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

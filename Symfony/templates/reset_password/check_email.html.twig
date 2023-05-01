@@ -4,6 +4,16 @@
 
 {% block contentblock %}
    <section>
+   {% for message in app.flashes('mailfound') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('reset_password_error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
    <div class = "container">
     <p>
         If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.

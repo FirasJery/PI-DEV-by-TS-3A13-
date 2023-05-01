@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Entity\Utilisateur;
 use App\Repository\UtilisateurRepository;
 
 class SecurityController extends AbstractController
@@ -14,13 +13,26 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, UtilisateurRepository $utilisateurRepository): Response
     {
+        $user = $this->getUser();
         if ($this->getUser()) {
-            $user = $utilisateurRepository->findOneByEmail($this->getUser()->getUserIdentifier());
-
             if ($user->getRole() == "Admin") {
                 return $this->redirectToRoute('app_dashboard');
             }
+            if (!$user->getIsVerified()) {
+    
+                // Logout the user
+                $this->get('security.token_storage')->setToken(null);
+                $this->get('session')->invalidate();
+    
+                // Redirect to the login page
+                $this->addFlash('notverified', 'Your account is not yet verified. Please check your email for verification instructions ');
+
+                return $this->redirectToRoute('app_login');
+            }
+               
+
             return $this->redirectToRoute('app_home');
+            
         }
 
         // get the login error if there is one
