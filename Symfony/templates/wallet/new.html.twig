@@ -1,0 +1,11 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}New Wallet{% endblock %}
+
+{% block contentblock %}
+    <h1>Create new Wallet</h1>
+       
+    {{ include('wallet/_form.html.twig') }}
+
+    <a href="{{ path('app_wallet_index') }}" style="color: red; text-decoration: none; font-weight: bold;">Retour</a>
+{% endblock %}

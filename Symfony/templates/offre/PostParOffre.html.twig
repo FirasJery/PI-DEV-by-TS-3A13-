@@ -1,0 +1,46 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block contentblock %}
+<section>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card shadow">
+          <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Postulations</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for postulation in postulations %}
+                  <tr>
+                    <td>{{ postulation.name }}  {{ postulation.LastName }}</td>
+                    <td>
+                      <div class="d-flex justify-content-center">
+                        <form action="{{path('app_accept_post',{'id': postulation.idPostulation})}}" method="POST", class="mr-2">
+                          <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+                        <form action="" method="POST">
+                          <button type="submit" class="btn btn-danger">Decline</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

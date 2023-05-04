@@ -1,0 +1,75 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Certification!{% endblock %}
+
+{% block contentblock %}
+<section id="services" class="services"> 
+<div class = "container">
+  <div class="section-title">
+    <h2> Vos Badges </h2>
+    <p> Vous trouverez ici vos badges et vos certifications </p>
+  </div>
+
+  {% for badges in badges %}
+
+  <div align = "center">
+  
+  <img class = "card-imgsmall" src="{{ asset('' ~ badges.badge) }}" alt="{{ "bagde" }}" class="card-img">
+  </div
+  {% endfor %}
+  <br><br>
+  <div class="container">
+    <div class="row">
+    <h1> Certifications </h1>
+      {% for card in card %}
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{{ asset('' ~ card.Badge) }}" alt="{{ card.badge }}" class="card-img">
+            <div class="card-body">
+              <h5 class="card-title"><b>{{ card.nom }}</b></h5>
+              <p class="card-text">{{ card.descrip }}</p>
+              
+              {% if card.testId|length > 0 %}
+                <a href="{{ path('app_certif_tests', {'id': card.id}) }}" class="btn btn-primary">View Tests</a>
+              {% else %}
+                <p class="text-danger">No tests available to view.</p>
+              {% endif %}
+            
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      
+
+    </div>
+  </div>
+</section>
+
+
+
+<style>
+.card-img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+.card {
+  height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .card {
+    height: calc(100% - 30px);
+    margin: 15px;
+  }
+}
+.card-imgsmall {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+</style>
+
+
+{% endblock %}

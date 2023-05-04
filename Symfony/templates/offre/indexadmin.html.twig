@@ -1,0 +1,135 @@
+{% extends 'baseBack.html.twig' %}
+{% block contentblock %}
+
+
+
+<style>
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.table th,
+.table td {
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.table td {
+  font-size: 14px;
+}
+
+.table td a {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.table td a:hover {
+  background-color: #3e8e41;
+}
+
+@media only screen and (max-width: 767px) {
+  .table {
+    font-size: 12px;
+  }
+  .table th,
+  .table td {
+    padding: 10px;
+  }
+  .table td a {
+    padding: 6px 10px;
+  }
+}
+
+</style>
+<form action="{{ path('app_offre_indexadmin') }}" method="GET">
+  <label for="search">Search:</label>
+  <input type="text" id="search" name="q">
+  <label for="criteria">Search by:</label>
+  <select id="criteria" name="criteria">
+    <option value="title">Title</option>
+    <option value="type">type</option>
+    <option value="category">Category</option>
+  </select>
+  <input type="submit" value="Search">
+</form>
+   <link rel="stylesheet" href="{{ asset('specialOrder.css') }}"/>
+	<a href="{{ path('app_offre_newadmin') }}">
+		<div data-tooltip="offre" class="button mid">
+			<div class="button-wrapper">
+				<div class="text">Create New</div>
+				<span class="icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus-fill" viewbox="0 0 16 16">
+						<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM8.5 7v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 1 0z"/>
+					</svg>
+				</span>
+			</div>
+		</div>
+	</a>
+  <center>
+  <a href="{{ path('app_customproduct_stat') }}" class="btn btn-danger btn-sm mx-2"><i class="fas fa-chart-bar"></i> Statistics</a>
+     </center> <table class="table">
+        <thead>
+            <tr>
+        
+                <th>Title</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Duree</th>
+                <th>Isaccepted</th>
+                <th>Isfinished</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for offre in offres %}
+            <tr>
+           
+                <td>{{ offre.title }}</td>
+                <td>{{ offre.description }}</td>
+                <td>{{ offre.category }}</td>
+                <td>{{ offre.type }}</td>
+                <td>{{ offre.duree }}</td>
+                <td>{{ offre.isaccepted ? 'Yes' : 'No' }}</td>
+                <td>{{ offre.isfinished ? 'Yes' : 'No' }}</td>
+                <td>{{ offre.dateDebut ? offre.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ offre.dateFin ? offre.dateFin|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_offre_editadmin', {'idOffre': offre.idOffre}) }}">edit</a>
+                       {{ include('offre/deleteadmin.html.twig') }}
+                </td>
+         
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+ 
+
+
+
+{% endblock %}

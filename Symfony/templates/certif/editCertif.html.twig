@@ -1,0 +1,17 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Edit Certif{% endblock %}
+
+{% block contentblock %}
+    <h1>Edit Certif</h1>
+
+    {{ include('certif/form.html.twig', {'button_label': 'Update'}) }}
+    
+    <div align = "right">
+        <a href="{{ path('app_certifCreate') }}">
+        <button type="button" class="btn btn-dark btn-rounded btn-fw">back to list</button>
+        </a>
+    </div>
+
+    
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Tests !{% endblock %}
+
+{% block contentblock %}
+    <form method="post" action="{{ path('app_test_submit') }}">
+  <input type="hidden" name="test_id" value="{{ testId }}" />
+  <h1 class="h3 mb-3 font-weight-normal">Answer the questions</h1>
+  {% for question in questions %}
+    <div align="center">
+      <label for="question{{ question.id }}" class="form-label">{{ question.question }}</label>
+      <input type="text" class="form-control" name="answer[{{ question.id }}]"/>
+      <!-- Note: The name attribute has been changed to "answer[question_id]" -->
+    </div>
+  {% endfor %}
+  
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+ 
+
+
+<style>
+		.btn {
+			background-color: black;
+			color: white;
+			border-radius: 20px;
+			padding: 10px 20px;
+			border: none;
+			cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+		}
+
+		.btn:hover {
+			background-color: #cc1616;
+			color: white;
+		}
+		form input[type="text"] {
+			width: 30%;
+              text-align: center;
+              margin-bottom: 20px;
+		}
+	</style>
+
+
+{% endblock %}

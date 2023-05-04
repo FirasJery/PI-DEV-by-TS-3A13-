@@ -1,0 +1,51 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Questions List{% endblock %}
+
+{% block contentblock %}
+{% for message in app.flashes('info')%}
+<div class="alert alert-success"> {{message}}
+</div>
+{% endfor %}
+<div class="table-responsive">
+<div class="d-flex flex-column-reverse">
+    <table class="table">
+        <thead>
+            <tr>
+                
+                
+                <th>Question</th>
+                <th>Reponse</th>
+                <th>Note</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for quest in quest %}
+            <tr>
+                <td>{{ quest.question }}</td>
+                <td>{{ quest.reponse }}</td>
+                <td>{{ quest.note }}</td>
+                <td>
+                <div style="display: flex;">
+                <a href="{{ path('app_quest_delete', {'id': quest.id}) }}">
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw">delete</button>
+                    </a>
+                <a href="{{ path('app_quest_edit', {'id': quest.id}) }}">
+                    <button type="button" class="btn btn-warning btn-rounded btn-fw">edit</button>
+                    </a>
+                </div>
+                    
+                    
+                </td>
+            </tr>
+        {% endfor %}
+        <div class="mt-3 mb-5">
+            {{ knp_pagination_render(quest) }}
+        </div>
+        </tbody>
+    </table>
+    </div>
+    </div>
+    
+{% endblock %}

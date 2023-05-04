@@ -1,0 +1,15 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Test Results{% endblock %}
+
+{% block contentblock %}
+
+{% if passage.etat == 1 %}
+    <h4>Congratulations Mr {{ user.username }}!</h4>
+    <p>You have successfully passed the {{ testId }} test.</p>
+{% else %}
+    <h4>Unfortunately Mr {{ user.username }},</h4>
+    <p>You have failed the {{ testId }} test. Please try again.</p>
+{% endif %}
+
+{% endblock %}

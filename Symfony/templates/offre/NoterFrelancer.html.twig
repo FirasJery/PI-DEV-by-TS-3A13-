@@ -1,0 +1,74 @@
+{% extends 'baseFront.html.twig' %}
+{% block contentblock %}
+<section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-lQg70LPefJ9XaMgHtzwWkZ//+Ft44Jzkutw69cLdX9CU0zL87YyyQfkjzvLCmOaCwmnE8tD50pArFTmE0h9Ojw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Hy8mThNEa3qbKJLmZKzM5Y9MYTm1eJgM2P6nXwE8M1RqnQ6NfzsJj+nKp6UksdE3" crossorigin="anonymous"></script>
+
+  <div class="container my-5">
+    <h1>Rate the freelancer</h1>
+    <form method="post">
+        <div class="form-group">
+        {{ form_widget(form._token) }}
+            <label class="d-block font-weight-bold" for="{{ form.note.vars.id }}">Rating:</label>
+                  <input type="hidden" name="{{ form.note.vars.full_name }}" id="{{ form.note.vars.id }}" value="{{ form.note.vars.value }}">
+
+                        <div class="stars">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+            <span class="star" data-value="6">&#9733;</span>
+            <span class="star" data-value="7">&#9733;</span>
+            <span class="star" data-value="8">&#9733;</span>
+            <span class="star" data-value="9">&#9733;</span>
+            <span class="star" data-value="10">&#9733;</span>
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.message, 'Message:', {'label_attr': {'class': 'font-weight-bold'}}) }}
+            {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+    </form>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-Hy8mThNEa3qbKJLmZKzM5Y9MYTm1eJgM2P6nXwE8M1RqnQ6NfzsJj+nKp6UksdE3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" integrity="sha512-eys+xjBv5gvyDAW8JH5w2lCkjEe/gql1nW8fyq3nHdx9AX91hJtaPpV8+ZBrw1xkxrczr68Q7D8YyfOgg7a+PQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        const stars = document.querySelectorAll(".star");
+    const ratingInput = document.getElementById("form_note");
+
+    stars.forEach((star) => {
+    star.addEventListener("click", () => {
+        const rating = parseInt(star.getAttribute("data-value"));
+        ratingInput.value = rating;
+        stars.forEach((s) => {
+        s.classList.remove("active");
+        });
+        for (let i = 0; i < rating; i++) {
+        stars[i].classList.add("active");
+        }
+    });
+});
+    </script>
+    </div>
+    </div>
+
+<style>
+  .stars {
+  font-size: 2rem;
+}
+.star {
+  display: inline-block;
+  cursor: pointer;
+  color: #aaa;
+}
+.star:hover,
+.star.active {
+  color: gold;
+}
+</style>
+</section>
+{% endblock %}

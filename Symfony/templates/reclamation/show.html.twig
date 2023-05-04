@@ -1,0 +1,136 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Reclamation{% endblock %}
+
+{% block contentblock %}
+<section>
+   <div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <article class="shadow p-3 mb-5 bg-white rounded">
+        <h1 class="mb-3 text-uppercase">Reclamation</h1>
+        <div class="description-container">
+          <div class="definition-term">Description</div>
+          <div class="definition-description">{{ reclamation.description }}</div>
+        </div>
+        <div class="type-container">
+          <div class="definition-term">Type</div>
+          <div class="definition-description">{{ reclamation.type }}</div>
+        </div>
+        <div class="etat-container">
+          <div class="definition-term">Etat</div>
+          {% if reclamation.etat==0 %}
+          <div class="definition-description">Votre Reclamation sera traitée le plus tot possible </div>
+          {% endif %}
+          {% if reclamation.etat==1 %}
+          <div class="definition-description">Ouverte , votre reclamation est en cours de traitement</div>
+          {% endif %}
+           {% if reclamation.etat==2 %}
+          <div class="definition-description">Fermée</div>
+          
+          {% endif %}
+        </div>
+        <div class="button-container">
+        {% if reclamation.etat==2 %}
+          <a href="{{ path('app_reponse_show', {'id': reponse.id}) }}" class="btn-voir-tous">Voir Reponse</a>
+       
+          
+          {% endif %}
+          <a href="{{ path('app_reclamation_index') }}" class="btn-voir-tous">Voir tous</a>
+          {{ include('reclamation/_delete_form.html.twig') }}
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+</section>
+    <style>
+ /* Define the style for the container of the whole article */
+.container {
+  max-width: 960px;
+}
+
+/* Define the style for the title */
+h1 {
+  font-size: 36px;
+  color: #dc3545;
+}
+
+/* Define the style for the description container */
+.description-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/* Define the style for the term */
+.definition-term {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #dc3545;
+}
+
+/* Define the style for the description */
+.definition-description {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+/* Define the style for the type container */
+.type-container {
+  margin-bottom: 30px;
+}
+
+/* Define the style for the etat container */
+.etat-container {
+  margin-bottom: 30px;
+}
+
+/* Define the style for the button container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+/* Define the style for the button */
+.btn-voir-tous {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+/* Define the hover style for the button */
+.btn-voir-tous:hover {
+  background-color: #c82333;
+}
+
+/* Define the style for the delete form */
+.delete-form {
+  display: inline-block;
+}
+
+/* Define the style for the delete button */
+.btn-delete {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+/* Define the hover style for the delete button */
+.btn-delete:hover {
+  background-color: #c82333;
+}
+    </style>
+{% endblock %}

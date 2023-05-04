@@ -1,0 +1,41 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block contentblock %}
+
+<style>
+    .custom-card {
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        margin: auto;
+        padding: 20px;
+        width: 80%;
+        height: 80%;
+        background-color: #232931;
+        transition: box-shadow 0.2s ease-in-out;
+        text-align: center;
+        color: white;
+        justify-content: center;
+    }
+
+    .custom-card:hover {
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+</style>
+
+<br>
+<br>
+
+<section>
+    
+        <div class="custom-card">
+            <h2>{{ offre.title }}</h2>
+            <p>{{ offre.description }}</p>
+            <p>{{ offre.category }}</p>
+            <p>{{ offre.type }}</p>
+            <p>{{ offre.duree }}</p>
+        </div>
+    
+</section>
+
+{% endblock %}

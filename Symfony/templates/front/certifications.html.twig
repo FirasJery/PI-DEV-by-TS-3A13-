@@ -1,0 +1,23 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Certification!{% endblock %}
+
+{% block contentblock %}
+<div class="container mt-5">
+    <div class="row">
+      {% if certifications is empty %}
+        <div class="col-md-12">
+          <p class="text-danger">You don't have any certifications yet.</p>
+        </div>
+      {% else %}
+      {% for user in users %}
+        {% for certif in certifications %}
+          <div class="col-md-12">
+            <p>Freelancy is proud to bestow upon you, {{ user.username }}, this certification in {{ certif.nom }}.</p>
+          </div>
+        {% endfor %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

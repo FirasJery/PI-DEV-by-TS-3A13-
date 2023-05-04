@@ -1,0 +1,55 @@
+{% extends 'baseFront.html.twig' %}
+{% block contentblock %}
+
+{% block title %}Offre{% endblock %}
+
+
+    <section>
+    <div class = "container">
+    <table class="table">
+        <tbody>
+          
+            <tr>
+                <th>Title</th>
+                <td>{{ offre.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ offre.description }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ offre.category }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ offre.type }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ offre.duree }}</td>
+            </tr>
+            <tr>
+                <th>Isaccepted</th>
+                <td>{{ offre.isaccepted ? 'Yes' : 'No' }}</td>
+            </tr>
+  
+            <tr>
+                <th>DateDebut</th>
+                <td>{{ offre.dateDebut ? offre.dateDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ offre.dateFin ? offre.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+                     <td>
+                  <form action="{{ path('app_offre_postuler', {'idOffre': offre.idOffre}) }}" method="post">
+                  <button type="submit" class="btn btn-primary">Postuler</button>
+        </form>
+
+                </td>
+        </tbody>
+    </table>
+    </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Wallets List{% endblock %}
+
+{% block contentblock %}                 
+
+    <h1 align = 'center'>Wallets List</h1>
+    
+
+    
+
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Actions</th>
+                
+                <th>Nom</th>
+                <th>Solde</th>
+                <th>Bonus</th>
+                <th>Tel</th>
+                <th>Cle</th>
+               
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for wallet in wallets %}
+            <tr>
+                <td>
+                    <a href="{{ path('transactions_back', {'id': wallet.id}) }}">
+                    <button type="button" class="btn btn-primary btn-rounded btn-fw">Activité</button>
+                    </a>
+                    <br>
+                    
+                </td>
+                
+                <td>{{ wallet.nomWallet }}</td>
+                <td>{{ wallet.solde }} $</td>
+                <td>{{ wallet.bonus }} $ </td>
+                <td>{{ wallet.tel }}</td>
+                <td>{{ wallet.Cle }}</td>
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    
+{% endblock %}

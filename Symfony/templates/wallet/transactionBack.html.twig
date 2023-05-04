@@ -1,0 +1,47 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Wallets List{% endblock %}
+
+{% block contentblock %}                 
+
+    <h1 align = 'center'>Transactions</h1>
+<section>
+<div class="table-responsive">
+    <table class="table">
+    <thead>
+        <tr>
+          
+            <th>Montant</th>
+            <th>Type</th>
+              <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in forwarded %}
+        <tr>
+            
+            <td>{{ transaction.montant }}</td>
+            <td>Envoyé</td>
+            <td>{{ transaction.date }}</td>
+        </tr>
+        {% endfor %}
+        {% for transaction in received %}
+         <tr>
+            
+            
+            <td>{{ transaction.montant }} $</td>
+           {%if transaction.sendingWallet==999 %}
+            <td>Depot</td>
+           
+            {% else %}
+            <td>Recu</td>
+            {% endif %}
+            <td>{{ transaction.date }}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</section>
+{% endblock %}

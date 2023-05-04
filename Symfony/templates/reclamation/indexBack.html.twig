@@ -1,0 +1,65 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}Reclamation index{% endblock %}
+
+{% block contentblock %}
+
+  <h1>Liste Reclamations</h1>
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Date</th>
+          
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for reclamation in reclamations %}
+          <tr>
+            <td>{{ reclamation.description }}</td>
+            <td>{{ reclamation.type }}</td>
+            <td>{{ reclamation.date|date ('Y-m-d') }}</td>
+            
+            <td>
+             <a href="{{ path('app_reclamation_ban', {'id': reclamation.idUser}) }}" class="btn btn-danger btn-sm rounded-pill py-1 px-3">
+  <i class="fas fa-ban mr-2"></i>Ban User
+</a>
+            {% if reclamation.etat == 0 or reclamation.etat == 1 %}
+              <a href="{{ path('app_reclamation_showBack', {'id': reclamation.id}) }}" class="btn btn-primary">Repondre</a>
+             
+            
+            {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="4">No records found</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    <!-- Ban User Modal -->
+<div class="modal fade" id="banUserModal" tabindex="-1" aria-labelledby="banUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="banUserModalLabel">User Banned</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>You have successfully banned The user .</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+{% endblock %}

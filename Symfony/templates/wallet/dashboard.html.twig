@@ -1,0 +1,246 @@
+
+
+  {% extends 'baseFront.html.twig' %}
+
+{% block contentblock %}
+<section>
+<center>
+<h1>Mes Activité Récentes</h1>
+</center>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Nombre de Transactions</div>
+      <div class="card-body">
+        <canvas id="bar-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Sent vs Received Transactions</div>
+      <div class="card-body">
+        <canvas id="pie-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">Historique Recu</div>
+  <div class="card-body">
+    <canvas id="line-chart"></canvas>
+  </div>
+  <div class="card-header">Historique Envoyé</div>
+  <div class="card-body">
+    <canvas id="line-chartS"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Bar chart
+  var ctx1 = document.getElementById('bar-chart').getContext('2d');
+  var chart1 = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: ['Sent', 'Received'],
+      datasets: [{
+        label: 'S/R',
+        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+        borderWidth: 1,
+        data: [{{ numSentTransactions }}, {{ numReceivedTransactions }}]
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            fontColor: '#ccc'
+          },
+          gridLines: {
+            color: '#ccc'
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            fontColor: '#ccc'
+          },
+          gridLines: {
+            color: '#ccc'
+          }
+        }]
+      },
+      legend: {
+        labels: {
+          fontColor: '#ccc'
+        }
+      }
+    }
+  });
+
+  // Pie chart
+  var ctx2 = document.getElementById('pie-chart').getContext('2d');
+  var chart2 = new Chart(ctx2, {
+    type: 'pie',
+    data: {
+      labels: ['Sent', 'Received'],
+      datasets: [{
+        label: 'Number of Transactions',
+         backgroundColor: ['#d9534f', '#f0ad4e'],
+        borderColor: '#fff',
+        data: [{{ numSentTransactions }}, {{ numReceivedTransactions }}]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Sent vs Received Transactions',
+        fontColor: '#ccc'
+      },
+      legend: {
+        labels: {
+          fontColor: '#ccc'
+        }
+        
+      }
+      
+    },width: 150,
+    height: 100
+  });
+  var ctx = document.getElementById('line-chart').getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [{% for transaction in transactions %}
+               '{{ transaction.date|date("M d, Y") }}',
+             {% endfor %}],
+    datasets: [{
+      label: 'Transaction Recu avec Montant',
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      pointBackgroundColor: 'rgb(255, 99, 132)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(255, 99, 132)',
+      data: [{% for transaction in transactionsR %}{{ transaction.montant }},{% endfor %}],
+      fill: false,
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    legend: {
+      display: false
+    },
+    scales: {
+      xAxes: [{
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 20
+        },
+        gridLines: {
+          color: '#f0f0f0',
+          lineWidth: 1
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          callback: function(value, index, values) {
+            return '$' + value;
+          }
+        },
+        gridLines: {
+          color: '#f0f0f0',
+          lineWidth: 1
+        }
+      }]
+    },
+    tooltips: {
+      mode: 'nearest',
+      intersect: false,
+      callbacks: {
+        label: function(tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].label || '';
+          if (label) {
+            label += ': ';
+          }
+          label += '$' + tooltipItem.yLabel.toFixed(2);
+          return label;
+        }
+      }
+    }
+  }
+});
+
+var ctx = document.getElementById('line-chartS').getContext('2d');
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [{% for transaction in transactions %}
+               '{{ transaction.date|date("M d, Y") }}',
+             {% endfor %}],
+    datasets: [{
+      label: 'Transaction Envoyé avec Montant',
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      pointBackgroundColor: 'rgb(255, 99, 132)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(255, 99, 132)',
+      data: [{% for transaction in transactionsS %}{{ transaction.montant }},{% endfor %}],
+      fill: false,
+    }]
+  },
+  options: {
+    maintainAspectRatio: false,
+    legend: {
+      display: false
+    },
+    scales: {
+      xAxes: [{
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 20
+        },
+        gridLines: {
+          color: '#f0f0f0',
+          lineWidth: 1
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          callback: function(value, index, values) {
+            return '$' + value;
+          }
+        },
+        gridLines: {
+          color: '#f0f0f0',
+          lineWidth: 1
+        }
+      }]
+    },
+    tooltips: {
+      mode: 'nearest',
+      intersect: false,
+      callbacks: {
+        label: function(tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].label || '';
+          if (label) {
+            label += ': ';
+          }
+          label += '$' + tooltipItem.yLabel.toFixed(2);
+          return label;
+        }
+      }
+    }
+  }
+});
+  </script>
+  </section>
+  {% endblock %}

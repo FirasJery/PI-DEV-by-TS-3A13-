@@ -1,0 +1,67 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Tests !{% endblock %}
+
+{% block contentblock %}
+
+<section id="services" class="services">
+    <div class="container">
+        <h1>{{ Certif.nom }} Tests</h1>
+        <div class="row">
+            {% for test in tests %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="{{ asset('' ~ Certif.Badge) }}" alt="{{ Certif.nom }}" class="card-img">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>{{ test.titre }}</b></h5>
+                            <p class="card-text">{{ test.description }}</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Category: {{ test.categorie }}</li>
+                                <li class="list-group-item">Price: {{ test.prix }}</li>
+                            </ul>
+                            
+ {% if test.questId|length > 0 %}
+    {% set hasTakenTest = false %}
+    {% for passage in passages %}
+        {% if passage.user == user and passage.test == test %}
+            {% if passage.etat == 1 %}
+                {% set hasTakenTest = true %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% if hasTakenTest %}
+        <p class="text-danger">You have already taken this test.</p>
+    {% elseif test.questId is empty %}
+        <p class="text-danger">No questions available for this test.</p>
+    {% else %}
+        <form action="{{ path('app_test_quests') }}" method="post">
+            <input type="hidden" name="test_id" value="{{ test.id }}">
+            <button type="submit" class="btn btn-danger mt-3">Take Test</button>
+        </form>
+    {% endif %}
+{% else %}
+    <p class="text-danger">No questions available for this test.</p>
+{% endif %}
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+.card-img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+</style>
+
+{% endblock %}
