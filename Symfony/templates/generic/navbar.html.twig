@@ -1,0 +1,59 @@
+<nav id="navbar" class="navbar">
+					<ul>
+						<li>
+							<a href="">Home</a>
+						</li>
+
+						{% if app.user.role == 'Freelancer' %}
+						<li class="dropdown"><a href="{{ path('app_offre_index_f') }}"><span>Offres</span> <i class="bi bi-chevron-down"></i></a>
+							<ul class="dropdown-active">
+							
+							<li><a href="{{ path('app_offre_mes_postulations') }}">Mes offres</a></li>
+              				<li><a href="{{ path('app_offre_mes_offres_en_cours_f') }}">Mes offres en cours</a></li>
+              				<li><a href="{{ path('app_offre_mes_offres_termines_f') }}">Mes offres terminés</a></li>
+            				</ul>
+          					</li>
+		  					{% endif %}
+							{% if app.user.role == 'Entreprise' %}
+						<li class="dropdown"><a href=""><span>Offres</span> <i class="bi bi-chevron-down"></i></a>
+							<ul class="dropdown-active">
+							
+							<li><a href="{{ path('app_mes_offres') }}">Mes offres</a></li>
+              				<li><a href="{{path('mes_offres_acceptes')}}">Mes offres en cours</a></li>
+              				<li><a href="{{path('app_mes_offres_termineE')}}">Mes offres terminés</a></li>
+            				</ul>
+          					</li>
+		  					{% endif %}
+					
+						
+						
+						<li>
+							<a href="{{ path('app_wallet_index')}}">Your wallet</a>
+						</li>
+						<li>
+							<a href="{{path('app_card')}}">Certifications</a>
+						</li>
+						<li>
+							<a href="{{path('app_reclamation_index')}}">Reclamations</a>
+						</li>
+                        <li>
+							<a href="{{path('msg')}}">Inbox</a>
+						</li>
+						{% if app.user %}
+							<ul>
+
+								<li>
+									<a href="{{ path('app_utilisateur_showProfile', {'id': app.user.id}) }}">
+										Profile
+									</a>
+								</li>
+							</ul>
+							<li>
+								<a href="{{ path('app_logout') }}">Log out
+								</a>
+							</li>
+						</ul>
+					{% endif %}
+
+					<i class="bi bi-list mobile-nav-toggle"></i>
+				</nav>

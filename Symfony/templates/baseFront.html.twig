@@ -32,6 +32,8 @@
 		href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 		 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-lQg70LPefJ9XaMgHtzwWkZ//+Ft44Jzkutw69cLdX9CU0zL87YyyQfkjzvLCmOaCwmnE8tD50pArFTmE0h9Ojw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+		{% block stylesheets %}{% endblock %}
+		{% block javascripts %}{% endblock %}
 	<!-- =======================================================
 	  * Template Name: Day - v4.7.0
 	  * Template URL: https://bootstrapmade.com/day-multipurpose-html-template-for-free/
@@ -52,69 +54,15 @@
 				<!-- Uncomment below if you prefer to use an image logo -->
 				<!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-				<nav id="navbar" class="navbar">
-					<ul>
-						<li>
-							<a href="">Home</a>
-						</li>
-
-						{% if app.user.role == 'Freelancer' %}
-						<li class="dropdown"><a href="{{ path('app_offre_index_f') }}"><span>Offres</span> <i class="bi bi-chevron-down"></i></a>
-							<ul class="dropdown-active">
-							
-							<li><a href="{{ path('app_offre_mes_postulations') }}">Mes offres</a></li>
-              				<li><a href="{{ path('app_offre_mes_offres_en_cours_f') }}">Mes offres en cours</a></li>
-              				<li><a href="{{ path('app_offre_mes_offres_termines_f') }}">Mes offres terminés</a></li>
-            				</ul>
-          					</li>
-		  					{% endif %}
-							{% if app.user.role == 'Entreprise' %}
-						<li class="dropdown"><a href=""><span>Offres</span> <i class="bi bi-chevron-down"></i></a>
-							<ul class="dropdown-active">
-							
-							<li><a href="{{ path('app_mes_offres') }}">Mes offres</a></li>
-              				<li><a href="{{path('mes_offres_acceptes')}}">Mes offres en cours</a></li>
-              				<li><a href="{{path('app_mes_offres_termineE')}}">Mes offres terminés</a></li>
-            				</ul>
-          					</li>
-		  					{% endif %}
-					
-						
-						
-						<li>
-							<a href="{{ path('app_wallet_index')}}">Your wallet</a>
-						</li>
-						<li>
-							<a href="{{path('app_card')}}">Certifications</a>
-						</li>
-						<li>
-							<a href="{{path('app_reclamation_index')}}">Reclamations</a>
-						</li>
-						{% if app.user %}
-							<ul>
-
-								<li>
-									<a href="{{ path('app_utilisateur_showProfile', {'id': app.user.id}) }}">
-										Profile
-									</a>
-								</li>
-							</ul>
-							<li>
-								<a href="{{ path('app_logout') }}">Log out
-								</a>
-							</li>
-						</ul>
-					{% endif %}
-
-					<i class="bi bi-list mobile-nav-toggle"></i>
-				</nav>
+				{% include 'generic/navbar.html.twig' %}
 				<!-- .navbar -->
 
 			</div>
 		</header>
 		<!-- End Header -->
 
-		{% block contentblock %}{% endblock %}
+		{% block contentblock %}
+		{% endblock %}
 
 		<!-- ======= Footer ======= -->
 		<footer id="footer">

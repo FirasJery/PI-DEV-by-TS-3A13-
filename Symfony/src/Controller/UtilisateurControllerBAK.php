@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Entity\Wallet;
 use App\Form\UtilisateurType;
 use App\Form\UtilisateurEditType;
 use App\Repository\UtilisateurRepository;
+use App\Repository\WalletRepository;
 use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +28,8 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 
 
-
-
 #[Route('/utilisateur')]
-class UtilisateurController extends AbstractController
+class UtilisateurControllerBAK extends AbstractController
 {
     
     #[Route('/', name: 'app_utilisateur_index', methods: ['GET'])]
@@ -40,100 +40,7 @@ class UtilisateurController extends AbstractController
             'utilisateurs' => $utilisateurRepository->findAll(),
         ]);
     }
-    
-    #[Route('/newAdminMobile', name: 'app_utilisateur_newAM', methods: ['GET'])]
-    public function newAM(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher ): Response
-    {
-        $utilisateur = new Utilisateur();
-        $utilisateur->setRole('Admin');
-        $utilisateur->setName($request->get('name'));
-        
-        $utilisateur->setLastName($request->get('lastName'));
-        $utilisateur->setUserName($request->get('userName'));
-      
-        $utilisateur->setEmail($request->get('email'));
-        $utilisateur->setPassword(
-            $userPasswordHasher->hashPassword(
-                $utilisateur,
-                $request->get('password')
-            )
-        );
-        $utilisateur->setImagePath('uploads/images/profile.jpg');
-        $utilisateur->setIsBanned(0);
-        $utilisateur->setIsVerified(0);
-      
-        $utilisateurRepository->save($utilisateur, true);
-       //$serializer = new $serializer([new ObjectNormalizer()]);
-       //$formatted = $serializer->Normalize($utilisateur);
-        return new JsonResponse("success");
-    }
-
-    #[Route('/deleteJSON', name: 'app_delete_JSON', methods: ['GET'])]
-    public function Jsonfunction(request $request , UtilisateurRepository $ur): Response
-    {
-        $u = new Utilisateur();
-        $u = $ur->findOneById($request->get('id'));
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        
-        if($u!=null)
-        {
-            $ur->remove($u, true);
-            $formatted = $serializer->Normalize("success");   
-        }
-        else 
-        $formatted = $serializer->Normalize("failure");   
-        return new JsonResponse($formatted);
-    }
-
-    #[Route('/affichageJSON', name: 'app_affichage_JSON', methods: ['GET'])]
-    public function JsonAffichagefunction(UtilisateurRepository $ur): Response
-    {
-        $utilisateur = new Utilisateur();
-        $utilisateur = $ur->findAll();
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->Normalize($utilisateur);
-        return new JsonResponse($formatted);
-    }
-
-    #[Route('/getonebyidJSON', name: 'app_gobi_JSON', methods: ['GET'])]
-    public function Jsonone(UtilisateurRepository $ur , request $r): Response
-    {
-        $utilisateur = new Utilisateur();
-        $utilisateur = $ur->findOneById($r->get('id'));
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        if ($utilisateur!=null)
-        {
-            $formatted = $serializer->Normalize($utilisateur);
-            return new JsonResponse($formatted);
-        }
-        return new JsonResponse("failure");
-
-    }
-
-    #[Route('/loginJSON', name: 'app_login_JSON', methods: ['GET', 'POST'])]
-    public function Jsonlogin(UtilisateurRepository $ur , request $r, UserPasswordHasherInterface $userPasswordHasher): Response
-    {   
-        $ub = $ur->findOneByEmail($r->get('email'));
-        $passwordsMatch = $userPasswordHasher->isPasswordValid($ub, $r->get('password'));
-        
-
-
-        $serializer = new Serializer([new ObjectNormalizer()]);
-        if ($ub)
-        {
-            if($passwordsMatch)
-            {
-                $formatted = $serializer->Normalize($ub);
-                return new JsonResponse($formatted);
-            }
-            else 
-            {
-                return new Response("incorrect password");
-            }
-        }
-        return new JsonResponse("user not found");
-    }
-
+   
     #[Route('/newAdmin', name: 'app_utilisateur_newAdmin', methods: ['GET', 'POST'])]
     public function newA(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher ): Response
     {
@@ -205,7 +112,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/newFreelancer', name: 'app_utilisateur_newFreelancer', methods: ['GET', 'POST'])]
-    public function newF(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher, VerifyEmailHelperInterface $verifyEmailHelper,MailerInterface $mailer): Response
+    public function newF(Request $request,WalletRepository $wall, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher, VerifyEmailHelperInterface $verifyEmailHelper,MailerInterface $mailer): Response
     {
         
         $utilisateur = new Utilisateur();
@@ -267,6 +174,18 @@ class UtilisateurController extends AbstractController
             );
 
             $mailer->send($email);
+            $wallet = new Wallet();
+            $wallet->setNomwallet($utilisateur->getName()."'s Wallet");
+            $wallet->setIdUser($utilisateur->getId());
+            $wallet->setSolde(0);
+            $wallet->setBonus(0);
+            $randomString = bin2hex(random_bytes(5));
+            $cle = substr($randomString, 0, 10);
+            $wallet->setCle($cle);
+            $wallet->setTel("");
+            $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($wallet);
+        $entityManager->flush();
             return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
         }
        
@@ -306,7 +225,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/newEntreprise', name: 'app_utilisateur_newEntreprise', methods: ['GET', 'POST'])]
-    public function newE(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher): Response
+    public function newE(Request $request,WalletRepository $wall, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $utilisateur = new Utilisateur();
         $utilisateur->setRole('Entreprise');
@@ -331,13 +250,26 @@ if ($uploadedFile) {
                 // set the image path to the path of the uploaded file
                 $utilisateur->setImagePath('uploads/images/' . $newFileName);
                 // encode the plain password
-                $utilisateur->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $utilisateur,
-                        $form->get('Password')->getData()
-                    )
-                );
+               
             }
+            $utilisateur->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $utilisateur,
+                    $form->get('Password')->getData()
+                )
+            );
+            $wallet = new Wallet();
+            $wallet->setNomwallet($utilisateur->getName()."'s Wallet");
+            $wallet->setIdUser($utilisateur->getId());
+            $wallet->setSolde(0);
+            $wallet->setBonus(0);
+            $randomString = bin2hex(random_bytes(5));
+            $cle = substr($randomString, 0, 10);
+            $wallet->setCle($cle);
+            $wallet->setTel("");
+            $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($wallet);
+        $entityManager->flush();
             $utilisateurRepository->save($utilisateur, true);
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
@@ -361,7 +293,9 @@ if ($uploadedFile) {
     #[Route('/profile/{id}', name: 'app_utilisateur_showProfile', methods: ['GET'])]
     public function showFront(Utilisateur $utilisateur): Response
     {
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+       
         return $this->render('utilisateur/profile.html.twig', [
             'utilisateur' => $utilisateur,
         ]);

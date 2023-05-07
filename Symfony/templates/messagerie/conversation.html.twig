@@ -1,0 +1,89 @@
+{% block stylesheets %}
+<style>
+    .left-msg,
+    .right-msg{
+        display: flex;
+        height: auto;
+    }
+
+    .right-msg{
+        position: relative;
+        margin-left:auto;
+    }
+
+    .displayed-msg-right{
+        min-height: 40px;
+        height: auto;
+        width: auto;
+        margin-top: 25px;
+        max-width: 400px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        background-color: blue;
+        border-radius: 15px;
+        padding: 10px 10px 10px 10px;
+        color: white;
+        font-family: 'Trebuchet MS';
+    }
+
+    .displayed-msg-left{
+        height: auto;
+        width: auto;
+        margin-top: 25px;
+        max-width: 400px;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        hyphens: auto;
+        background-color: #DADADA;
+        border-radius: 15px;
+        padding: 10px 10px 10px 10px;
+        color: #2E2E2E;
+        font-family: 'Trebuchet MS';
+    }
+
+    .contact-img{
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(() => {
+            $("#cc").parent().attr("id", "{{ convo.getId() }}"); //put convo's id to cc-container
+            $("#create-container").css("display", "none");
+            profileSetup();
+            scrollBot();
+        });
+
+        function profileSetup(){
+            /*{% if convo.type == "grp" %}
+                    $("#profile-username").html("<b>{{ convo.title }}</b>");
+            {% else %}
+                {% for p in cp.other_participant(convo) %}
+                    $("#profile-username").html("<b>{{ p.getUsername() }}</b>");
+                {% endfor %}
+            {% endif %}*/
+            $("#profile-username").html("<b>{{ cp.getInfo(convo) }}</b>");
+        }
+    </script>
+{% endblock %}
+
+{% block conversation %}
+    {% for msg in convo.getMessages() %}
+        {% if msg.getUser().getId() == cp.current_user().getId() %}
+            <div class="right-msg">
+                <div class="displayed-msg-right">{{ msg.getContent() }}</div>
+                <img src="{{ asset('resources/default.jpg') }}" class="contact-img">    
+            </div>
+        {% else %}
+            <div class="left-msg">
+                <img src="{{ asset('resources/default.jpg') }}" class="contact-img">
+                <div class="displayed-msg-left">{{ msg.getContent() }}</div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

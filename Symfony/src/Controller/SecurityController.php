@@ -7,13 +7,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Repository\UtilisateurRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, UtilisateurRepository $utilisateurRepository): Response
+    public function login(
+        AuthenticationUtils $authenticationUtils, 
+        UtilisateurRepository $utilisateurRepository,
+        RequestStack $rs
+        ): Response
     {
         $user = $this->getUser();
+        $rs->getSession()->set("current_user", $user);
         if ($this->getUser()) {
             if ($user->getRole() == "Admin") {
                 return $this->redirectToRoute('app_dashboard');
