@@ -27,6 +27,9 @@ use App\Entity\Association;
 use App\Entity\Donator;
 use App\Session\DataSource;
 
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\MailerInterface;
+
 class MessagerieController extends AbstractController
 {
     private $em;
@@ -44,10 +47,10 @@ class MessagerieController extends AbstractController
     /**
      * @Route("/inbox", name="msg")
      */
-    public function load_messagerie(Request $request) : Response {
+    public function load_messagerie(Request $request, ConversationRepository $cr) : Response {
         $user = $this->rs->getSession()->get("current_user");
         if($user){
-            $qb = $this->em->createQueryBuilder();
+            /*$qb = $this->em->createQueryBuilder();
             $qb->select('c')
                 ->from('App\Entity\Conversation', 'c')
                 ->join('App\Entity\Participant', 'p', 'WITH', 'c = p.conversation')
@@ -55,8 +58,16 @@ class MessagerieController extends AbstractController
                 ->where('p.user = :user')
                 ->setParameter('user', $user)
                 ->orderBy('m.createdAt', 'DESC');
-            $convos = $qb->getQuery()->getResult();
-            return $this->render("messagerie/messagerie.html.twig", ["convos" => $convos]);
+            $convos = $qb->getQuery()->getResult();*/
+            $ar = [];
+            foreach($convos = $cr->findAll() as $c){
+                foreach($c->getParticipants() as $p){
+                    if($p->getUser()->getId() == $user->getId()){
+                        array_push($ar, $c);
+                    }
+                }
+            }
+            return $this->render("messagerie/messagerie.html.twig", ["convos" => $ar]);
         } else {
             return $this->render("generic/navbar.html.twig");
         }   
@@ -93,7 +104,8 @@ class MessagerieController extends AbstractController
         UserRepository $ur,
         ParticipantRepository $pr,
         MessageRepository $mr, 
-        ManagerRegistry $man
+        ManagerRegistry $man,
+        MailerInterface $mailer
         ) : Response {
             if(($request->getSession()->get("current_user")) && ($request->request->get("msg-content"))){
                 if($request->request->get("user") == "u"){
@@ -101,7 +113,7 @@ class MessagerieController extends AbstractController
                         if($request->request->get("u-list")){
                             $u_list = $request->request->get("u-list");
                             $ar = [];
-                            array_push($ar, 1);
+                            array_push($ar, $request->getSession()->get("current_user")->getId());
                             foreach($u_list as $utmp){
                                 array_push($ar, $ur->findOneBy(["username" => $utmp])->getId());
                             }
@@ -128,10 +140,27 @@ class MessagerieController extends AbstractController
                                 } else {
                                     $convo->setType("p2p");
                                 }
+                                
                                 $man->getManager()->persist($convo);
                                 $man->getManager()->flush();
                                 $this->sendMessage($convo, $request, $man);
 
+                                /*$adr = [];
+                                $adr = $cr->getOtherParticipant($convo, $request->getSession()->get("current_user"));
+                                if(!empty($adr)){
+                                    foreach($adr as $ad){
+                                        $email = (new Email())
+                                        ->from('khalil.khemiri@esprit.tn')
+                                        ->to($ad->getEmail())
+                                        ->subject($request->getSession()->get("current_user")->getUsername() . ' is inviting you to communicate.')
+                                        ->text('New message from ' . $request->getSession()->get("current_user")->getUsername())
+                                        ->html('<p>New message from <b>' . $request->getSession()->get("current_user")->getUsername() . ':</b></p>
+                                            <p>' . $convo->getLastMessage()->getContent() .'</p>
+                                        ');
+        
+                                        $mailer->send($email);
+                                    }
+                                }*/
                                 //CREATE NEW TEMPLATE SO YOU CAN SHOW THE NEW CONVO ON THE SIDEBAR
                                 return $this->render("messagerie/conversation.html.twig", ["convo" => $convo]);
                             }

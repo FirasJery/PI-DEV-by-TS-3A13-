@@ -19,10 +19,6 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            
-    App\Session\ContextProcessor:
-        tags:
-            - { name: twig.context }
 
     pusher:
         class: Pusher\Pusher

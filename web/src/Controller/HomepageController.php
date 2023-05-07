@@ -38,15 +38,13 @@ class HomepageController extends AbstractController
      * @Route("/login", name="login")
      */
     public function log(Request $request){
-        $ds = new DataSource();
         if($request->request->get('login-submit') != null){
             $rep = $this->em->getRepository(User::class);
             $user = $rep->findOneBy([
                 "username" => $request->request->get('user'),
                 "password" => $request->request->get('pass')]);
             if($user){
-                $session = $this->requestStack->getSession();
-                $session->set('current_user', $user);
+                $this->requestStack->getSession()->set('current_user', $user);
                 return $this->redirectToRoute('homepage');
             } else {
                 return $this->render('generic/login-form.html.twig');

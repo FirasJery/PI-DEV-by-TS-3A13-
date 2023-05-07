@@ -120,7 +120,7 @@ class ConversationRepository extends ServiceEntityRepository
     }
 
     public function getYourParticipant(Conversation $c, User $u){
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        /*$qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('con')
         ->from('App\Entity\Participant', 'con')
         ->join('App\Entity\Conversation', 'c', 'WITH', 'con.conversation = c')
@@ -132,6 +132,13 @@ class ConversationRepository extends ServiceEntityRepository
             if($p->getUser()->getId() == $u->getId()){
                 return $p->getUser();
             }
+        }
+        return null;*/
+        foreach($this->find($c->getId())->getParticipants() as $p){
+            if($p->getUser()->getId() == $u->getId()){
+                return $p->getUser();
+            }
+            return $p->getUser();
         }
         return null;
     }

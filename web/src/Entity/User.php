@@ -28,6 +28,11 @@ class User
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $email;
+
+    /**
      * @ORM\OneToMany(targetEntity="Participant", mappedBy="user")
      */
     private $participants;
@@ -57,6 +62,18 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

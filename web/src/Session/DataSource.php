@@ -31,7 +31,7 @@ class DataSource{
         $filesystem->dumpFile("user.txt", "");   
     }
 
-    public function getUserState() : boolean{
+    public function getUserState() : bool{
         $s = $file_lines = $filesystem->exists("user.txt") ? file("user.txt") : [];
         if($s){
             return true;
