@@ -22,6 +22,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Doctrine\ORM\ORMException;
 
 
 
@@ -40,17 +41,46 @@ class UtilisateurController extends AbstractController
             'utilisateurs' => $utilisateurRepository->findAll(),
         ]);
     }
-    #[Route('/newAdminMobile', name: 'app_utilisateur_newAM', methods: ['GET'])]
-    public function newAM(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher ): Response
+    #[Route('/newFreelancerMobile', name: 'app_utilisateur_newFM', methods: ['GET'])]
+    public function newFM(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher ): Response
     {
         $utilisateur = new Utilisateur();
-        $utilisateur->setRole('Admin');
+        $utilisateur->setRole('Freelancer');
         $utilisateur->setName($request->get('name'));
-        
         $utilisateur->setLastName($request->get('lastName'));
         $utilisateur->setUserName($request->get('userName'));
-      
         $utilisateur->setEmail($request->get('email'));
+        $utilisateur->setBio($request->get('bio'));
+        $utilisateur->setEducation($request->get('education'));
+        $utilisateur->setExperience($request->get('experience'));
+        $utilisateur->setPassword(
+            $userPasswordHasher->hashPassword(
+                $utilisateur,
+                $request->get('password')
+            )
+        );
+        $utilisateur->setImagePath('uploads/images/profile.jpg');
+        $utilisateur->setRating(0);
+        $utilisateur->setTotalJobs(0);
+        $utilisateur->setIsBanned(0);
+        $utilisateur->setIsVerified(0);
+      
+        $utilisateurRepository->save($utilisateur, true);
+        return new JsonResponse("success");
+    }
+    #[Route('/newEntrepriseMobile', name: 'app_utilisateur_newEM', methods: ['GET'])]
+    public function newEM(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher ): Response
+    {
+        $utilisateur = new Utilisateur();
+        $utilisateur->setRole('Entreprise');
+        $utilisateur->setName($request->get('name'));
+        $utilisateur->setLastName($request->get('lastName'));
+        $utilisateur->setUserName($request->get('userName'));
+        $utilisateur->setEmail($request->get('email'));
+        $utilisateur->setInfo($request->get('info'));
+        $utilisateur->setDomaine($request->get('domaine'));
+        $utilisateur->setLocation($request->get('adresse'));
+        $utilisateur->setNbe($request->get('nbe'));
         $utilisateur->setPassword(
             $userPasswordHasher->hashPassword(
                 $utilisateur,
@@ -62,9 +92,42 @@ class UtilisateurController extends AbstractController
         $utilisateur->setIsVerified(0);
       
         $utilisateurRepository->save($utilisateur, true);
-       //$serializer = new $serializer([new ObjectNormalizer()]);
-       //$formatted = $serializer->Normalize($utilisateur);
         return new JsonResponse("success");
+    }
+    #[Route('/EditMobile', name: 'app_utilisateur_EditM', methods: ['GET'])]
+    public function EditM(Request $request, UtilisateurRepository $utilisateurRepository ,UserPasswordHasherInterface $userPasswordHasher ): Response
+    {
+        $id = $request->get('id');
+        $utilisateur = $utilisateurRepository->find($id);
+
+        $utilisateur->setName($request->get('name'));
+        $utilisateur->setLastName($request->get('lastName'));
+        $utilisateur->setUserName($request->get('userName'));
+        $utilisateur->setEmail($request->get('email'));
+        $utilisateur->setInfo($request->get('info'));
+        $utilisateur->setDomaine($request->get('domaine'));
+        $utilisateur->setLocation($request->get('adresse'));
+        $utilisateur->setNbe($request->get('nbe'));
+        $utilisateur->setBio($request->get('bio'));
+        $utilisateur->setEducation($request->get('education'));
+        $utilisateur->setExperience($request->get('experience'));
+        if ($request->get('password')!="")
+        {
+            $utilisateur->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $utilisateur,
+                    $request->get('password')
+                )
+            );
+        }
+        
+        try {
+            $utilisateurRepository->save($utilisateur, true);
+        } catch (ORMException $e) {
+            return new Response("failure"); 
+        }
+        return new Response("success");
+       
     }
 
     #[Route('/deleteJSON', name: 'app_delete_JSON', methods: ['GET'])]
@@ -87,10 +150,9 @@ class UtilisateurController extends AbstractController
     #[Route('/affichageJSON', name: 'app_affichage_JSON', methods: ['GET'])]
     public function JsonAffichagefunction(UtilisateurRepository $ur): Response
     {
-        $utilisateur = new Utilisateur();
-        $utilisateur = $ur->findAll();
+        $list = $ur->findAll();
         $serializer = new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->Normalize($utilisateur);
+        $formatted = $serializer->Normalize($list);
         return new JsonResponse($formatted);
     }
 
@@ -113,13 +175,11 @@ class UtilisateurController extends AbstractController
     public function Jsonlogin(UtilisateurRepository $ur , request $r, UserPasswordHasherInterface $userPasswordHasher): Response
     {   
         $ub = $ur->findOneByEmail($r->get('email'));
-        $passwordsMatch = $userPasswordHasher->isPasswordValid($ub, $r->get('password'));
-        
-
-
+       
         $serializer = new Serializer([new ObjectNormalizer()]);
         if ($ub)
         {
+            $passwordsMatch = $userPasswordHasher->isPasswordValid($ub, $r->get('password'));
             if($passwordsMatch)
             {
                 $formatted = $serializer->Normalize($ub);
@@ -130,7 +190,7 @@ class UtilisateurController extends AbstractController
                 return new Response("incorrect password");
             }
         }
-        return new JsonResponse("user not found");
+        return new Response("user not found");
     }
 
     #[Route('/newAdmin', name: 'app_utilisateur_newAdmin', methods: ['GET', 'POST'])]
